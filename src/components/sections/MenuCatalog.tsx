@@ -163,12 +163,12 @@ export function MenuCatalog({
           <div className="lg:col-span-4 min-w-0">
             <SelectInput
               id="menu-exclude-allergen"
-              label={'{{FILTER_EXCLUDE_ALLERGEN}}'}
+              label="Allergen Filter"
               value={allergenFilter}
               onChange={(e) => setAllergenFilter(e.target.value)}
               onCream={useCreamVariant}
               options={[
-                { value: 'ALL', label: '{{ALL_ALLERGENS_NONE_EXCLUDED}}' },
+                { value: 'ALL', label: 'No Allergens Excluded' },
                 ...allAllergens.map((a) => ({ value: a, label: `Exclude ${a}` })),
               ]}
             />
@@ -246,7 +246,7 @@ export function MenuCatalog({
                 : 'border-gold/35 text-gold bg-bg'
             )}
           >
-            {useCreamVariant ? '{{SURFACE:CREAM_PAPER}}' : '{{SURFACE:DARK_SIGNBOARD}}'}
+            {useCreamVariant ? 'Theme: Cream Print Menu' : 'Theme: Night Signboard'}
           </button>
         </div>
       </div>
@@ -419,7 +419,7 @@ export function MenuCatalog({
             {/* Variants Selection */}
             {selectedItem.variants.length > 0 && (
               <div className="space-y-2">
-                <h3 className="font-serif text-lg text-gold">{'{{SELECT_VARIANT_HEADING}}'}</h3>
+                <h3 className="font-serif text-lg text-gold">Choose Portion / Base</h3>
                 <div className="grid grid-cols-1 gap-2">
                   {selectedItem.variants.map((v) => {
                     const active = selectedVariantId === v.id;
@@ -449,7 +449,7 @@ export function MenuCatalog({
             {/* Add-Ons Selection */}
             {selectedItem.addOns.length > 0 && (
               <div className="space-y-2">
-                <h3 className="font-serif text-lg text-gold">{'{{SELECT_ADDONS_HEADING}}'}</h3>
+                <h3 className="font-serif text-lg text-gold">Recommended Accompaniments</h3>
                 <div className="grid grid-cols-1 gap-2">
                   {selectedItem.addOns.map((addon) => {
                     const checked = selectedAddOnIds.includes(addon.id);
@@ -479,8 +479,8 @@ export function MenuCatalog({
             {/* Special Instructions */}
             <TextareaInput
               id="item-special-instructions"
-              label={'{{SPECIAL_INSTRUCTIONS_LABEL}}'}
-              placeholder={'{{SPECIAL_INSTRUCTIONS_PLACEHOLDER}}'}
+              label="Kitchen / Spice Instructions (Optional)"
+              placeholder="E.g., medium spicy, Jain preparation, serve starter with mains..."
               rows={2}
               value={specialNotes}
               onChange={(e) => setSpecialNotes(e.target.value)}

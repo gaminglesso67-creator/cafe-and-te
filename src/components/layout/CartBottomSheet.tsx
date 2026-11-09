@@ -32,33 +32,33 @@ export function CartBottomSheet() {
           <div className="space-y-3">
             <div className="space-y-1 text-xs text-muted">
               <div className="flex justify-between">
-                <span>{'{{CART_SUBTOTAL_LABEL}}'}</span>
+                <span>Subtotal</span>
                 <span>{formatPriceToken(subtotal)}</span>
               </div>
               {discountAmount > 0 && (
                 <div className="flex justify-between text-gold">
-                  <span>{'{{CART_DISCOUNT_LABEL}}'}</span>
+                  <span>Offer Discount</span>
                   <span>-{formatPriceToken(discountAmount)}</span>
                 </div>
               )}
               <div className="flex justify-between">
-                <span>{'{{CART_GST_TAX_LABEL}}'}</span>
+                <span>GST (5%)</span>
                 <span>{formatPriceToken(taxAmount)}</span>
               </div>
               {orderType === 'DELIVERY' && (
                 <div className="flex justify-between">
-                  <span>{'{{CART_DELIVERY_FEE_LABEL}}'}</span>
+                  <span>Delivery Fee</span>
                   <span>{formatPriceToken(deliveryFee)}</span>
                 </div>
               )}
               <div className="flex justify-between text-sm font-semibold text-text pt-1.5 border-t border-gold/20">
-                <span>{'{{CART_TOTAL_LABEL}}'}</span>
+                <span>Total</span>
                 <span className="text-gold">{formatPriceToken(grandTotal)}</span>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-2.5">
               <Button variant="secondary" size="sm" href="/cart" onClick={closeSheet}>
-                {'{{VIEW_FULL_CART_CTA}}'}
+                Full Bag & Promo
               </Button>
               <Button variant="primary" size="sm" href="/checkout" onClick={closeSheet}>
                 {t('cart.checkout_cta')}
@@ -79,7 +79,7 @@ export function CartBottomSheet() {
               : 'text-muted hover:text-text'
           }`}
         >
-          {'{{ORDER_TYPE_DELIVERY}}'}
+          Delivery
         </button>
         <button
           type="button"
@@ -90,14 +90,14 @@ export function CartBottomSheet() {
               : 'text-muted hover:text-text'
           }`}
         >
-          {'{{ORDER_TYPE_PICKUP}}'}
+          Pickup
         </button>
       </div>
 
       {items.length === 0 ? (
         <EmptyState
-          title={'{{CART_EMPTY_TITLE}}'}
-          description={'{{CART_EMPTY_DESCRIPTION}}'}
+          title="Your Dining Bag is Empty"
+          description="Add signature Crostinis, Maharashtrian handis, Royal Dum Biryanis, or artisanal mocktails to begin."
           actionLabel={t('global.nav.menu')}
           actionHref="/order"
           onAction={closeSheet}
@@ -134,7 +134,7 @@ export function CartBottomSheet() {
                   onClick={() => removeItem(item.lineId)}
                   className="min-h-11 px-2 text-xs text-muted hover:text-crimson uppercase tracking-wider"
                 >
-                  {'{{REMOVE_ITEM}}'}
+                  Remove
                 </button>
               </div>
             </div>

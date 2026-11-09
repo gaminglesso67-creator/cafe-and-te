@@ -87,11 +87,11 @@ export default function ContactPage() {
           {/* Left 5 Cols: Direct Contact Channels, Hours & Socials */}
           <div className="lg:col-span-5 space-y-6">
             <Card variant="surface" className="space-y-4">
-              <h2 className="font-serif text-2xl text-gold">{'{{DIRECT_CHANNELS_HEADING}}'}</h2>
+              <h2 className="font-serif text-2xl text-gold">Direct Reservations & Desk</h2>
               <div className="space-y-3 text-sm">
                 <div>
                   <span className="text-xs uppercase tracking-wider text-muted block">
-                    {'{{LABEL_PHONE_CALL}}'}
+                    Tap to Call
                   </span>
                   <a
                     href={t('brand.phone_href')}
@@ -102,7 +102,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <span className="text-xs uppercase tracking-wider text-muted block">
-                    {'{{LABEL_WHATSAPP_CHAT}}'}
+                    WhatsApp Concierge
                   </span>
                   <a
                     href={whatsappUrl}
@@ -115,7 +115,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <span className="text-xs uppercase tracking-wider text-muted block">
-                    {'{{LABEL_EMAIL}}'}
+                    Email
                   </span>
                   <a
                     href={`mailto:${t('brand.email')}`}
@@ -126,7 +126,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <span className="text-xs uppercase tracking-wider text-muted block">
-                    {'{{LABEL_ADDRESS}}'}
+                    Clover Park · Viman Nagar Address
                   </span>
                   <p className="text-text mt-1">{t('brand.address_line1')}</p>
                   <p className="text-muted text-xs">{t('brand.address_line2')}</p>
@@ -158,11 +158,13 @@ export default function ContactPage() {
 
               {formState === 'success' ? (
                 <div className="p-6 text-center space-y-3 border border-gold/30 bg-bg rounded-xs">
-                  <Badge kind="veg" label={'{{MESSAGE_RECEIVED}}'} />
+                  <Badge kind="veg" label="Message Received" />
                   <h3 className="font-serif text-2xl text-gold">
-                    {'{{CONTACT_SUCCESS_HEADING}}'}
+                    Thank You for Reaching Out to Saanjh
                   </h3>
-                  <p className="text-sm text-muted">{'{{CONTACT_SUCCESS_BODY}}'}</p>
+                  <p className="text-sm text-muted">
+                    Our Viman Nagar hospitality desk has received your message and will respond shortly.
+                  </p>
                   <Button
                     variant="secondary"
                     size="sm"
@@ -171,7 +173,7 @@ export default function ContactPage() {
                       setFormState('idle');
                     }}
                   >
-                    {'{{SEND_ANOTHER_MESSAGE}}'}
+                    Send Another Message
                   </Button>
                 </div>
               ) : (
@@ -197,14 +199,14 @@ export default function ContactPage() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <TextInput
                       id="contact-name"
-                      label={'{{FIELD_NAME}}'}
+                      label="Your Name"
                       required
                       value={fields.name}
                       onChange={(e) => setFields({ ...fields, name: e.target.value })}
                     />
                     <PhoneInput
                       id="contact-phone"
-                      label={'{{FIELD_PHONE}}'}
+                      label="Phone / WhatsApp Number"
                       required
                       value={fields.phone}
                       onChange={(e) => setFields({ ...fields, phone: e.target.value })}
@@ -212,13 +214,13 @@ export default function ContactPage() {
                   </div>
                   <EmailInput
                     id="contact-email"
-                    label={'{{FIELD_EMAIL}}'}
+                    label="Email Address (Optional)"
                     value={fields.email}
                     onChange={(e) => setFields({ ...fields, email: e.target.value })}
                   />
                   <TextareaInput
                     id="contact-message"
-                    label={'{{FIELD_MESSAGE}}'}
+                    label="How Can We Help?"
                     required
                     value={fields.message}
                     onChange={(e) => setFields({ ...fields, message: e.target.value })}
@@ -231,7 +233,7 @@ export default function ContactPage() {
                     disabled={formState === 'submitting'}
                   >
                     {formState === 'submitting'
-                      ? '{{SUBMITTING_STATE}}'
+                      ? 'Sending...'
                       : t('contact.form.submit')}
                   </Button>
                 </form>

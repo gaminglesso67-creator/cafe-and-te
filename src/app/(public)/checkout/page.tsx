@@ -173,7 +173,7 @@ export default function CheckoutPage() {
                     orderType === 'DELIVERY' ? 'btn-gold-primary' : 'text-muted'
                   }`}
                 >
-                  {'{{ORDER_TYPE_DELIVERY}}'}
+                  Home Delivery
                 </button>
                 <button
                   type="button"
@@ -182,21 +182,21 @@ export default function CheckoutPage() {
                     orderType === 'PICKUP' ? 'btn-gold-primary' : 'text-muted'
                   }`}
                 >
-                  {'{{ORDER_TYPE_PICKUP}}'}
+                  Self Pickup (Viman Nagar)
                 </button>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <TextInput
                   id="checkout-name"
-                  label={'{{FIELD_CUSTOMER_NAME}}'}
+                  label="Full Name"
                   required
                   value={fields.customerName}
                   onChange={(e) => setFields({ ...fields, customerName: e.target.value })}
                 />
                 <PhoneInput
                   id="checkout-phone"
-                  label={'{{FIELD_CUSTOMER_PHONE}}'}
+                  label="Mobile / WhatsApp Number"
                   required
                   value={fields.customerPhone}
                   onChange={(e) => setFields({ ...fields, customerPhone: e.target.value })}
@@ -205,7 +205,7 @@ export default function CheckoutPage() {
 
               <EmailInput
                 id="checkout-email"
-                label={'{{FIELD_CUSTOMER_EMAIL}}'}
+                label="Email Address (for Invoice)"
                 value={fields.customerEmail}
                 onChange={(e) => setFields({ ...fields, customerEmail: e.target.value })}
               />
@@ -215,7 +215,7 @@ export default function CheckoutPage() {
                   <div className="sm:col-span-2">
                     <TextInput
                       id="checkout-address"
-                      label={'{{FIELD_DELIVERY_ADDRESS}}'}
+                      label="Complete Delivery Address (Viman Nagar / Clover Park / Kalyani Nagar)"
                       required
                       value={fields.addressLine}
                       onChange={(e) => setFields({ ...fields, addressLine: e.target.value })}
@@ -223,7 +223,7 @@ export default function CheckoutPage() {
                   </div>
                   <TextInput
                     id="checkout-pincode"
-                    label={'{{FIELD_PINCODE_ZONE}}'}
+                    label="Pune Pincode"
                     inputMode="numeric"
                     value={fields.pincode}
                     onChange={(e) => setFields({ ...fields, pincode: e.target.value })}
@@ -232,40 +232,40 @@ export default function CheckoutPage() {
               ) : (
                 <SelectInput
                   id="checkout-pickup-slot"
-                  label={'{{FIELD_PICKUP_TIME_SLOT}}'}
+                  label="Pickup Time Slot (Plot 4, Clover Park, Viman Nagar)"
                   value={fields.pickupSlot}
                   onChange={(e) => setFields({ ...fields, pickupSlot: e.target.value })}
                   options={[
-                    { value: 'ASAP', label: '{{PICKUP_ASAP_25_MINS}}' },
-                    { value: '19:30', label: '19:30 IST' },
-                    { value: '20:30', label: '20:30 IST' },
-                    { value: '21:30', label: '21:30 IST' },
+                    { value: 'ASAP', label: 'Ready in 25–30 mins' },
+                    { value: '19:30', label: '7:30 PM IST' },
+                    { value: '20:30', label: '8:30 PM IST' },
+                    { value: '21:30', label: '9:30 PM IST' },
                   ]}
                 />
               )}
 
               <SelectInput
                 id="checkout-payment-method"
-                label={'{{FIELD_PAYMENT_METHOD}}'}
+                label="Payment Method"
                 value={fields.paymentMethod}
                 onChange={(e) => setFields({ ...fields, paymentMethod: e.target.value })}
                 options={[
-                  { value: 'RAZORPAY_TEST', label: '{{RAZORPAY_UPI_CARDS_NETBANKING_TEST}}' },
-                  { value: 'STRIPE_TEST', label: '{{STRIPE_CARDS_TEST}}' },
-                  { value: 'COD', label: '{{CASH_ON_DELIVERY_OR_PAY_AT_COUNTER}}' },
+                  { value: 'RAZORPAY_TEST', label: 'UPI / Cards / NetBanking (Razorpay)' },
+                  { value: 'STRIPE_TEST', label: 'International Cards (Stripe)' },
+                  { value: 'COD', label: 'Pay on Delivery / Pay at Counter' },
                 ]}
               />
 
               <TextareaInput
                 id="checkout-notes"
-                label={'{{FIELD_KITCHEN_DELIVERY_NOTES}}'}
+                label="Kitchen or Delivery Instructions (Cutlery, Spice Level, Gate Pass)"
                 rows={2}
                 value={fields.notes}
                 onChange={(e) => setFields({ ...fields, notes: e.target.value })}
               />
 
               <Button type="submit" variant="primary" size="lg" fullWidth disabled={submitting}>
-                {submitting ? '{{PROCESSING_PAYMENT_WEBHOOK}}' : t('checkout.place_order_cta')}
+                {submitting ? 'Confirming Order...' : t('checkout.place_order_cta')}
               </Button>
             </form>
           </Card>
@@ -275,37 +275,37 @@ export default function CheckoutPage() {
         <div className="lg:col-span-5 space-y-4">
           <Card variant="signboard" className="space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="font-serif text-2xl text-gold">{'{{ORDER_SUMMARY_HEADING}}'}</h2>
-              <Badge kind="neutral" label={'{{TEST_MODE_ACTIVE}}'} />
+              <h2 className="font-serif text-2xl text-gold">Order Summary</h2>
+              <Badge kind="neutral" label="Saanjh Viman Nagar" />
             </div>
             <dl className="space-y-2 text-sm">
               <div className="flex justify-between text-muted">
-                <dt>{'{{CART_SUBTOTAL_LABEL}}'}</dt>
-                <dd className="font-mono">{formatPriceToken(subtotal || 420)}</dd>
+                <dt>Item Subtotal</dt>
+                <dd className="font-mono">{formatPriceToken(subtotal || 385)}</dd>
               </div>
               {discountAmount > 0 && (
                 <div className="flex justify-between text-gold">
-                  <dt>{'{{CART_DISCOUNT_LABEL}}'}</dt>
+                  <dt>Offer Discount</dt>
                   <dd className="font-mono">-{formatPriceToken(discountAmount)}</dd>
                 </div>
               )}
               <div className="flex justify-between text-muted">
-                <dt>{'{{CART_GST_TAX_LABEL}}'}</dt>
-                <dd className="font-mono">{formatPriceToken(taxAmount || 21)}</dd>
+                <dt>GST (5%)</dt>
+                <dd className="font-mono">{formatPriceToken(taxAmount || 19)}</dd>
               </div>
               {orderType === 'DELIVERY' && (
                 <div className="flex justify-between text-muted">
-                  <dt>{'{{CART_DELIVERY_FEE_LABEL}}'}</dt>
+                  <dt>Delivery Fee</dt>
                   <dd className="font-mono">{formatPriceToken(deliveryFee || 50)}</dd>
                 </div>
               )}
               <div className="flex justify-between text-base font-semibold text-text pt-2 border-t border-gold/25">
-                <dt>{'{{CART_TOTAL_LABEL}}'}</dt>
-                <dd className="font-mono text-gold">{formatPriceToken(grandTotal || 491)}</dd>
+                <dt>Total Payable</dt>
+                <dd className="font-mono text-gold">{formatPriceToken(grandTotal || 454)}</dd>
               </div>
             </dl>
             <p className="text-xs text-muted border-t border-gold/15 pt-3">
-              {'{{WEBHOOK_SOURCE_OF_TRUTH_NOTICE}}'}
+              Prepared fresh at Saanjh, Plot 4, Survey No. 206, Lane 2, Clover Park, Viman Nagar, Pune 411014.
             </p>
           </Card>
         </div>

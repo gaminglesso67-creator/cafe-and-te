@@ -58,8 +58,12 @@ export function ImageWithOverlay({
       {overlay && (
         <div
           aria-hidden="true"
-          className="absolute inset-0"
-          style={{ backgroundColor: 'var(--photo-overlay)' }}
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background: resolved.src.startsWith('/placeholders/')
+              ? 'var(--photo-overlay)'
+              : 'linear-gradient(to top, rgba(15, 15, 16, 0.62) 0%, rgba(15, 15, 16, 0.14) 50%, rgba(15, 15, 16, 0.28) 100%)',
+          }}
         />
       )}
       {/* Slot identifier badge in corner for content handoff clarity */}

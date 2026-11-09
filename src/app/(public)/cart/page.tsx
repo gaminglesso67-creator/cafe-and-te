@@ -53,8 +53,8 @@ export default function CartPage() {
 
       {items.length === 0 ? (
         <EmptyState
-          title={'{{CART_EMPTY_TITLE}}'}
-          description={'{{CART_EMPTY_DESCRIPTION}}'}
+          title="Your Dining Bag is Empty"
+          description="Explore our signature Mushroom Crostinis, Maharashtrian handis, Royal Dum Biryanis, and wood-fired pizzas."
           actionLabel={t('global.nav.order')}
           actionHref="/order"
         />
@@ -88,7 +88,7 @@ export default function CartPage() {
                     onChange={(q) => updateQuantity(item.lineId, q)}
                   />
                   <Button variant="ghost" size="sm" onClick={() => removeItem(item.lineId)}>
-                    {'{{REMOVE_ITEM}}'}
+                    Remove
                   </Button>
                 </div>
               </Card>
@@ -106,7 +106,7 @@ export default function CartPage() {
                     orderType === 'DELIVERY' ? 'btn-gold-primary' : 'text-muted'
                   }`}
                 >
-                  {'{{ORDER_TYPE_DELIVERY}}'}
+                  Home Delivery
                 </button>
                 <button
                   type="button"
@@ -115,7 +115,7 @@ export default function CartPage() {
                     orderType === 'PICKUP' ? 'btn-gold-primary' : 'text-muted'
                   }`}
                 >
-                  {'{{ORDER_TYPE_PICKUP}}'}
+                  Self Pickup (Viman Nagar)
                 </button>
               </div>
 
@@ -123,39 +123,39 @@ export default function CartPage() {
                 <div className="flex-1">
                   <TextInput
                     id="cart-coupon"
-                    label={'{{COUPON_CODE_LABEL}} (SAANJH15 / HAPPYHOUR)'}
+                    label="Promo Code (LUNCH10 / SAANJH15 / SAANJH25)"
                     value={couponInput}
                     onChange={(e) => setCouponInput(e.target.value)}
                   />
                 </div>
                 <Button type="submit" variant="secondary" size="md">
-                  {'{{APPLY_COUPON}}'}
+                  Apply
                 </Button>
               </form>
 
               <dl className="space-y-2 text-sm border-t border-gold/20 pt-4">
                 <div className="flex justify-between text-muted">
-                  <dt>{'{{CART_SUBTOTAL_LABEL}}'}</dt>
+                  <dt>Item Subtotal</dt>
                   <dd className="font-mono">{formatPriceToken(subtotal)}</dd>
                 </div>
                 {discountAmount > 0 && (
                   <div className="flex justify-between text-gold">
-                    <dt>{'{{CART_DISCOUNT_LABEL}}'}</dt>
+                    <dt>Offer Discount</dt>
                     <dd className="font-mono">-{formatPriceToken(discountAmount)}</dd>
                   </div>
                 )}
                 <div className="flex justify-between text-muted">
-                  <dt>{'{{CART_GST_TAX_LABEL}}'}</dt>
+                  <dt>GST (5%)</dt>
                   <dd className="font-mono">{formatPriceToken(taxAmount)}</dd>
                 </div>
                 {orderType === 'DELIVERY' && (
                   <div className="flex justify-between text-muted">
-                    <dt>{'{{CART_DELIVERY_FEE_LABEL}}'}</dt>
+                    <dt>Delivery Fee (Viman Nagar Zone)</dt>
                     <dd className="font-mono">{formatPriceToken(deliveryFee)}</dd>
                   </div>
                 )}
                 <div className="flex justify-between text-base font-semibold text-text pt-2 border-t border-gold/25">
-                  <dt>{'{{CART_TOTAL_LABEL}}'}</dt>
+                  <dt>Grand Total</dt>
                   <dd className="font-mono text-gold">{formatPriceToken(grandTotal)}</dd>
                 </div>
               </dl>

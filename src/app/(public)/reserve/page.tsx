@@ -112,27 +112,27 @@ export default function ReservePage() {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <DateInput
                     id="reserve-date"
-                    label={'{{FIELD_RESERVATION_DATE}}'}
+                    label="Reservation Date"
                     required
                     value={fields.date}
                     onChange={(e) => setFields({ ...fields, date: e.target.value })}
                   />
                   <TimeInput
                     id="reserve-time"
-                    label={'{{FIELD_TIME_SLOT}}'}
+                    label="Preferred Time (12 PM – 11 PM)"
                     required
                     value={fields.timeSlot}
                     onChange={(e) => setFields({ ...fields, timeSlot: e.target.value })}
                   />
                   <SelectInput
                     id="reserve-party-size"
-                    label={'{{FIELD_PARTY_SIZE}}'}
+                    label="Party Size"
                     required
                     value={fields.partySize}
                     onChange={(e) => setFields({ ...fields, partySize: e.target.value })}
                     options={Array.from({ length: 12 }).map((_, idx) => ({
                       value: String(idx + 1),
-                      label: `${idx + 1} {{GUESTS_UNIT}}`,
+                      label: `${idx + 1} ${idx === 0 ? 'Guest' : 'Guests'}`,
                     }))}
                   />
                 </div>
@@ -140,7 +140,7 @@ export default function ReservePage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <TextInput
                     id="reserve-name"
-                    label={'{{FIELD_GUEST_NAME}}'}
+                    label="Guest Name"
                     required
                     autoComplete="name"
                     value={fields.name}
@@ -148,7 +148,7 @@ export default function ReservePage() {
                   />
                   <PhoneInput
                     id="reserve-phone"
-                    label={'{{FIELD_GUEST_PHONE}}'}
+                    label="Mobile / WhatsApp Number"
                     required
                     value={fields.phone}
                     onChange={(e) => setFields({ ...fields, phone: e.target.value })}
@@ -158,34 +158,34 @@ export default function ReservePage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <EmailInput
                     id="reserve-email"
-                    label={'{{FIELD_GUEST_EMAIL}}'}
+                    label="Email Address (Optional)"
                     value={fields.email}
                     onChange={(e) => setFields({ ...fields, email: e.target.value })}
                   />
                   <SelectInput
                     id="reserve-occasion"
-                    label={'{{FIELD_OCCASION}}'}
+                    label="Occasion & Seating Preference"
                     value={fields.occasion}
                     onChange={(e) => setFields({ ...fields, occasion: e.target.value })}
                     options={[
-                      { value: 'NONE', label: '{{OCCASION_CASUAL_DINING}}' },
-                      { value: 'BIRTHDAY', label: '{{OCCASION_BIRTHDAY}}' },
-                      { value: 'ANNIVERSARY', label: '{{OCCASION_ANNIVERSARY}}' },
-                      { value: 'BUSINESS', label: '{{OCCASION_BUSINESS}}' },
+                      { value: 'NONE', label: 'Casual Family / Evening Dining' },
+                      { value: 'BIRTHDAY', label: 'Birthday Celebration' },
+                      { value: 'ANNIVERSARY', label: 'Anniversary Dinner' },
+                      { value: 'BUSINESS', label: 'Corporate / Team Gathering' },
                     ]}
                   />
                 </div>
 
                 <TextareaInput
                   id="reserve-notes"
-                  label={'{{FIELD_SPECIAL_REQUESTS}}'}
+                  label="Seating Preference (Indoor AC / Lush Patio / Bar) & Dietary Notes"
                   rows={3}
                   value={fields.specialRequests}
                   onChange={(e) => setFields({ ...fields, specialRequests: e.target.value })}
                 />
 
                 <Button type="submit" variant="primary" size="lg" fullWidth disabled={submitting}>
-                  {submitting ? '{{CHECKING_SLOT_CAPACITY}}' : t('reserve.form.submit')}
+                  {submitting ? 'Confirming Table...' : t('reserve.form.submit')}
                 </Button>
               </form>
             </Card>
@@ -193,13 +193,13 @@ export default function ReservePage() {
 
           <div className="lg:col-span-4 space-y-4">
             <Card variant="signboard" className="space-y-3">
-              <Badge kind="neutral" label={'{{RESERVATION_POLICY_TAG}}'} />
-              <h2 className="font-serif text-2xl text-gold">{'{{SLOT_RULES_HEADING}}'}</h2>
+              <Badge kind="neutral" label="Clover Park · Viman Nagar" />
+              <h2 className="font-serif text-2xl text-gold">Table Policy & Amenities</h2>
               <ul className="space-y-2 text-xs text-muted">
-                <li>• {'{{RULE_LEAD_TIME_60_MINS}}'}</li>
-                <li>• {'{{RULE_SLOT_DURATION_90_MINS}}'}</li>
-                <li>• {'{{RULE_MAX_ONLINE_PARTY_12}}'}</li>
-                <li>• {'{{RULE_REMINDER_2_HOURS_PRIOR}}'}</li>
+                <li>• Open Daily: 12:00 PM Noon to 12:00 Midnight</li>
+                <li>• Complimentary Valet Parking & Step-Free Wheelchair Access</li>
+                <li>• Walk-in Lunch Privilege: Flat 10% OFF (12 PM – 4 PM)</li>
+                <li>• For groups of 13+ guests, call +91 84858 00863 directly</li>
               </ul>
             </Card>
           </div>

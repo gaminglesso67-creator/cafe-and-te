@@ -44,44 +44,44 @@ export default function ReservationDetailPage({
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-gold/25 pb-4">
           <div>
             <p className="text-xs font-mono uppercase tracking-widest text-gold">
-              {`{{BOOKING_REF:${params.id}}}`}
+              {`Booking Reference: ${params.id}`}
             </p>
             <h1 className="font-serif text-3xl sm:text-4xl text-text mt-1">
-              {'{{RESERVATION_CONFIRMATION_HEADING}}'}
+              Your Table at Saanjh Viman Nagar
             </h1>
           </div>
           <Badge
             kind={status === 'confirmed' ? 'veg' : status === 'cancelled' ? 'out_of_stock' : 'offer'}
-            label={`{{STATE:${status.toUpperCase()}}}`}
+            label={status.toUpperCase()}
           />
         </div>
 
         <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm border border-gold/20 bg-surface p-4 rounded-xs">
           <div>
-            <dt className="text-xs text-muted uppercase">{'{{LABEL_DATE_TIME}}'}</dt>
-            <dd className="font-mono text-text mt-0.5">{'{{SAMPLE_BOOKING_DATETIME}}'}</dd>
+            <dt className="text-xs text-muted uppercase">Location</dt>
+            <dd className="font-mono text-text mt-0.5">Clover Park, Viman Nagar (Opp. Phoenix Marketcity)</dd>
           </div>
           <div>
-            <dt className="text-xs text-muted uppercase">{'{{LABEL_PARTY_SIZE}}'}</dt>
-            <dd className="font-mono text-text mt-0.5">{'4 {{GUESTS_UNIT}}'}</dd>
+            <dt className="text-xs text-muted uppercase">Party Size & Seating</dt>
+            <dd className="font-mono text-text mt-0.5">4 Guests · Indoor AC / Patio</dd>
           </div>
           <div>
-            <dt className="text-xs text-muted uppercase">{'{{LABEL_GUEST_NAME}}'}</dt>
-            <dd className="text-text mt-0.5">{'{{GUEST_NAME_SLOT}}'}</dd>
+            <dt className="text-xs text-muted uppercase">Facilities</dt>
+            <dd className="text-text mt-0.5">Valet Parking & Wheelchair Accessible</dd>
           </div>
           <div>
-            <dt className="text-xs text-muted uppercase">{'{{LABEL_NOTIFICATION_CHANNEL}}'}</dt>
-            <dd className="text-text mt-0.5">{'{{SMS_EMAIL_WHATSAPP_REMINDER_ACTIVE}}'}</dd>
+            <dt className="text-xs text-muted uppercase">Direct Desk</dt>
+            <dd className="text-text mt-0.5">+91 84858 00863 (WhatsApp & SMS Active)</dd>
           </div>
         </dl>
 
         <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
           <Button variant="secondary" size="sm" href="/reserve">
-            {'{{MODIFY_BOOKING_CTA}}'}
+            Modify Booking
           </Button>
           {status !== 'cancelled' && (
             <Button variant="ghost" size="sm" onClick={handleCancel}>
-              {'{{CANCEL_BOOKING_CTA}}'}
+              Cancel Reservation
             </Button>
           )}
         </div>

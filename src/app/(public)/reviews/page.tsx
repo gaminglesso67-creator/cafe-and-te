@@ -75,12 +75,12 @@ export default function ReviewsPage() {
             { id: 'ALL', label: t('menu.filter.all'), count: SEED_REVIEWS.length },
             {
               id: 'GOOGLE',
-              label: '{{SOURCE_GOOGLE_PLACES}}',
+              label: 'Google Reviews (4.5★)',
               count: SEED_REVIEWS.filter((r) => r.source === 'GOOGLE').length,
             },
             {
               id: 'MANUAL',
-              label: '{{SOURCE_CURATED_GUESTBOOK}}',
+              label: 'Diner Guestbook',
               count: SEED_REVIEWS.filter((r) => r.source === 'MANUAL').length,
             },
           ]}
@@ -102,7 +102,7 @@ export default function ReviewsPage() {
                 <div className="space-y-3">
                   <div className="flex items-center justify-between gap-2">
                     <RatingStars rating={rev.rating} />
-                    <Badge kind="neutral" label={`{{SOURCE_${rev.source}}}`} />
+                    <Badge kind="neutral" label={rev.source === 'GOOGLE' ? 'Google Verified' : 'Verified Guest'} />
                   </div>
                   <blockquote className="font-serif italic text-xl text-text leading-relaxed">
                     &ldquo;{rev.comment}&rdquo;

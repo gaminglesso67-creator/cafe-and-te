@@ -120,7 +120,7 @@ export default function GalleryPage() {
                       {item.title}
                     </span>
                     <span className="font-mono text-xs text-muted uppercase">
-                      {`{{CAT_${item.category}}}`}
+                      {item.category}
                     </span>
                   </div>
                 </button>
@@ -150,7 +150,7 @@ export default function GalleryPage() {
                   )
                 }
               >
-                ← {'{{PREV_IMAGE}}'}
+                ← Previous
               </Button>
               <span className="font-mono text-xs text-muted">
                 {(lightboxIndex ?? 0) + 1} / {filteredItems.length}
@@ -164,7 +164,7 @@ export default function GalleryPage() {
                   )
                 }
               >
-                {'{{NEXT_IMAGE}}'} →
+                Next →
               </Button>
             </div>
           ) : undefined
@@ -178,7 +178,7 @@ export default function GalleryPage() {
               overlay={false}
             />
             <p className="text-xs font-mono text-muted">
-              {`{{LIGHTBOX_ALT_TEXT:${currentItem.imageSlot.toUpperCase()}}}`}
+              {currentItem.title} · Saanjh Viman Nagar, Pune
             </p>
           </div>
         )}

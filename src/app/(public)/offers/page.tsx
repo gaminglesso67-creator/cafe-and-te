@@ -111,14 +111,14 @@ export default function OffersAndEventsPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Specials Cards */}
           <div className="lg:col-span-7 space-y-5">
-            <h2 className="font-serif text-3xl text-text">{'{{SPECIALS_LIST_HEADING}}'}</h2>
+            <h2 className="font-serif text-3xl text-text">Current Dining Deals & Privileges</h2>
             {SEED_OFFERS.map((offer) => (
               <Card key={offer.id} variant="surface" className="space-y-4">
                 <ImageWithOverlay slot={offer.imageSlot} aspect="16x9" />
                 <div className="flex items-center justify-between gap-2">
                   <Badge kind="offer" label={offer.badgeText} />
                   <span className="font-mono text-xs text-gold border border-gold/30 px-2.5 py-1 rounded-xs">
-                    {`{{PROMO_CODE:${offer.code}}}`}
+                    {`CODE: ${offer.code}`}
                   </span>
                 </div>
                 <h3 className="font-serif text-2xl text-text">{offer.title}</h3>
@@ -138,7 +138,7 @@ export default function OffersAndEventsPage() {
           {/* Happy Hours Block & Events Listing */}
           <div className="lg:col-span-5 space-y-6">
             <Card variant="signboard" className="space-y-3">
-              <Badge kind="offer" label={'{{TIME_BASED_HAPPY_HOURS}}'} />
+              <Badge kind="offer" label="Daily Lunch Privilege" />
               <h2 className="font-serif text-2xl text-gold text-glow-gold">
                 {t('offers.happy_hours.heading')}
               </h2>
@@ -151,13 +151,13 @@ export default function OffersAndEventsPage() {
             </Card>
 
             <div className="space-y-4">
-              <h2 className="font-serif text-2xl text-text">{'{{EVENTS_LISTING_HEADING}}'}</h2>
+              <h2 className="font-serif text-2xl text-text">Evenings & Experiences at Saanjh</h2>
               {SEED_EVENTS.map((evt) => (
                 <Card key={evt.id} variant="surface" className="space-y-2.5">
                   <div className="flex items-center justify-between gap-2">
                     <Badge
                       kind={evt.isUpcoming ? 'new' : 'neutral'}
-                      label={evt.isUpcoming ? '{{UPCOMING_EVENT}}' : '{{PAST_EVENT}}'}
+                      label={evt.isUpcoming ? 'Featured Experience' : 'Past Event'}
                     />
                     <span className="font-mono text-xs text-muted">
                       {evt.dateLabel} · {evt.timeLabel}
@@ -182,13 +182,13 @@ export default function OffersAndEventsPage() {
 
           {submittedRef ? (
             <Card variant="signboard" className="space-y-3 text-center">
-              <Badge kind="veg" label={'{{ENQUIRY_SUBMITTED}}'} />
-              <h3 className="font-serif text-2xl text-gold">{'{{CATERING_THANK_YOU_HEADING}}'}</h3>
+              <Badge kind="veg" label="Enquiry Received" />
+              <h3 className="font-serif text-2xl text-gold">Thank You — Our Events Team Will Call You</h3>
               <p className="text-sm text-muted font-mono">
-                {`{{REFERENCE_ID: ${submittedRef}}}`}
+                {`Reference ID: ${submittedRef}`}
               </p>
               <Button variant="secondary" size="sm" onClick={() => setSubmittedRef(null)}>
-                {'{{SUBMIT_ANOTHER_ENQUIRY}}'}
+                Submit Another Enquiry
               </Button>
             </Card>
           ) : (
@@ -212,14 +212,14 @@ export default function OffersAndEventsPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <TextInput
                     id="catering-name"
-                    label={'{{FIELD_FULL_NAME}}'}
+                    label="Full Name"
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   />
                   <PhoneInput
                     id="catering-phone"
-                    label={'{{FIELD_PHONE_NUMBER}}'}
+                    label="Phone / WhatsApp Number"
                     required
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
@@ -228,58 +228,58 @@ export default function OffersAndEventsPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <EmailInput
                     id="catering-email"
-                    label={'{{FIELD_EMAIL_ADDRESS}}'}
+                    label="Email Address"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   />
                   <SelectInput
                     id="catering-event-type"
-                    label={'{{FIELD_EVENT_TYPE}}'}
+                    label="Occasion / Gathering Type"
                     value={formData.eventType}
                     onChange={(e) => setFormData({ ...formData, eventType: e.target.value })}
                     options={[
-                      { value: 'BIRTHDAY_ANNIVERSARY', label: '{{EVENT_TYPE_CELEBRATION}}' },
-                      { value: 'CORPORATE_DINNER', label: '{{EVENT_TYPE_CORPORATE}}' },
-                      { value: 'OUTDOOR_CATERING', label: '{{EVENT_TYPE_OUTDOOR_CATERING}}' },
-                      { value: 'PRIVATE_BANQUET', label: '{{EVENT_TYPE_PRIVATE_PARTY}}' },
+                      { value: 'BIRTHDAY_ANNIVERSARY', label: 'Birthday / Anniversary Celebration' },
+                      { value: 'CORPORATE_DINNER', label: 'Corporate Team Dinner (Viman Nagar)' },
+                      { value: 'OUTDOOR_CATERING', label: 'Bespoke Outdoor / Home Catering' },
+                      { value: 'PRIVATE_BANQUET', label: 'Large Family Patio Gathering' },
                     ]}
                   />
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <DateInput
                     id="catering-date"
-                    label={'{{FIELD_EVENT_DATE}}'}
+                    label="Preferred Date"
                     required
                     value={formData.eventDate}
                     onChange={(e) => setFormData({ ...formData, eventDate: e.target.value })}
                   />
                   <TextInput
                     id="catering-guests"
-                    label={'{{FIELD_GUEST_COUNT}}'}
+                    label="Expected Guests"
                     inputMode="numeric"
                     value={formData.guestCount}
                     onChange={(e) => setFormData({ ...formData, guestCount: e.target.value })}
                   />
                   <SelectInput
                     id="catering-budget"
-                    label={'{{FIELD_BUDGET_PER_HEAD}}'}
+                    label="Menu Package Preference"
                     value={formData.budgetRange}
                     onChange={(e) => setFormData({ ...formData, budgetRange: e.target.value })}
                     options={[
-                      { value: 'STANDARD', label: '₹{{BUDGET_TIER_1}}' },
-                      { value: 'PREMIUM', label: '₹{{BUDGET_TIER_2}}' },
-                      { value: 'BESPOKE', label: '₹{{BUDGET_TIER_3}}' },
+                      { value: 'STANDARD', label: 'Classic Multi-Cuisine (₹650 / guest)' },
+                      { value: 'PREMIUM', label: 'Signature Feast (₹950 / guest)' },
+                      { value: 'BESPOKE', label: 'Custom Bar & Dining Package (₹1,350+ / guest)' },
                     ]}
                   />
                 </div>
                 <TextareaInput
                   id="catering-notes"
-                  label={'{{FIELD_EVENT_NOTES}}'}
+                  label="Special Dietary, Seating or Cake Requests"
                   value={formData.notes}
                   onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                 />
                 <Button type="submit" variant="primary" size="lg" fullWidth disabled={submitting}>
-                  {submitting ? '{{SUBMITTING_STATE}}' : t('offers.catering.submit')}
+                  {submitting ? 'Sending Enquiry...' : t('offers.catering.submit')}
                 </Button>
               </form>
             </Card>
