@@ -27,15 +27,15 @@ export default function CustomerAccountPage() {
     {
       id: 'ORD-1001',
       status: 'preparing',
-      total: 1180,
-      date: '{{SAMPLE_ORDER_DATE_1}}',
+      total: 1085,
+      date: 'Today · 8:15 PM',
       type: 'DELIVERY',
     },
     {
       id: 'ORD-1000',
       status: 'completed',
-      total: 840,
-      date: '{{SAMPLE_ORDER_DATE_2}}',
+      total: 880,
+      date: 'Last Sunday · 1:30 PM',
       type: 'PICKUP',
     },
   ];
@@ -43,7 +43,7 @@ export default function CustomerAccountPage() {
   const sampleReservations = [
     {
       id: 'RES-2001',
-      date: '{{SAMPLE_RES_DATE_1}}',
+      date: 'Upcoming Saturday',
       time: '20:00',
       guests: 4,
       status: 'confirmed',
@@ -56,10 +56,10 @@ export default function CustomerAccountPage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <p className="text-xs uppercase tracking-[0.22em] text-gold">
-              {'{{ACCOUNT_EYEBROW}}'}
+              Saanjh Viman Nagar Guest Portal
             </p>
             <h1 className="font-serif text-4xl text-gold text-glow-gold">
-              {'{{CUSTOMER_ACCOUNT_HEADING}}'}
+              My Bookings & Orders
             </h1>
           </div>
           <Button
@@ -67,7 +67,7 @@ export default function CustomerAccountPage() {
             size="sm"
             onClick={() => setSignedIn((v) => !v)}
           >
-            {signedIn ? '{{SWITCH_TO_GUEST_LOGIN_VIEW}}' : '{{VIEW_SEEDED_CUSTOMER_PORTAL}}'}
+            {signedIn ? 'Switch to Phone OTP Login' : 'View Guest Dashboard'}
           </Button>
         </div>
       </Section>
@@ -76,16 +76,16 @@ export default function CustomerAccountPage() {
         {!signedIn ? (
           <div className="max-w-md mx-auto">
             <Card variant="surface" className="space-y-4">
-              <h2 className="font-serif text-2xl text-text">{'{{CUSTOMER_SIGN_IN_HEADING}}'}</h2>
+              <h2 className="font-serif text-2xl text-text">Sign In with Mobile OTP</h2>
               <PhoneInput
                 id="account-phone"
-                label={'{{FIELD_PHONE_NUMBER}}'}
+                label="Mobile Number"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
               />
               <TextInput
                 id="account-otp"
-                label={'{{FIELD_OTP_CODE}}'}
+                label="One-Time Passcode (OTP)"
                 inputMode="numeric"
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
@@ -96,10 +96,10 @@ export default function CustomerAccountPage() {
                 fullWidth
                 onClick={() => {
                   setSignedIn(true);
-                  notify('{{SIGNED_IN_SUCCESS}}', 'success');
+                  notify('Signed in to Saanjh Guest Portal', 'success');
                 }}
               >
-                {'{{VERIFY_AND_SIGN_IN_CTA}}'}
+                Verify & Sign In
               </Button>
             </Card>
           </div>
@@ -107,7 +107,7 @@ export default function CustomerAccountPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* Orders Column */}
             <div className="lg:col-span-7 space-y-4">
-              <h2 className="font-serif text-2xl text-gold">{'{{MY_ORDERS_HEADING}}'}</h2>
+              <h2 className="font-serif text-2xl text-gold">Recent Online Orders</h2>
               {sampleOrders.map((ord) => (
                 <Card
                   key={ord.id}
@@ -117,10 +117,10 @@ export default function CustomerAccountPage() {
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
                       <span className="font-mono text-sm text-gold font-semibold">{ord.id}</span>
-                      <Badge kind="neutral" label={`{{STATUS_${ord.status.toUpperCase()}}}`} />
+                      <Badge kind="neutral" label={ord.status.toUpperCase()} />
                     </div>
                     <p className="text-xs text-muted">
-                      {ord.date} · {`{{TYPE_${ord.type}}}`}
+                      {ord.date} · {ord.type}
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
@@ -128,7 +128,7 @@ export default function CustomerAccountPage() {
                       {formatPriceToken(ord.total)}
                     </span>
                     <Button variant="secondary" size="sm" href={`/order/${ord.id}`}>
-                      {'{{TRACK_ORDER_CTA}}'}
+                      Track Order
                     </Button>
                   </div>
                 </Card>
@@ -137,21 +137,21 @@ export default function CustomerAccountPage() {
 
             {/* Reservations Column */}
             <div className="lg:col-span-5 space-y-4">
-              <h2 className="font-serif text-2xl text-gold">{'{{MY_RESERVATIONS_HEADING}}'}</h2>
+              <h2 className="font-serif text-2xl text-gold">Table Reservations</h2>
               {sampleReservations.map((res) => (
                 <Card key={res.id} variant="surface" className="space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-sm text-gold">{res.id}</span>
-                    <Badge kind="veg" label={`{{STATUS_${res.status.toUpperCase()}}}`} />
+                    <Badge kind="veg" label={res.status.toUpperCase()} />
                   </div>
                   <p className="text-sm text-text">
-                    {res.date} · {res.time} · {res.guests} {'{{GUESTS_LABEL}}'}
+                    {res.date} · {res.time} · {res.guests} Guests
                   </p>
                   <Link
                     href={`/reservation/${res.id}`}
                     className="min-h-11 inline-flex items-center text-xs uppercase tracking-wider text-gold underline underline-offset-4"
                   >
-                    {'{{MANAGE_RESERVATION_LINK}}'} →
+                    Manage Reservation →
                   </Link>
                 </Card>
               ))}

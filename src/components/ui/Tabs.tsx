@@ -37,11 +37,12 @@ export function Tabs({
       role="tablist"
       aria-label={ariaLabel}
       className={clsx(
-        'flex items-center gap-2.5 overflow-x-auto no-scrollbar py-2 w-full max-w-full',
+        'flex items-center gap-6 overflow-x-auto no-scrollbar border-b w-full max-w-full',
+        onCream ? 'border-charcoal/15' : 'border-gold/15',
         sticky &&
           (onCream
-            ? 'sticky top-16 z-20 bg-cream/95 border-b border-charcoal/15'
-            : 'sticky top-16 z-20 bg-bg/95 border-b border-gold/20'),
+            ? 'sticky top-16 z-20 bg-cream/95 backdrop-blur-sm'
+            : 'sticky top-16 z-20 bg-bg/95 backdrop-blur-sm'),
         className
       )}
     >
@@ -55,19 +56,19 @@ export function Tabs({
             aria-selected={isActive}
             onClick={() => onChange(item.id)}
             className={clsx(
-              'min-h-11 px-3.5 py-2 rounded-xs text-xs sm:text-sm font-medium whitespace-nowrap shrink-0 border transition-all',
+              'min-h-11 py-3 text-xs sm:text-sm uppercase tracking-[0.14em] whitespace-nowrap shrink-0 border-b-2 -mb-px transition-colors',
               onCream
                 ? isActive
-                  ? 'bg-charcoal text-cream border-charcoal'
-                  : 'bg-transparent text-charcoal border-charcoal/30 hover:border-charcoal'
+                  ? 'border-charcoal text-charcoal font-semibold'
+                  : 'border-transparent text-charcoal/65 hover:text-charcoal'
                 : isActive
-                  ? 'btn-gold-primary border-gold font-medium'
-                  : 'bg-surface text-muted border-gold/25 hover:border-gold/60 hover:text-text'
+                  ? 'border-gold text-gold font-medium'
+                  : 'border-transparent text-muted hover:text-text'
             )}
           >
             <span>{item.label}</span>
             {typeof item.count === 'number' && (
-              <span className="ml-1.5 text-xs opacity-75">({item.count})</span>
+              <span className="ml-1.5 text-[11px] opacity-60">({item.count})</span>
             )}
           </button>
         );

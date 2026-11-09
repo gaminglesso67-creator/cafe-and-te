@@ -99,7 +99,7 @@ export default function GalleryPage() {
         {filteredItems.length === 0 ? (
           <EmptyState />
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-6 lg:gap-8">
             {filteredItems.map((item, idx) => {
               const spanClass =
                 idx % 3 === 0
@@ -112,14 +112,14 @@ export default function GalleryPage() {
                   key={item.id}
                   type="button"
                   onClick={() => setLightboxIndex(idx)}
-                  className={`${spanClass} text-left group rounded-xs border border-gold/25 bg-surface p-2 hover:border-gold transition-colors`}
+                  className={`${spanClass} text-left group space-y-2.5`}
                 >
-                  <ImageWithOverlay slot={item.imageSlot} aspect={item.aspect} />
-                  <div className="pt-2.5 px-1 flex items-center justify-between gap-2">
-                    <span className="font-serif text-lg text-text group-hover:text-gold">
+                  <ImageWithOverlay slot={item.imageSlot} aspect={item.aspect} overlay={false} />
+                  <div className="flex items-baseline justify-between gap-2">
+                    <span className="font-serif text-lg sm:text-xl text-text group-hover:text-gold transition-colors">
                       {item.title}
                     </span>
-                    <span className="font-mono text-xs text-muted uppercase">
+                    <span className="text-[11px] text-muted uppercase tracking-widest">
                       {item.category}
                     </span>
                   </div>

@@ -36,12 +36,14 @@ export function ImageWithOverlay({
   children,
 }: ImageWithOverlayProps) {
   const resolved = getImageSlot(slot, aspect);
+  const isPlaceholder = resolved.src.startsWith('/placeholders/');
 
   return (
     <div
       data-image-slot={slot}
       className={clsx(
-        'relative w-full overflow-hidden rounded-xs bg-surface border border-gold/30',
+        'relative w-full overflow-hidden rounded-sm bg-surface',
+        isPlaceholder ? 'border border-gold/25' : 'border border-gold/10',
         aspectClasses[aspect],
         className
       )}
@@ -53,23 +55,24 @@ export function ImageWithOverlay({
         priority={priority}
         loading={priority ? undefined : 'lazy'}
         sizes={sizes}
-        className="object-cover"
+        className="object-cover transition-transform duration-700 hover:scale-[1.02]"
       />
       {overlay && (
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0"
           style={{
-            background: resolved.src.startsWith('/placeholders/')
+            background: isPlaceholder
               ? 'var(--photo-overlay)'
-              : 'linear-gradient(to top, rgba(15, 15, 16, 0.62) 0%, rgba(15, 15, 16, 0.14) 50%, rgba(15, 15, 16, 0.28) 100%)',
+              : 'linear-gradient(to top, rgba(15, 15, 16, 0.45) 0%, rgba(15, 15, 16, 0.05) 50%, rgba(15, 15, 16, 0.15) 100%)',
           }}
         />
       )}
-      {/* Slot identifier badge in corner for content handoff clarity */}
-      <span className="absolute top-2 left-2 z-10 max-w-[calc(100%-1rem)] truncate px-1.5 py-0.5 text-[10px] font-mono uppercase tracking-wider bg-bg/85 text-muted border border-gold/25 rounded-xs">
-        {slot.replace(/_/g, ' ')}
-      </span>
+      {isPlaceholder && (
+        <span className="absolute top-2 left-2 z-10 max-w-[calc(100%-1rem)] truncate px-1.5 py-0.5 text-[10px] font-mono uppercase tracking-wider bg-bg/85 text-muted border border-gold/25 rounded-xs">
+          {slot.replace(/_/g, ' ')}
+        </span>
+      )}
       {children && <div className="relative z-10 h-full w-full">{children}</div>}
     </div>
   );

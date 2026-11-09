@@ -100,7 +100,7 @@ export function ErrorState({
       className="flex flex-col items-center justify-center text-center p-8 rounded-sm border border-crimson/60 bg-surface text-text"
     >
       <span className="inline-block px-2.5 py-0.5 text-xs uppercase tracking-widest bg-crimson text-cream mb-3">
-        {'{{ERROR_BADGE}}'}
+        Notice
       </span>
       <h3 className="font-serif text-xl mb-1">{title}</h3>
       <p className="text-sm text-muted max-w-md mb-5">{description}</p>

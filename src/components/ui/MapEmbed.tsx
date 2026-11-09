@@ -19,33 +19,21 @@ export function MapEmbed({
   directionsUrl = t('brand.directions_url'),
 }: MapEmbedProps) {
   return (
-    <div className="rounded-sm border border-gold/30 bg-surface overflow-hidden">
-      {/* Map Canvas */}
-      <div className="relative h-56 sm:h-64 w-full bg-bg flex flex-col items-center justify-center p-6 text-center border-b border-gold/20">
-        {/* Subtle coordinate grid lines */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 opacity-15"
-          style={{
-            backgroundImage:
-              'linear-gradient(to right, #E8B547 1px, transparent 1px), linear-gradient(to bottom, #E8B547 1px, transparent 1px)',
-            backgroundSize: '40px 40px',
-          }}
+    <div className="space-y-4">
+      {/* Interactive Google Map for Clover Park, Viman Nagar, Pune */}
+      <div className="relative h-64 sm:h-72 w-full rounded-sm overflow-hidden border border-gold/15 bg-surface">
+        <iframe
+          title={`Map of Saanjh — ${slotName}`}
+          src="https://maps.google.com/maps?q=Saanjh+An+Evening+Full+Of+Flavours+Viman+Nagar+Pune&t=&z=16&ie=UTF8&iwloc=&output=embed"
+          className="w-full h-full border-0 grayscale contrast-125 opacity-80 hover:opacity-100 hover:grayscale-0 transition-all duration-500"
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
         />
-        <div className="relative z-10 flex flex-col items-center gap-2">
-          <span className="w-3.5 h-3.5 rotate-45 bg-gold shadow-gold-glow border border-cream" />
-          <span className="font-serif text-lg text-gold px-3 py-1 bg-surface/90 border border-gold/30 rounded-xs">
-            Saanjh · {slotName}
-          </span>
-          <p className="text-xs text-muted max-w-sm">
-            Lane 2, near Paper Craft, Clover Park (Opposite Phoenix Marketcity) · Viman Nagar, Pune 411014
-          </p>
-        </div>
       </div>
 
-      {/* Address & Directions Bar */}
-      <div className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="space-y-0.5 min-w-0">
+      {/* Clean Editorial Address & Directions Row */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-1">
+        <div className="space-y-1 min-w-0">
           <p className="text-sm font-medium text-text">{addressLine1}</p>
           <p className="text-xs text-muted">{addressLine2}</p>
         </div>

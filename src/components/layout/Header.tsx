@@ -25,25 +25,25 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-30 w-full max-w-full bg-bg/95 backdrop-blur-sm border-b border-gold/25">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-3">
+      <header className="sticky top-0 z-30 w-full max-w-full bg-bg/90 backdrop-blur-md border-b border-gold/15">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between gap-4">
           {/* Brand Wordmark & Tagline Lockup (PRD 5.3, 5.4) */}
           <Link
             href="/"
-            className="flex flex-col justify-center min-h-11 py-1 pr-2 group shrink-0 max-w-[55vw] sm:max-w-none"
+            className="flex items-baseline gap-2.5 min-h-11 py-1 pr-2 group shrink-0"
           >
-            <span className="font-serif text-lg sm:text-xl font-semibold tracking-wider text-gold text-glow-gold leading-none truncate">
+            <span className="font-serif text-2xl sm:text-3xl font-semibold tracking-wider text-gold text-glow-gold leading-none">
               {t('brand.wordmark')}
             </span>
-            <span className="font-sans text-[10px] uppercase tracking-[0.16em] text-muted mt-1 truncate">
-              {t('brand.tagline')}
+            <span className="hidden sm:inline font-sans text-[10px] uppercase tracking-[0.2em] text-muted">
+              Viman Nagar
             </span>
           </Link>
 
-          {/* Desktop Navigation (xl+ so placeholder tokens never crowd laptop widths) */}
+          {/* Desktop Navigation */}
           <nav
             aria-label="Main navigation"
-            className="hidden xl:flex items-center gap-1 min-w-0 flex-1 justify-center"
+            className="hidden lg:flex items-center gap-5 xl:gap-7 min-w-0 flex-1 justify-center"
           >
             {NAV_LINKS.map((item) => {
               const active = pathname === item.href;
@@ -52,10 +52,10 @@ export function Header() {
                   key={item.href}
                   href={item.href}
                   className={clsx(
-                    'min-h-11 inline-flex items-center px-2.5 text-xs font-mono tracking-wider transition-colors border-b-2 whitespace-nowrap',
+                    'min-h-11 inline-flex items-center text-xs uppercase tracking-[0.14em] transition-colors whitespace-nowrap',
                     active
-                      ? 'text-gold border-gold font-medium'
-                      : 'text-text/90 border-transparent hover:text-gold'
+                      ? 'text-gold font-medium'
+                      : 'text-text/80 hover:text-gold'
                   )}
                 >
                   {t(item.labelKey)}
@@ -65,12 +65,12 @@ export function Header() {
           </nav>
 
           {/* Actions: Cart bottom-sheet trigger, Primary CTA, Navigation drawer button */}
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-3 shrink-0">
             <button
               type="button"
               onClick={openSheet}
               aria-label={t('global.nav.cart')}
-              className="relative inline-flex items-center justify-center gap-1.5 min-h-11 min-w-11 px-3 rounded-xs border border-gold/35 bg-surface text-text hover:border-gold transition-colors"
+              className="relative inline-flex items-center justify-center gap-2 min-h-11 px-2.5 text-text/90 hover:text-gold transition-colors"
             >
               <svg
                 width="18"
@@ -86,27 +86,29 @@ export function Header() {
                 <line x1="3" y1="6" x2="21" y2="6" />
                 <path d="M16 10a4 4 0 01-8 0" />
               </svg>
-              <span className="hidden md:inline text-xs font-mono uppercase tracking-wider">
+              <span className="hidden sm:inline text-xs uppercase tracking-wider">
                 {t('global.nav.cart')}
               </span>
-              <span className="inline-flex items-center justify-center min-w-5 h-5 px-1 text-xs font-semibold rounded-xs bg-gold text-charcoal">
-                {totalQuantity}
-              </span>
+              {totalQuantity > 0 && (
+                <span className="inline-flex items-center justify-center min-w-5 h-5 px-1.5 text-[11px] font-semibold rounded-full bg-gold text-charcoal">
+                  {totalQuantity}
+                </span>
+              )}
             </button>
 
-            <div className="hidden md:flex items-center gap-2">
+            <div className="hidden md:flex items-center">
               <Button variant="primary" size="sm" href="/reserve">
                 {t('global.nav.reserve')}
               </Button>
             </div>
 
-            {/* Hamburger Trigger (<1280px, >=44x44px) */}
+            {/* Hamburger Trigger (<1024px, >=44x44px) */}
             <button
               type="button"
               onClick={() => setMobileMenuOpen(true)}
               aria-label="Open navigation menu"
               aria-expanded={mobileMenuOpen}
-              className="xl:hidden inline-flex items-center justify-center min-h-11 min-w-11 rounded-xs border border-gold/35 bg-surface text-gold"
+              className="lg:hidden inline-flex items-center justify-center min-h-11 min-w-11 text-gold"
             >
               <svg
                 width="20"

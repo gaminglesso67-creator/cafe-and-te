@@ -14,7 +14,6 @@ import { useCart } from '@/lib/cart-context';
 import {
   Badge,
   Button,
-  Card,
   EmptyState,
   ErrorState,
   GoldDivider,
@@ -34,99 +33,82 @@ export type SectionDataState = 'ready' | 'loading' | 'empty' | 'error';
  * radial gold wash (`--glow-hero`), glowing serif display heading, and framed visual slot.
  */
 export function HeroSignboardSection({ hours }: { hours: OpeningHourSlot[] }) {
-  const { isOpen, todaySlot } = getLiveOpenStatus(hours);
+  const { isOpen } = getLiveOpenStatus(hours);
 
   return (
     <Section
       variant="dark"
-      className="relative overflow-hidden min-h-[calc(100dvh-6rem)] flex items-center py-6 sm:py-8 lg:py-10"
+      className="relative overflow-hidden min-h-[calc(100dvh-6rem)] flex items-center py-10 sm:py-14 lg:py-16"
     >
       {/* Radial gold signboard wash at top (PRD 5.3) */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-glow-hero"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[480px] bg-glow-hero"
       />
 
-      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
-        {/* Left 7 Cols: Lit Signboard Frame */}
-        <div className="lg:col-span-7 min-w-0">
-          <Card variant="signboard" className="p-5 sm:p-6 lg:p-8">
-            {/* Top Status & Eyebrow Row */}
-            <div className="flex flex-wrap items-center justify-between gap-2 pb-3.5 mb-4 border-b border-gold/25">
-              <span className="text-xs uppercase tracking-[0.18em] text-gold font-medium break-words">
-                {t('home.hero.eyebrow')}
-              </span>
-              <span className="inline-flex flex-wrap items-center gap-1.5 px-2.5 py-1 text-xs uppercase tracking-wider rounded-xs border border-gold/35 bg-surface text-text">
-                <span
-                  aria-hidden="true"
-                  className={`w-2 h-2 rounded-full shrink-0 ${
-                    isOpen ? 'bg-emerald-400' : 'bg-crimson'
-                  }`}
-                />
-                <span>
-                  {isOpen ? t('home.hours.status_open') : t('home.hours.status_closed')}
-                </span>
-                {todaySlot && (
-                  <span className="text-muted font-mono">
-                    ({todaySlot.openTime}–{todaySlot.closeTime})
-                  </span>
-                )}
-              </span>
-            </div>
+      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        {/* Left 6 Cols: Open Editorial Typography & Signboard Glow */}
+        <div className="lg:col-span-6 min-w-0 space-y-6">
+          <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.2em] text-gold/90">
+            <span>{t('home.hero.eyebrow')}</span>
+            <span aria-hidden="true" className="text-gold/40">·</span>
+            <span className="inline-flex items-center gap-1.5 text-text/80">
+              <span
+                aria-hidden="true"
+                className={`w-2 h-2 rounded-full shrink-0 ${
+                  isOpen ? 'bg-emerald-400' : 'bg-crimson'
+                }`}
+              />
+              <span>{isOpen ? 'Open Today · 12 PM – 12 Midnight' : t('home.hours.status_closed')}</span>
+            </span>
+          </div>
 
-            {/* Glowing Calligraphic Heading (PRD 5.3) */}
-            <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold text-gold text-glow-gold tracking-wide leading-tight mb-3 break-words">
-              {t('home.hero.title')}
-            </h1>
+          <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold text-gold text-glow-gold tracking-wide leading-[1.08] break-words">
+            {t('home.hero.title')}
+          </h1>
 
-            <p className="text-sm sm:text-base text-muted max-w-xl mb-6 leading-relaxed break-words">
-              {t('home.hero.tagline')}
-            </p>
+          <p className="text-base sm:text-lg text-muted max-w-xl leading-relaxed break-words">
+            {t('home.hero.tagline')}
+          </p>
 
-            {/* Primary CTAs */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-              <Button variant="primary" size="md" href="/order">
-                {t('home.hero.cta_order')}
-              </Button>
-              <Button variant="secondary" size="md" href="/reserve">
-                {t('home.hero.cta_reserve')}
-              </Button>
-            </div>
+          {/* Primary CTAs */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 pt-2">
+            <Button variant="primary" size="lg" href="/order">
+              {t('home.hero.cta_order')}
+            </Button>
+            <Button variant="secondary" size="lg" href="/reserve">
+              {t('home.hero.cta_reserve')}
+            </Button>
+          </div>
 
-            {/* Direct Phone & WhatsApp Strip */}
-            <div className="mt-5 pt-3.5 border-t border-gold/20 flex flex-wrap items-center justify-between gap-3 text-xs text-muted">
-              <a
-                href={t('brand.phone_href')}
-                className="min-h-11 inline-flex items-center gap-2 text-text hover:text-gold"
-              >
-                <span className="text-gold uppercase tracking-wider">Direct Desk:</span>
-                <span className="font-mono underline underline-offset-4">
-                  {t('brand.phone_display')}
-                </span>
-              </a>
-              <span className="font-mono uppercase tracking-wider text-gold/80">
-                {t('brand.address_line1')}
-              </span>
-            </div>
-          </Card>
+          {/* Subtle Inline Concierge & Location Line */}
+          <div className="pt-4 border-t border-gold/15 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-muted">
+            <a
+              href={t('brand.phone_href')}
+              className="min-h-11 inline-flex items-center gap-2 text-text hover:text-gold transition-colors"
+            >
+              <span className="text-gold uppercase tracking-wider">Reservations:</span>
+              <span className="underline underline-offset-4">{t('brand.phone_display')}</span>
+            </a>
+            <span className="text-muted/80">
+              Clover Park, Viman Nagar (Opp. Phoenix Marketcity)
+            </span>
+          </div>
         </div>
 
-        {/* Right 5 Cols: Offset Editorial Visual Frame */}
-        <div className="lg:col-span-5 min-w-0">
-          <div className="p-2.5 border border-gold/35 bg-surface rounded-xs">
-            <ImageWithOverlay
-              slot="hero_signboard_visual"
-              aspect="4x3"
-              priority
-              sizes="(max-width: 1024px) 100vw, 42vw"
-            />
-            <div className="pt-3 px-1 pb-0.5 flex flex-wrap items-center justify-between gap-2 text-xs text-muted">
-              <span className="font-serif italic text-text text-sm">
-                {t('home.hero.frame_caption')}
-              </span>
-              <span className="font-mono text-[11px] text-gold">Clover Park · Viman Nagar</span>
-            </div>
-          </div>
+        {/* Right 6 Cols: Clean Frameless Hero Photograph */}
+        <div className="lg:col-span-6 min-w-0">
+          <ImageWithOverlay
+            slot="hero_signboard_visual"
+            aspect="4x3"
+            priority
+            overlay={false}
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            className="shadow-gold-glow"
+          />
+          <p className="mt-3 font-serif italic text-muted text-sm text-right">
+            {t('home.hero.frame_caption')}
+          </p>
         </div>
       </div>
     </Section>
@@ -135,7 +117,7 @@ export function HeroSignboardSection({ hours }: { hours: OpeningHourSlot[] }) {
 
 /**
  * 2. OPENING HOURS & LOCATION LEDGER BLOCK (PRD 7.1):
- * Data-driven live open/closed hours paired with address, tap-to-call, and mini-map.
+ * Spacious, un-boxed hours summary paired with interactive Google Map.
  */
 export function HoursAndLocationSection({
   hours,
@@ -147,41 +129,45 @@ export function HoursAndLocationSection({
   const { isOpen } = getLiveOpenStatus(hours);
 
   return (
-    <Section variant="surface" className="border-y border-gold/25">
+    <Section variant="surface" className="border-y border-gold/15">
       {state === 'loading' && <SkeletonLoader lines={5} />}
       {state === 'error' && <ErrorState />}
       {state === 'empty' && <EmptyState />}
       {state === 'ready' && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Left 5 cols: Opening Hours Ledger */}
-          <div className="lg:col-span-5 min-w-0 space-y-5">
-            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-gold/25 pb-3">
-              <h2 className="font-serif text-2xl sm:text-3xl text-text">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+          {/* Left 5 cols: Concise Editorial Hours & Amenities */}
+          <div className="lg:col-span-5 min-w-0 space-y-6">
+            <div className="space-y-2">
+              <p className="text-xs uppercase tracking-[0.2em] text-gold">
+                {isOpen ? t('home.hours.status_open') : t('home.hours.status_closed')}
+              </p>
+              <h2 className="font-serif text-3xl sm:text-4xl text-text">
                 {t('home.hours.heading')}
               </h2>
-              <Badge
-                kind={isOpen ? 'veg' : 'out_of_stock'}
-                label={isOpen ? t('home.hours.status_open') : t('home.hours.status_closed')}
-              />
             </div>
 
-            <dl className="divide-y divide-gold/15 border border-gold/25 rounded-xs bg-bg p-4">
-              {hours.map((slot) => (
-                <div
-                  key={slot.id}
-                  className="py-2.5 first:pt-0 last:pb-0 flex flex-wrap items-center justify-between gap-2 text-sm"
-                >
-                  <dt className="text-muted font-medium">{slot.dayLabel}</dt>
-                  <dd className="font-mono text-text">
-                    {slot.isClosed ? '{{CLOSED}}' : `${slot.openTime} – ${slot.closeTime}`}
-                  </dd>
-                </div>
-              ))}
+            <dl className="divide-y divide-gold/15 border-y border-gold/20 text-sm">
+              <div className="py-4 flex items-baseline justify-between gap-4">
+                <dt className="text-text font-medium">Monday – Sunday (All Days)</dt>
+                <dd className="text-gold font-medium">12:00 PM – 12:00 Midnight</dd>
+              </div>
+              <div className="py-4 flex items-baseline justify-between gap-4">
+                <dt className="text-muted">Walk-In Lunch Privilege</dt>
+                <dd className="text-text">12:00 PM – 4:00 PM (Flat 10% OFF)</dd>
+              </div>
+              <div className="py-4 flex items-baseline justify-between gap-4">
+                <dt className="text-muted">Newly Opened Bar & Patio</dt>
+                <dd className="text-text">12:00 PM – 12:00 Midnight</dd>
+              </div>
+              <div className="py-4 flex items-baseline justify-between gap-4">
+                <dt className="text-muted">Guest Facilities</dt>
+                <dd className="text-text">Valet Parking · Wheelchair Accessible</dd>
+              </div>
             </dl>
 
             <div className="flex flex-wrap items-center gap-3 pt-1">
               <Button variant="secondary" size="sm" href={t('brand.phone_href')}>
-                {t('brand.phone_display')}
+                Call {t('brand.phone_display')}
               </Button>
               <Button
                 variant="ghost"
@@ -194,17 +180,17 @@ export function HoursAndLocationSection({
             </div>
           </div>
 
-          {/* Right 7 cols: Location & Mini-Map */}
+          {/* Right 7 cols: Interactive Map & Directions */}
           <div className="lg:col-span-7 min-w-0 space-y-4">
-            <div className="border-b border-gold/25 pb-3 flex flex-wrap items-center justify-between gap-2">
-              <h2 className="font-serif text-2xl sm:text-3xl text-text">
+            <div className="space-y-1">
+              <p className="text-xs uppercase tracking-[0.2em] text-gold">
+                Opposite Phoenix Marketcity
+              </p>
+              <h2 className="font-serif text-3xl sm:text-4xl text-text">
                 {t('home.location.heading')}
               </h2>
-              <span className="text-xs font-mono uppercase tracking-wider text-gold">
-                Opposite Phoenix Marketcity
-              </span>
             </div>
-            <MapEmbed slotName="home_location_minimap" />
+            <MapEmbed slotName="Clover Park, Viman Nagar" />
           </div>
         </div>
       )}
@@ -214,7 +200,7 @@ export function HoursAndLocationSection({
 
 /**
  * 3. HIGHLIGHTS STRIP — SIGNATURE DISHES (PRD 7.1):
- * Editorial printed-menu layout: 1 featured lead plate on the left + 3 horizontal menu ledger rows on the right.
+ * Open editorial printed-menu layout without heavy outer cards.
  */
 export function SignatureHighlightsSection({
   items,
@@ -234,21 +220,21 @@ export function SignatureHighlightsSection({
       quantity: 1,
       isVeg: item.isVeg,
     });
-    notify(`${item.name} — {{ADDED_TO_CART}}`, 'success');
+    notify(`${item.name} added to bag`, 'success');
     openSheet();
   };
 
   const leadItem = items[0];
-  const ledgerItems = items.slice(1, 4);
+  const ledgerItems = items.slice(1, 5);
 
   return (
     <Section variant="dark">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
-        <div className="min-w-0">
-          <p className="text-xs uppercase tracking-[0.18em] text-gold mb-1.5">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+        <div className="min-w-0 space-y-2">
+          <p className="text-xs uppercase tracking-[0.2em] text-gold">
             {t('home.highlights.eyebrow')}
           </p>
-          <h2 className="font-serif text-3xl sm:text-4xl text-text">
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-text">
             {t('home.highlights.heading')}
           </h2>
         </div>
@@ -261,68 +247,63 @@ export function SignatureHighlightsSection({
       {state === 'error' && <ErrorState />}
       {state === 'empty' && <EmptyState actionLabel={t('global.nav.menu')} actionHref="/menu" />}
       {state === 'ready' && leadItem && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
-          {/* Left 5 Cols: Lead Signature Plate */}
-          <Card
-            variant="surface"
-            padded={false}
-            className="lg:col-span-5 min-w-0 flex flex-col overflow-hidden"
-          >
-            <ImageWithOverlay slot={leadItem.imageSlot} aspect="4x3" />
-            <div className="p-5 flex-1 flex flex-col justify-between gap-4">
-              <div className="space-y-2.5">
-                <div className="flex flex-wrap items-center gap-2">
-                  <Badge kind={leadItem.isVeg ? 'veg' : 'non_veg'} />
-                  {leadItem.isSignature && <Badge kind="chefs_special" />}
-                </div>
-                <div className="flex flex-wrap items-baseline justify-between gap-2">
-                  <h3 className="font-serif text-2xl text-text">{leadItem.name}</h3>
-                  <span className="font-mono text-sm sm:text-base font-semibold text-gold shrink-0">
-                    {formatPriceToken(leadItem.price)}
-                  </span>
-                </div>
-                <p className="text-sm text-muted">{leadItem.description}</p>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
+          {/* Left 5 Cols: Lead Signature Plate (Open Editorial Presentation) */}
+          <div className="lg:col-span-5 min-w-0 space-y-4">
+            <ImageWithOverlay slot={leadItem.imageSlot} aspect="4x3" overlay={false} />
+            <div className="space-y-2 pt-1">
+              <div className="flex items-center gap-2.5">
+                <Badge kind={leadItem.isVeg ? 'veg' : 'non_veg'} />
+                {leadItem.isSignature && <Badge kind="chefs_special" />}
               </div>
-              <Button
-                variant="primary"
-                size="sm"
-                fullWidth
-                onClick={() => handleQuickAdd(leadItem)}
-              >
-                + {t('menu.item.add_cta')}
-              </Button>
+              <div className="flex items-baseline justify-between gap-4">
+                <h3 className="font-serif text-2xl sm:text-3xl text-text">{leadItem.name}</h3>
+                <span className="font-serif text-xl font-semibold text-gold shrink-0">
+                  {formatPriceToken(leadItem.price)}
+                </span>
+              </div>
+              <p className="text-sm text-muted leading-relaxed">{leadItem.description}</p>
+              <div className="pt-2">
+                <Button variant="primary" size="sm" onClick={() => handleQuickAdd(leadItem)}>
+                  + {t('menu.item.add_cta')}
+                </Button>
+              </div>
             </div>
-          </Card>
+          </div>
 
-          {/* Right 7 Cols: Editorial Printed-Menu Ledger Rows */}
-          <div className="lg:col-span-7 min-w-0 flex flex-col justify-between divide-y divide-gold/20 border-y border-gold/25">
+          {/* Right 7 Cols: Clean Fine-Dining Printed Menu Ledger */}
+          <div className="lg:col-span-7 min-w-0 divide-y divide-gold/15 border-y border-gold/20">
             {ledgerItems.map((dish) => (
               <article
                 key={dish.id}
-                className="py-4 first:pt-3 last:pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                className="py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
               >
-                <div className="flex items-start gap-3.5 min-w-0">
+                <div className="flex items-start gap-4 min-w-0">
                   <div className="w-20 sm:w-24 shrink-0">
-                    <ImageWithOverlay slot={dish.imageSlot} aspect="1x1" />
+                    <ImageWithOverlay slot={dish.imageSlot} aspect="4x3" overlay={false} />
                   </div>
                   <div className="space-y-1 min-w-0">
-                    <div className="flex flex-wrap items-center gap-1.5">
+                    <div className="flex items-center gap-2">
                       <Badge kind={dish.isVeg ? 'veg' : 'non_veg'} />
-                      {dish.isSignature && <Badge kind="chefs_special" />}
-                      {dish.isNew && <Badge kind="new" />}
+                      <h3 className="font-serif text-xl sm:text-2xl text-text">{dish.name}</h3>
                     </div>
-                    <h3 className="font-serif text-xl text-text">{dish.name}</h3>
-                    <p className="text-sm text-muted line-clamp-2">{dish.description}</p>
+                    <p className="text-sm text-muted line-clamp-2 leading-relaxed">
+                      {dish.description}
+                    </p>
                   </div>
                 </div>
 
-                <div className="flex sm:flex-col items-center sm:items-end justify-between gap-2 shrink-0 border-t sm:border-t-0 border-gold/15 pt-3 sm:pt-0">
-                  <span className="font-mono text-sm font-semibold text-gold">
+                <div className="flex sm:flex-col items-center sm:items-end justify-between gap-2 shrink-0 pl-24 sm:pl-0">
+                  <span className="font-serif text-lg font-semibold text-gold">
                     {formatPriceToken(dish.price)}
                   </span>
-                  <Button variant="secondary" size="sm" onClick={() => handleQuickAdd(dish)}>
+                  <button
+                    type="button"
+                    onClick={() => handleQuickAdd(dish)}
+                    className="min-h-10 px-3 py-1 text-xs uppercase tracking-wider text-gold border border-gold/30 hover:border-gold rounded-xs transition-colors"
+                  >
                     + {t('menu.item.add_cta')}
-                  </Button>
+                  </button>
                 </div>
               </article>
             ))}
@@ -336,17 +317,16 @@ export function SignatureHighlightsSection({
 /**
  * 4. SHORT ABOUT TEASER (PRD 7.1 & 5.7):
  * Uses the `cream` section variant (#FFF4E0) with strictly charcoal text (#0F0F10).
- * Never uses gold text on cream.
  */
 export function AboutTeaserSection() {
   return (
-    <Section variant="cream" className="border-y border-charcoal/20">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-        <div className="lg:col-span-6 min-w-0 space-y-4">
-          <p className="text-xs uppercase tracking-[0.18em] text-charcoal/70 font-semibold">
+    <Section variant="cream">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        <div className="lg:col-span-6 min-w-0 space-y-5">
+          <p className="text-xs uppercase tracking-[0.2em] text-charcoal/70 font-semibold">
             {t('home.about.eyebrow')}
           </p>
-          <h2 className="font-serif text-3xl sm:text-4xl text-charcoal leading-tight">
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-charcoal leading-tight">
             {t('home.about.heading')}
           </h2>
           <GoldDivider onCream ornament={false} className="my-2" />
@@ -358,9 +338,7 @@ export function AboutTeaserSection() {
           </div>
         </div>
         <div className="lg:col-span-6 min-w-0">
-          <div className="p-2 border border-charcoal/25 bg-charcoal">
-            <ImageWithOverlay slot="home_about_story" aspect="16x9" />
-          </div>
+          <ImageWithOverlay slot="home_about_story" aspect="16x9" overlay={false} />
         </div>
       </div>
     </Section>
@@ -369,7 +347,7 @@ export function AboutTeaserSection() {
 
 /**
  * 5. OFFERS & HAPPY HOURS TEASER (PRD 7.1 & 5.5):
- * Uses Crimson (#B3202A) for seasonal/highlight tags.
+ * Editorial two-column split with top gold hairlines instead of heavy boxes.
  */
 export function OffersTeaserSection({
   offers,
@@ -380,9 +358,9 @@ export function OffersTeaserSection({
 }) {
   return (
     <Section variant="surface">
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
-        <div className="min-w-0">
-          <p className="text-xs uppercase tracking-[0.18em] text-gold mb-1.5">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+        <div className="min-w-0 space-y-2">
+          <p className="text-xs uppercase tracking-[0.2em] text-gold">
             {t('home.offers.eyebrow')}
           </p>
           <h2 className="font-serif text-3xl sm:text-4xl text-text">
@@ -398,32 +376,31 @@ export function OffersTeaserSection({
       {state === 'error' && <ErrorState />}
       {state === 'empty' && <EmptyState />}
       {state === 'ready' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-12">
           {offers.map((offer) => (
-            <Card
+            <div
               key={offer.id}
-              variant="dark"
-              className="min-w-0 flex flex-col justify-between gap-5"
+              className="min-w-0 pt-6 border-t border-gold/30 flex flex-col justify-between gap-4"
             >
               <div className="space-y-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <Badge kind="offer" label={offer.badgeText} />
-                  <span className="font-mono text-xs text-gold border border-gold/35 px-2 py-0.5 rounded-xs">
-                    {`CODE: ${offer.code}`}
+                  <span className="text-xs uppercase tracking-widest text-gold">
+                    Code: {offer.code}
                   </span>
                 </div>
-                <h3 className="font-serif text-2xl text-text">{offer.title}</h3>
-                <p className="text-sm text-muted">{offer.description}</p>
+                <h3 className="font-serif text-2xl sm:text-3xl text-text">{offer.title}</h3>
+                <p className="text-sm text-muted leading-relaxed">{offer.description}</p>
               </div>
-              <div className="pt-4 border-t border-gold/20 flex flex-wrap items-center justify-between gap-3 text-xs text-muted">
+              <div className="pt-2 flex flex-wrap items-center justify-between gap-3 text-xs text-muted">
                 <span>
-                  {offer.validFrom} → {offer.validUntil}
+                  {offer.validFrom} — {offer.validUntil}
                 </span>
                 <Button variant="ghost" size="sm" href="/offers">
-                  {t('home.offers.cta')}
+                  {t('home.offers.cta')} →
                 </Button>
               </div>
-            </Card>
+            </div>
           ))}
         </div>
       )}
@@ -433,7 +410,7 @@ export function OffersTeaserSection({
 
 /**
  * 6. REVIEWS TEASER (PRD 7.1 & 7.5):
- * Displays Google and manually-curated testimonial slots with thin-line gold RatingStars.
+ * Editorial pull-quotes with thin left gold rule instead of boxy cards.
  */
 export function ReviewsTeaserSection({
   reviews,
@@ -443,10 +420,10 @@ export function ReviewsTeaserSection({
   state?: SectionDataState;
 }) {
   return (
-    <Section variant="dark" className="border-t border-gold/20">
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
-        <div className="min-w-0">
-          <p className="text-xs uppercase tracking-[0.18em] text-gold mb-1.5">
+    <Section variant="dark" className="border-t border-gold/15">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+        <div className="min-w-0 space-y-2">
+          <p className="text-xs uppercase tracking-[0.2em] text-gold">
             {t('home.reviews.eyebrow')}
           </p>
           <h2 className="font-serif text-3xl sm:text-4xl text-text">
@@ -462,27 +439,23 @@ export function ReviewsTeaserSection({
       {state === 'error' && <ErrorState />}
       {state === 'empty' && <EmptyState />}
       {state === 'ready' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
           {reviews.slice(0, 3).map((rev) => (
-            <Card
+            <blockquote
               key={rev.id}
-              variant="surface"
-              className="min-w-0 flex flex-col justify-between gap-4"
+              className="min-w-0 pl-5 border-l border-gold/30 flex flex-col justify-between gap-4"
             >
               <div className="space-y-3">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <RatingStars rating={rev.rating} />
-                  <Badge kind="neutral" label={rev.source} />
-                </div>
-                <blockquote className="font-serif italic text-lg text-text leading-relaxed">
+                <RatingStars rating={rev.rating} />
+                <p className="font-serif italic text-lg sm:text-xl text-text leading-relaxed">
                   &ldquo;{rev.comment}&rdquo;
-                </blockquote>
+                </p>
               </div>
-              <footer className="pt-3 border-t border-gold/15 flex flex-wrap items-center justify-between gap-2 text-xs text-muted">
-                <span className="font-medium text-text">{rev.reviewerName}</span>
-                <span>{rev.dateLabel}</span>
+              <footer className="text-xs text-muted space-y-0.5">
+                <div className="font-medium text-text">{rev.reviewerName}</div>
+                <div className="text-gold/80">{rev.dateLabel}</div>
               </footer>
-            </Card>
+            </blockquote>
           ))}
         </div>
       )}
@@ -492,7 +465,7 @@ export function ReviewsTeaserSection({
 
 /**
  * 7. GALLERY TEASER (PRD 7.1 & 7.4):
- * Asymmetric editorial mosaic with aspect-ratio placeholder slots.
+ * Asymmetric editorial photography mosaic.
  */
 export function GalleryTeaserSection({
   items,
@@ -502,10 +475,10 @@ export function GalleryTeaserSection({
   state?: SectionDataState;
 }) {
   return (
-    <Section variant="surface" className="border-t border-gold/20">
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
-        <div className="min-w-0">
-          <p className="text-xs uppercase tracking-[0.18em] text-gold mb-1.5">
+    <Section variant="surface" className="border-t border-gold/15">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+        <div className="min-w-0 space-y-2">
+          <p className="text-xs uppercase tracking-[0.2em] text-gold">
             {t('home.gallery.eyebrow')}
           </p>
           <h2 className="font-serif text-3xl sm:text-4xl text-text">
@@ -521,18 +494,18 @@ export function GalleryTeaserSection({
       {state === 'error' && <ErrorState />}
       {state === 'empty' && <EmptyState />}
       {state === 'ready' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-5">
           <div className="lg:col-span-7 min-w-0">
-            <ImageWithOverlay slot={items[1]?.imageSlot ?? 'gallery_1'} aspect="16x9" />
+            <ImageWithOverlay slot={items[1]?.imageSlot ?? 'gallery_1'} aspect="16x9" overlay={false} />
           </div>
           <div className="lg:col-span-5 min-w-0">
-            <ImageWithOverlay slot={items[0]?.imageSlot ?? 'gallery_2'} aspect="4x3" />
+            <ImageWithOverlay slot={items[0]?.imageSlot ?? 'gallery_2'} aspect="4x3" overlay={false} />
           </div>
           <div className="lg:col-span-4 min-w-0">
-            <ImageWithOverlay slot={items[2]?.imageSlot ?? 'gallery_3'} aspect="1x1" />
+            <ImageWithOverlay slot={items[2]?.imageSlot ?? 'gallery_3'} aspect="4x3" overlay={false} />
           </div>
           <div className="lg:col-span-8 min-w-0">
-            <ImageWithOverlay slot={items[4]?.imageSlot ?? 'gallery_4'} aspect="16x9" />
+            <ImageWithOverlay slot={items[4]?.imageSlot ?? 'gallery_4'} aspect="16x9" overlay={false} />
           </div>
         </div>
       )}
@@ -542,29 +515,27 @@ export function GalleryTeaserSection({
 
 /**
  * 8. RESERVATION & ORDER CTA BAND (PRD 7.1):
- * Framed signboard callout closing the page before the footer.
+ * Open editorial callout band before the footer.
  */
 export function DualCtaBandSection() {
   return (
-    <Section variant="dark" className="border-t border-gold/25">
-      <Card variant="signboard" className="p-6 sm:p-9 lg:p-11">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-          <div className="space-y-2 max-w-2xl min-w-0">
-            <h2 className="font-serif text-3xl sm:text-4xl text-gold text-glow-gold">
-              {t('home.cta_band.heading')}
-            </h2>
-            <p className="text-base text-muted">{t('home.cta_band.subtext')}</p>
-          </div>
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
-            <Button variant="primary" size="md" href="/reserve">
-              {t('home.cta_band.reserve')}
-            </Button>
-            <Button variant="secondary" size="md" href="/order">
-              {t('home.cta_band.order')}
-            </Button>
-          </div>
+    <Section variant="dark" className="border-t border-gold/20">
+      <div className="py-4 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+        <div className="space-y-3 max-w-2xl min-w-0">
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-gold text-glow-gold">
+            {t('home.cta_band.heading')}
+          </h2>
+          <p className="text-base text-muted leading-relaxed">{t('home.cta_band.subtext')}</p>
         </div>
-      </Card>
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 shrink-0">
+          <Button variant="primary" size="lg" href="/reserve">
+            {t('home.cta_band.reserve')}
+          </Button>
+          <Button variant="secondary" size="lg" href="/order">
+            {t('home.cta_band.order')}
+          </Button>
+        </div>
+      </div>
     </Section>
   );
 }

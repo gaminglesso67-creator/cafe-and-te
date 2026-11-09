@@ -8,14 +8,12 @@ import { useCart } from '@/lib/cart-context';
 import {
   Badge,
   Button,
-  Card,
   DrawerModal,
   EmptyState,
   ErrorState,
   ImageWithOverlay,
   QuantityStepper,
   Section,
-  SelectInput,
   SkeletonLoader,
   Tabs,
   TextareaInput,
@@ -63,12 +61,6 @@ export function MenuCatalog({
   const [selectedAddOnIds, setSelectedAddOnIds] = useState<string[]>([]);
   const [customQty, setCustomQty] = useState<number>(1);
   const [specialNotes, setSpecialNotes] = useState<string>('');
-
-  const allAllergens = useMemo(() => {
-    const set = new Set<string>();
-    items.forEach((i) => i.allergens.forEach((a) => set.add(a)));
-    return Array.from(set);
-  }, [items]);
 
   const filteredItems = useMemo(() => {
     return items.filter((item) => {
@@ -140,53 +132,25 @@ export function MenuCatalog({
 
   return (
     <Section variant={useCreamVariant ? 'cream' : 'dark'}>
-      {/* Search, Dietary Filters & Surface Toggle Bar */}
+      {/* Streamlined Search & Dietary Toolbar (No heavy outer box) */}
       <div
         className={clsx(
-          'p-4 sm:p-5 rounded-sm border mb-6 space-y-4',
-          useCreamVariant
-            ? 'bg-cream border-charcoal/25 text-charcoal'
-            : 'bg-surface border-gold/25 text-text'
+          'pb-6 mb-6 border-b space-y-4',
+          useCreamVariant ? 'border-charcoal/15 text-charcoal' : 'border-gold/15 text-text'
         )}
       >
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-end">
-          <div className="lg:col-span-5 min-w-0">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div className="w-full lg:max-w-md">
             <TextInput
               id="menu-search-input"
-              label={t('menu.search.placeholder')}
+              label="Search Menu"
               placeholder={t('menu.search.placeholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onCream={useCreamVariant}
             />
           </div>
-          <div className="lg:col-span-4 min-w-0">
-            <SelectInput
-              id="menu-exclude-allergen"
-              label="Allergen Filter"
-              value={allergenFilter}
-              onChange={(e) => setAllergenFilter(e.target.value)}
-              onCream={useCreamVariant}
-              options={[
-                { value: 'ALL', label: 'No Allergens Excluded' },
-                ...allAllergens.map((a) => ({ value: a, label: `Exclude ${a}` })),
-              ]}
-            />
-          </div>
-          <div className="lg:col-span-3 min-w-0 flex items-center gap-2">
-            <Button
-              variant={useCreamVariant ? 'charcoal' : 'secondary'}
-              size="sm"
-              fullWidth
-              onClick={() => window.print()}
-            >
-              {t('menu.print.cta')}
-            </Button>
-          </div>
-        </div>
 
-        {/* Filter Chips Row */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-current/10">
           <div className="flex flex-wrap items-center gap-2">
             {(['ALL', 'VEG', 'NON_VEG'] as const).map((mode) => {
               const active = dietFilter === mode;
@@ -202,52 +166,45 @@ export function MenuCatalog({
                   type="button"
                   onClick={() => setDietFilter(mode)}
                   className={clsx(
-                    'min-h-11 px-3.5 py-1.5 text-xs uppercase tracking-wider rounded-xs border transition-colors',
+                    'min-h-10 px-3.5 py-1.5 text-xs uppercase tracking-wider rounded-xs border transition-colors',
                     useCreamVariant
                       ? active
                         ? 'bg-charcoal text-cream border-charcoal'
-                        : 'border-charcoal/30 text-charcoal'
+                        : 'border-charcoal/25 text-charcoal'
                       : active
                         ? 'btn-gold-primary border-gold font-semibold'
-                        : 'border-gold/30 text-muted hover:text-text'
+                        : 'border-gold/25 text-muted hover:text-text'
                   )}
                 >
                   {label}
                 </button>
               );
             })}
+
             <button
               type="button"
-              onClick={() => setAvailableOnly((v) => !v)}
-              aria-pressed={availableOnly}
+              onClick={() => setUseCreamVariant((v) => !v)}
               className={clsx(
-                'min-h-11 px-3.5 py-1.5 text-xs uppercase tracking-wider rounded-xs border transition-colors',
+                'min-h-10 px-3 py-1.5 text-xs uppercase tracking-wider rounded-xs border',
                 useCreamVariant
-                  ? availableOnly
-                    ? 'bg-charcoal text-cream border-charcoal'
-                    : 'border-charcoal/30 text-charcoal'
-                  : availableOnly
-                    ? 'btn-gold-primary border-gold font-semibold'
-                    : 'border-gold/30 text-muted hover:text-text'
+                  ? 'border-charcoal/30 text-charcoal'
+                  : 'border-gold/25 text-gold'
               )}
             >
-              {t('menu.filter.available_only')}
+              {useCreamVariant ? 'Dark Menu' : 'Cream Menu'}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => window.print()}
+              className={clsx(
+                'min-h-10 px-3 py-1.5 text-xs uppercase tracking-wider underline underline-offset-4',
+                useCreamVariant ? 'text-charcoal/80' : 'text-muted hover:text-gold'
+              )}
+            >
+              {t('menu.print.cta')}
             </button>
           </div>
-
-          {/* Toggle Dark vs Cream Menu Surface (PRD 7.2) */}
-          <button
-            type="button"
-            onClick={() => setUseCreamVariant((v) => !v)}
-            className={clsx(
-              'min-h-11 px-3 py-1.5 text-xs font-mono uppercase tracking-wider rounded-xs border',
-              useCreamVariant
-                ? 'border-charcoal text-charcoal bg-charcoal/5'
-                : 'border-gold/35 text-gold bg-bg'
-            )}
-          >
-            {useCreamVariant ? 'Theme: Cream Print Menu' : 'Theme: Night Signboard'}
-          </button>
         </div>
       </div>
 
@@ -277,47 +234,47 @@ export function MenuCatalog({
         />
       ) : null}
 
-      {/* Single-Column Cards on Mobile, 2-Column Editorial Grid on Desktop */}
+      {/* Editorial Printed-Menu Rows (Open layout with subtle bottom hairlines instead of heavy cards) */}
       {state === 'ready' && filteredItems.length > 0 && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-2">
           {filteredItems.map((item) => (
-            <Card
+            <article
               key={item.id}
-              variant={useCreamVariant ? 'cream' : 'surface'}
-              className="flex flex-col sm:flex-row gap-4 justify-between"
+              className={clsx(
+                'py-6 border-b flex flex-col sm:flex-row gap-5 justify-between items-start',
+                useCreamVariant ? 'border-charcoal/15' : 'border-gold/15'
+              )}
             >
-              {/* Dish Image Slot */}
-              <div className="w-full sm:w-36 shrink-0">
+              {/* Dish Thumbnail */}
+              <button
+                type="button"
+                onClick={() => openItemModal(item)}
+                className="w-full sm:w-32 shrink-0 text-left"
+              >
                 <ImageWithOverlay
                   slot={item.imageSlot}
-                  aspect={item.imageAspect}
-                  overlay={!useCreamVariant}
+                  aspect="4x3"
+                  overlay={false}
                 />
-              </div>
+              </button>
 
               {/* Dish Details & Thumb-Zone Action */}
-              <div className="flex-1 flex flex-col justify-between gap-3 min-w-0">
-                <div className="space-y-1.5">
-                  <div className="flex flex-wrap items-center gap-1.5">
-                    <Badge kind={item.isVeg ? 'veg' : 'non_veg'} onCream={useCreamVariant} />
-                    {item.isSignature && <Badge kind="chefs_special" />}
-                    {item.isNew && <Badge kind="new" />}
-                    {!item.isAvailable && (
-                      <Badge kind="out_of_stock" onCream={useCreamVariant} />
-                    )}
-                  </div>
-
-                  <div className="flex items-baseline justify-between gap-2 pt-0.5">
-                    <button
-                      type="button"
-                      onClick={() => openItemModal(item)}
-                      className="text-left font-serif text-xl font-semibold hover:underline underline-offset-4"
-                    >
-                      {item.name}
-                    </button>
+              <div className="flex-1 flex flex-col justify-between gap-2.5 min-w-0 w-full">
+                <div className="space-y-1">
+                  <div className="flex items-baseline justify-between gap-3">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <Badge kind={item.isVeg ? 'veg' : 'non_veg'} onCream={useCreamVariant} />
+                      <button
+                        type="button"
+                        onClick={() => openItemModal(item)}
+                        className="text-left font-serif text-xl sm:text-2xl font-semibold hover:text-gold transition-colors"
+                      >
+                        {item.name}
+                      </button>
+                    </div>
                     <span
                       className={clsx(
-                        'font-mono text-base font-semibold shrink-0',
+                        'font-serif text-lg font-semibold shrink-0',
                         useCreamVariant ? 'text-charcoal' : 'text-gold'
                       )}
                     >
@@ -327,52 +284,47 @@ export function MenuCatalog({
 
                   <p
                     className={clsx(
-                      'text-sm',
+                      'text-sm leading-relaxed',
                       useCreamVariant ? 'text-charcoal/80' : 'text-muted'
                     )}
                   >
                     {item.description}
                   </p>
-
-                  {item.allergens.length > 0 && (
-                    <div className="flex flex-wrap gap-1 pt-1">
-                      {item.allergens.map((alg) => (
-                        <Badge
-                          key={alg}
-                          kind="allergen"
-                          label={alg}
-                          onCream={useCreamVariant}
-                        />
-                      ))}
-                    </div>
-                  )}
                 </div>
 
-                {/* Reachable with one thumb on mobile */}
-                <div className="pt-2 border-t border-current/10 flex flex-wrap items-center justify-between gap-2">
-                  <button
-                    type="button"
-                    onClick={() => openItemModal(item)}
-                    className={clsx(
-                      'min-h-11 px-2 text-xs uppercase tracking-wider underline underline-offset-4',
-                      useCreamVariant ? 'text-charcoal/80' : 'text-muted hover:text-gold'
+                {/* Subtle Action Row */}
+                <div className="pt-1 flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2">
+                    {item.isSignature && <Badge kind="chefs_special" />}
+                    {item.allergens.length > 0 && (
+                      <span
+                        className={clsx(
+                          'text-[11px]',
+                          useCreamVariant ? 'text-charcoal/60' : 'text-muted/70'
+                        )}
+                      >
+                        {item.allergens.join(', ')}
+                      </span>
                     )}
-                  >
-                    {t('menu.item.customise_cta')}
-                  </button>
+                  </div>
                   {orderingEnabled && (
-                    <Button
-                      variant={useCreamVariant ? 'charcoal' : 'primary'}
-                      size="sm"
+                    <button
+                      type="button"
                       disabled={!item.isAvailable}
                       onClick={() => openItemModal(item)}
+                      className={clsx(
+                        'min-h-9 px-3.5 py-1 text-xs uppercase tracking-wider rounded-xs border transition-colors',
+                        useCreamVariant
+                          ? 'border-charcoal text-charcoal hover:bg-charcoal hover:text-cream'
+                          : 'border-gold/40 text-gold hover:border-gold hover:bg-gold/10'
+                      )}
                     >
                       {item.isAvailable ? `+ ${t('menu.item.add_cta')}` : t('ui.badge.out_of_stock')}
-                    </Button>
+                    </button>
                   )}
                 </div>
               </div>
-            </Card>
+            </article>
           ))}
         </div>
       )}

@@ -54,13 +54,13 @@ export default function OrderTrackingPage({
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-gold/25 pb-4">
           <div>
             <p className="text-xs font-mono uppercase tracking-widest text-gold">
-              {`{{ORDER_ID:${params.id}}}`}
+              {`Order ID: ${params.id}`}
             </p>
             <h1 className="font-serif text-3xl sm:text-4xl text-text mt-1">
-              {'{{LIVE_ORDER_TRACKER_HEADING}}'}
+              Live Kitchen & Delivery Tracker
             </h1>
           </div>
-          <Badge kind="veg" label={`{{STATUS:${currentStatus.toUpperCase()}}}`} />
+          <Badge kind="veg" label={currentStatus.replace(/_/g, ' ').toUpperCase()} />
         </div>
 
         {/* Status Timeline Progression (PRD 8.2) */}
@@ -78,7 +78,7 @@ export default function OrderTrackingPage({
                 }`}
               >
                 <span className="block text-[10px] opacity-70">0{idx + 1}</span>
-                <span>{`{{${step.toUpperCase()}}}`}</span>
+                <span>{step.replace(/_/g, ' ')}</span>
               </li>
             );
           })}
@@ -86,21 +86,21 @@ export default function OrderTrackingPage({
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm border border-gold/20 bg-surface p-4 rounded-xs">
           <div>
-            <span className="text-xs text-muted uppercase block">{'{{POS_KITCHEN_STATUS}}'}</span>
-            <span className="font-mono text-gold">{`{{${posSyncStatus}}}`}</span>
+            <span className="text-xs text-muted uppercase block">Kitchen & POS Status</span>
+            <span className="font-mono text-gold">{posSyncStatus.replace(/_/g, ' ')}</span>
           </div>
           <div>
-            <span className="text-xs text-muted uppercase block">{'{{ORDER_TOTAL}}'}</span>
-            <span className="font-mono text-text">{formatPriceToken(491)}</span>
+            <span className="text-xs text-muted uppercase block">Estimated Total</span>
+            <span className="font-mono text-text">{formatPriceToken(454)}</span>
           </div>
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-3">
           <Button variant="secondary" size="sm" href="/order">
-            {'{{ORDER_AGAIN_CTA}}'}
+            Order More Dishes
           </Button>
           <Button variant="ghost" size="sm" href="/contact">
-            {'{{NEED_HELP_CONTACT_CTA}}'}
+            Need Help? Call +91 84858 00863
           </Button>
         </div>
       </Card>

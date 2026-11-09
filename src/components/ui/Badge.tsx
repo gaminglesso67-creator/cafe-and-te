@@ -26,10 +26,8 @@ export function Badge({ kind = 'neutral', label, onCream = false, className }: B
     return (
       <span
         className={clsx(
-          'inline-flex items-center gap-1.5 px-2 py-0.5 text-xs uppercase tracking-wider border rounded-xs',
-          onCream
-            ? 'border-charcoal/30 text-charcoal bg-charcoal/5'
-            : 'border-muted/30 text-muted bg-bg/60',
+          'inline-flex items-center gap-1.5 text-[11px] uppercase tracking-wider',
+          onCream ? 'text-charcoal/80' : 'text-muted',
           className
         )}
         title={textLabel}
@@ -37,15 +35,15 @@ export function Badge({ kind = 'neutral', label, onCream = false, className }: B
         <span
           aria-hidden="true"
           className={clsx(
-            'inline-flex items-center justify-center w-3.5 h-3.5 border',
+            'inline-flex items-center justify-center w-3.5 h-3.5 border rounded-[2px] shrink-0',
             isVeg ? 'border-emerald-500' : 'border-crimson'
           )}
         >
           <span
-            className={clsx('w-2 h-2 rounded-full', isVeg ? 'bg-emerald-500' : 'bg-crimson')}
+            className={clsx('w-1.5 h-1.5 rounded-full', isVeg ? 'bg-emerald-500' : 'bg-crimson')}
           />
         </span>
-        <span>{textLabel}</span>
+        {label && <span>{textLabel}</span>}
       </span>
     );
   }
@@ -61,8 +59,8 @@ export function Badge({ kind = 'neutral', label, onCream = false, className }: B
     return (
       <span
         className={clsx(
-          'inline-flex items-center px-2 py-0.5 text-[11px] font-medium uppercase tracking-wider rounded-xs max-w-full break-words',
-          'bg-crimson text-cream border border-gold/35',
+          'inline-flex items-center px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.14em] rounded-xs max-w-full break-words',
+          'bg-crimson/90 text-cream',
           className
         )}
       >
@@ -75,10 +73,8 @@ export function Badge({ kind = 'neutral', label, onCream = false, className }: B
     return (
       <span
         className={clsx(
-          'inline-flex items-center px-2.5 py-0.5 text-xs uppercase tracking-wider rounded-xs',
-          onCream
-            ? 'bg-charcoal/15 text-charcoal/80 border border-charcoal/30'
-            : 'bg-bg/90 text-muted border border-muted/30',
+          'inline-flex items-center text-[11px] uppercase tracking-wider',
+          onCream ? 'text-charcoal/60' : 'text-muted/70',
           className
         )}
       >
@@ -91,14 +87,12 @@ export function Badge({ kind = 'neutral', label, onCream = false, className }: B
     return (
       <span
         className={clsx(
-          'inline-flex items-center px-2 py-0.5 text-xs tracking-wide rounded-xs border',
-          onCream
-            ? 'border-charcoal/25 text-charcoal/80 bg-transparent'
-            : 'border-muted/25 text-muted bg-transparent',
+          'inline-flex items-center text-[11px] tracking-wide',
+          onCream ? 'text-charcoal/65' : 'text-muted/75',
           className
         )}
       >
-        {label ?? '{{ALLERGEN_TAG}}'}
+        {label ?? 'Allergen'}
       </span>
     );
   }
@@ -106,14 +100,12 @@ export function Badge({ kind = 'neutral', label, onCream = false, className }: B
   return (
     <span
       className={clsx(
-        'inline-flex items-center px-2.5 py-0.5 text-xs uppercase tracking-widest rounded-xs border',
-        onCream
-          ? 'border-charcoal/30 text-charcoal bg-charcoal/5'
-          : 'border-gold/35 text-gold bg-surface',
+        'inline-flex items-center text-[11px] uppercase tracking-[0.16em]',
+        onCream ? 'text-charcoal/75' : 'text-gold/90',
         className
       )}
     >
-      {label ?? '{{TAG_LABEL}}'}
+      {label ?? ''}
     </span>
   );
 }

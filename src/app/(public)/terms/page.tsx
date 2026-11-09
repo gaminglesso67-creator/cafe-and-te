@@ -9,7 +9,7 @@ export default function TermsPage() {
   return (
     <Section variant="dark" narrow>
       <div className="space-y-6">
-        <p className="text-xs uppercase tracking-[0.22em] text-gold">{'{{LEGAL_DOCUMENT_SLOT}}'}</p>
+        <p className="text-xs uppercase tracking-[0.22em] text-gold">Saanjh Viman Nagar · Legal</p>
         <h1 className="font-serif text-4xl sm:text-5xl text-gold text-glow-gold">
           {t('legal.terms.heading')}
         </h1>
@@ -17,11 +17,13 @@ export default function TermsPage() {
         <Card variant="surface" className="space-y-4 text-sm text-muted leading-relaxed">
           <p>{t('legal.terms.body')}</p>
           <h2 className="font-serif text-xl text-text pt-2">
-            {'{{REFUND_AND_CANCELLATION_HEADING}}'}
+            Cancellation & Refund Policy
           </h2>
-          <p>{'{{REFUND_AND_CANCELLATION_POLICY_SLOT}}'}</p>
+          <p>
+            Table reservations may be modified or cancelled free of charge up to 1 hour prior to your slot. Online orders cancelled before kitchen preparation begins are eligible for a full refund to the original payment source within 5–7 business days.
+          </p>
           <h2 className="font-serif text-xl text-text pt-2">
-            {'{{ALLERGEN_AND_DIETARY_DISCLAIMER_HEADING}}'}
+            Allergen & Dietary Notice
           </h2>
           <p>{t('menu.allergen.disclaimer')}</p>
         </Card>

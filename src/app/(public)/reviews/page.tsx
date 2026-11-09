@@ -92,27 +92,29 @@ export default function ReviewsPage() {
         {filtered.length === 0 ? (
           <EmptyState />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-12">
             {filtered.map((rev) => (
-              <Card
+              <blockquote
                 key={rev.id}
-                variant="surface"
-                className="flex flex-col justify-between gap-5"
+                className="pl-6 border-l border-gold/30 flex flex-col justify-between gap-4"
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between gap-2">
                     <RatingStars rating={rev.rating} />
-                    <Badge kind="neutral" label={rev.source === 'GOOGLE' ? 'Google Verified' : 'Verified Guest'} />
+                    <Badge
+                      kind="neutral"
+                      label={rev.source === 'GOOGLE' ? 'Google Verified' : 'Verified Guest'}
+                    />
                   </div>
-                  <blockquote className="font-serif italic text-xl text-text leading-relaxed">
+                  <p className="font-serif italic text-xl sm:text-2xl text-text leading-relaxed">
                     &ldquo;{rev.comment}&rdquo;
-                  </blockquote>
+                  </p>
                 </div>
-                <footer className="pt-3 border-t border-gold/20 flex items-center justify-between text-xs text-muted">
+                <footer className="pt-2 flex items-center justify-between text-xs text-muted">
                   <span className="font-medium text-text">{rev.reviewerName}</span>
-                  <span>{rev.dateLabel}</span>
+                  <span className="text-gold/80">{rev.dateLabel}</span>
                 </footer>
-              </Card>
+              </blockquote>
             ))}
           </div>
         )}
