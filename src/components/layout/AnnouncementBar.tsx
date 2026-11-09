@@ -2,11 +2,9 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { t } from '@/lib/content';
 
 /**
- * Admin-controlled festive/offers announcement bar (PRD 7.9 & 9.5).
- * Uses Crimson (#B3202A) strictly as a seasonal highlight tag per PRD 5.5.
+ * Minimal, modern top privilege bar.
  */
 export function AnnouncementBar() {
   const [dismissed, setDismissed] = useState(false);
@@ -17,26 +15,31 @@ export function AnnouncementBar() {
     <div
       role="region"
       aria-label="Announcement"
-      className="w-full max-w-full bg-surface border-b border-gold/25 px-4 sm:px-6 lg:px-8 py-2 text-xs"
+      className="w-full bg-surface/80 border-b border-white/5 px-4 sm:px-6 lg:px-8 h-9 flex items-center text-[11px] tracking-wide text-muted"
     >
-      <div className="mx-auto max-w-7xl flex items-center justify-between gap-2">
-        <div className="flex flex-wrap items-center gap-2 min-w-0 flex-1">
-          <span className="shrink-0 inline-block px-2 py-0.5 text-[10px] sm:text-[11px] uppercase tracking-wider bg-crimson text-cream border border-gold/30 rounded-xs">
-            {t('global.announcement.tag')}
-          </span>
-          <p className="text-text truncate min-w-0">{t('global.announcement.text')}</p>
-          <Link
-            href="/offers"
-            className="shrink-0 text-gold underline underline-offset-4 hover:text-text font-medium"
-          >
-            {t('global.announcement.cta')}
-          </Link>
+      <div className="mx-auto max-w-7xl w-full flex items-center justify-between gap-4">
+        <div className="hidden sm:flex items-center gap-2 text-muted/75">
+          <span>Clover Park, Viman Nagar</span>
+          <span aria-hidden="true" className="text-gold/40">·</span>
+          <span>Open Daily 12 PM – 12 Midnight</span>
         </div>
+
+        <Link
+          href="/offers"
+          className="flex items-center gap-2 text-text/90 hover:text-gold transition-colors truncate mx-auto sm:mx-0"
+        >
+          <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />
+          <span className="truncate">
+            Flat 10% Off Walk-In Lunch (12–4 PM) · Newly Opened Bar
+          </span>
+          <span className="text-gold font-medium shrink-0">Explore →</span>
+        </Link>
+
         <button
           type="button"
           onClick={() => setDismissed(true)}
           aria-label="Dismiss announcement"
-          className="shrink-0 inline-flex items-center justify-center min-h-9 min-w-9 text-muted hover:text-gold"
+          className="shrink-0 inline-flex items-center justify-center w-6 h-6 text-muted/60 hover:text-text transition-colors"
         >
           ×
         </button>
