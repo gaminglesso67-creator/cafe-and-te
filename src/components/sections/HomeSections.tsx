@@ -420,7 +420,8 @@ export function OffersTeaserSection({
 
 /**
  * 6. REVIEWS TEASER (PRD 7.1 & 7.5):
- * Editorial pull-quotes with thin left gold rule instead of boxy cards.
+ * Self-rotating testimonial card carousel with auto-advance, pause-on-hover,
+ * smooth transitions, and manual prev/next & dot controls.
  */
 export function ReviewsTeaserSection({
   reviews,
@@ -429,6 +430,22 @@ export function ReviewsTeaserSection({
   reviews: ReviewSlot[];
   state?: SectionDataState;
 }) {
+  const [activeIndex, setActiveIndex] = React.useState(0);
+  const [paused, setPaused] = React.useState(false);
+
+  const total = reviews.length;
+
+  React.useEffect(() => {
+    if (paused || total <= 1) return;
+    const timer = window.setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % total);
+    }, 4500);
+    return () => window.clearInterval(timer);
+  }, [paused, total]);
+
+  const activeReview = reviews[activeIndex] ?? reviews[0];
+  const nextReview = reviews[(activeIndex + 1) % total];
+
   return (
     <Section variant="dark" className="border-t border-gold/15">
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
@@ -440,33 +457,132 @@ export function ReviewsTeaserSection({
             {t('home.reviews.heading')}
           </h2>
         </div>
-        <Button variant="secondary" size="sm" href="/reviews">
-          {t('home.reviews.cta')}
-        </Button>
+        <div className="flex items-center gap-3">
+          <Button variant="secondary" size="sm" href="/reviews">
+            {t('home.reviews.cta')}
+          </Button>
+        </div>
       </div>
 
       {state === 'loading' && <SkeletonLoader lines={4} />}
       {state === 'error' && <ErrorState />}
       {state === 'empty' && <EmptyState />}
-      {state === 'ready' && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
-          {reviews.slice(0, 3).map((rev) => (
-            <blockquote
-              key={rev.id}
-              className="min-w-0 pl-5 border-l border-gold/30 flex flex-col justify-between gap-4"
+      {state === 'ready' && activeReview && (
+        <div
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onFocus={() => setPaused(true)}
+          onBlur={() => setPaused(false)}
+          aria-roledescription="carousel"
+          aria-label="Guest testimonials"
+          className="space-y-6"
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+            {/* Primary Self-Rotating Testimonial Card */}
+            <div
+              key={activeReview.id}
+              aria-live="polite"
+              className="lg:col-span-8 animate-menu-switch relative rounded-sm bg-surface/90 border border-gold/30 p-6 sm:p-9 shadow-gold-glow flex flex-col justify-between gap-6 overflow-hidden"
             >
-              <div className="space-y-3">
-                <RatingStars rating={rev.rating} />
-                <p className="font-serif italic text-lg sm:text-xl text-text leading-relaxed">
-                  &ldquo;{rev.comment}&rdquo;
-                </p>
+              {/* Decorative Quote Watermark */}
+              <span
+                aria-hidden="true"
+                className="pointer-events-none select-none absolute -top-4 right-5 font-serif text-8xl text-gold/10 leading-none"
+              >
+                &ldquo;
+              </span>
+
+              <div className="space-y-4 relative z-10">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <RatingStars rating={activeReview.rating} />
+                  <span className="px-2.5 py-0.5 text-[11px] uppercase tracking-widest rounded-full border border-gold/25 bg-bg/70 text-gold">
+                    {activeReview.source === 'GOOGLE' ? 'Google Verified · 4.5★' : 'Verified Diner'}
+                  </span>
+                </div>
+
+                <blockquote className="font-serif italic text-xl sm:text-2xl lg:text-[26px] text-text leading-relaxed">
+                  &ldquo;{activeReview.comment}&rdquo;
+                </blockquote>
               </div>
-              <footer className="text-xs text-muted space-y-0.5">
-                <div className="font-medium text-text">{rev.reviewerName}</div>
-                <div className="text-gold/80">{rev.dateLabel}</div>
+
+              <footer className="relative z-10 pt-4 border-t border-gold/15 flex flex-wrap items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <span className="w-9 h-9 rounded-full bg-gold/15 border border-gold/40 text-gold font-serif text-base font-semibold inline-flex items-center justify-center">
+                    {activeReview.reviewerName.charAt(0)}
+                  </span>
+                  <div>
+                    <div className="text-sm font-medium text-text">{activeReview.reviewerName}</div>
+                    <div className="text-xs text-muted">{activeReview.dateLabel}</div>
+                  </div>
+                </div>
+
+                {/* Prev / Next Controls */}
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    aria-label="Previous testimonial"
+                    onClick={() => setActiveIndex((prev) => (prev - 1 + total) % total)}
+                    className="w-9 h-9 rounded-full border border-gold/30 text-gold hover:border-gold hover:bg-gold/10 active:scale-95 inline-flex items-center justify-center transition-all"
+                  >
+                    ←
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Next testimonial"
+                    onClick={() => setActiveIndex((prev) => (prev + 1) % total)}
+                    className="w-9 h-9 rounded-full border border-gold/30 text-gold hover:border-gold hover:bg-gold/10 active:scale-95 inline-flex items-center justify-center transition-all"
+                  >
+                    →
+                  </button>
+                </div>
               </footer>
-            </blockquote>
-          ))}
+            </div>
+
+            {/* Secondary Up-Next Preview Card (Desktop) */}
+            {nextReview && (
+              <button
+                type="button"
+                onClick={() => setActiveIndex((activeIndex + 1) % total)}
+                className="hidden lg:flex lg:col-span-4 text-left rounded-sm bg-surface/40 border border-gold/15 hover:border-gold/35 p-6 flex-col justify-between gap-4 opacity-75 hover:opacity-100 transition-all duration-300"
+              >
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between text-xs uppercase tracking-widest text-gold/80">
+                    <span>Up Next</span>
+                    <span>{(activeIndex + 2) > total ? 1 : activeIndex + 2} / {total}</span>
+                  </div>
+                  <RatingStars rating={nextReview.rating} />
+                  <p className="font-serif italic text-lg text-text/85 line-clamp-4 leading-relaxed">
+                    &ldquo;{nextReview.comment}&rdquo;
+                  </p>
+                </div>
+                <div className="pt-3 border-t border-white/5 text-xs text-muted">
+                  <span className="text-text font-medium block">{nextReview.reviewerName}</span>
+                  <span>{nextReview.dateLabel}</span>
+                </div>
+              </button>
+            )}
+          </div>
+
+          {/* Interactive Rotation Progress Pills */}
+          <div className="flex items-center justify-center sm:justify-start gap-2 pt-1">
+            {reviews.map((rev, idx) => {
+              const isCurrent = idx === activeIndex;
+              return (
+                <button
+                  key={rev.id}
+                  type="button"
+                  aria-label={`Show review by ${rev.reviewerName}`}
+                  aria-current={isCurrent}
+                  onClick={() => setActiveIndex(idx)}
+                  className={`h-1.5 rounded-full transition-all duration-500 ${
+                    isCurrent
+                      ? 'w-8 bg-gold shadow-gold-glow'
+                      : 'w-2 bg-gold/25 hover:bg-gold/50'
+                  }`}
+                />
+              );
+            })}
+          </div>
         </div>
       )}
     </Section>

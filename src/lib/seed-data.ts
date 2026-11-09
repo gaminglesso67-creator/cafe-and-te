@@ -436,6 +436,26 @@ export const SEED_REVIEWS: ReviewSlot[] = [
     source: 'GOOGLE',
     isPublished: true,
   },
+  {
+    id: 'rev-4',
+    reviewerName: 'Ananya Joshi',
+    rating: 5,
+    comment:
+      'The Mushroom Truffle Soup and Wok-Tossed Smoked Chilli Cottage Cheese are must-tries. Super warm service and the 10% walk-in lunch deal is a great bonus.',
+    dateLabel: 'EazyDiner Verified · Viman Nagar',
+    source: 'GOOGLE',
+    isPublished: true,
+  },
+  {
+    id: 'rev-5',
+    reviewerName: 'Vikramaditya & Neha Patil',
+    rating: 5,
+    comment:
+      'Celebrated our anniversary on the patio under the amber lanterns. The Khandeshi Kala Masala Mutton Handi and Royal Dum Biryani tasted truly authentic.',
+    dateLabel: 'Verified Guest · Clover Park',
+    source: 'MANUAL',
+    isPublished: true,
+  },
 ];
 
 export const SEED_GALLERY: GalleryItemSlot[] = [
