@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Cormorant_Garamond, DM_Sans } from 'next/font/google';
 import './globals.css';
 import { ToastProvider } from '@/components/ui/Toast';
+import { CartProvider } from '@/lib/cart-context';
 import { t } from '@/lib/content';
 
 const headingFont = Cormorant_Garamond({
@@ -42,7 +43,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${headingFont.variable} ${bodyFont.variable}`}>
       <body className="min-h-dvh bg-bg text-text antialiased flex flex-col">
-        <ToastProvider>{children}</ToastProvider>
+        <ToastProvider>
+          <CartProvider>{children}</CartProvider>
+        </ToastProvider>
       </body>
     </html>
   );
