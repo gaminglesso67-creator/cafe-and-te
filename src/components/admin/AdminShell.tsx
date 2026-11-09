@@ -184,20 +184,23 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
     >
       <div className="min-h-dvh bg-bg text-text flex flex-col">
         {/* Top Operations Bar (Works on Phone, Tablet & Desktop) */}
-        <header className="sticky top-0 z-30 bg-surface border-b border-gold/30 px-3 sm:px-6 h-16 flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2.5">
+        <header className="sticky top-0 z-30 w-full max-w-full bg-surface border-b border-gold/30 px-3 sm:px-6 min-h-16 py-2 flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-2 min-w-0">
             <button
               type="button"
               onClick={() => setMobileNavOpen(true)}
               aria-label="Open admin navigation"
-              className="lg:hidden min-h-11 min-w-11 inline-flex items-center justify-center rounded-xs border border-gold/35 bg-bg text-gold"
+              className="lg:hidden min-h-11 min-w-11 shrink-0 inline-flex items-center justify-center rounded-xs border border-gold/35 bg-bg text-gold"
             >
               ☰
             </button>
-            <Link href="/admin" className="font-serif text-xl text-gold text-glow-gold">
+            <Link
+              href="/admin"
+              className="font-serif text-base sm:text-xl text-gold text-glow-gold truncate max-w-[150px] sm:max-w-none"
+            >
               {'{{SAANJH_OPS_CONSOLE}}'}
             </Link>
-            <Badge kind="neutral" label={`{{ROLE:${role}}}`} className="hidden sm:inline-flex" />
+            <Badge kind="neutral" label={`{{ROLE:${role}}}`} className="hidden md:inline-flex" />
           </div>
 
           {/* Interactive Role Switcher (to verify PRD 9.9 RBAC Matrix) + Sound Toggle */}

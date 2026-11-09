@@ -149,8 +149,8 @@ export function MenuCatalog({
             : 'bg-surface border-gold/25 text-text'
         )}
       >
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
-          <div className="md:col-span-5">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-end">
+          <div className="lg:col-span-5 min-w-0">
             <TextInput
               id="menu-search-input"
               label={t('menu.search.placeholder')}
@@ -160,7 +160,7 @@ export function MenuCatalog({
               onCream={useCreamVariant}
             />
           </div>
-          <div className="md:col-span-4">
+          <div className="lg:col-span-4 min-w-0">
             <SelectInput
               id="menu-exclude-allergen"
               label={'{{FILTER_EXCLUDE_ALLERGEN}}'}
@@ -173,7 +173,7 @@ export function MenuCatalog({
               ]}
             />
           </div>
-          <div className="md:col-span-3 flex items-center gap-2">
+          <div className="lg:col-span-3 min-w-0 flex items-center gap-2">
             <Button
               variant={useCreamVariant ? 'charcoal' : 'secondary'}
               size="sm"
@@ -349,7 +349,7 @@ export function MenuCatalog({
                 </div>
 
                 {/* Reachable with one thumb on mobile */}
-                <div className="pt-2 border-t border-current/10 flex items-center justify-between gap-2">
+                <div className="pt-2 border-t border-current/10 flex flex-wrap items-center justify-between gap-2">
                   <button
                     type="button"
                     onClick={() => openItemModal(item)}
