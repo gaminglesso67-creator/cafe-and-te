@@ -412,3 +412,4 @@ export function getLiveOpenStatus(hours: OpeningHourSlot[] = SEED_OPENING_HOURS)
     todaySlot,
   };
 }
+
