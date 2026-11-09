@@ -1,0 +1,691 @@
+// ============================================================================
+// SAANJH — FAMILY RESTO BAR | PRISMA DATABASE SCHEMA (PRD Section 11.3)
+// All 33+ core entities with soft-deletes, idempotency keys, timestamps & indexes
+// ============================================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum RoleName {
+  OWNER
+  MANAGER
+  STAFF
+}
+
+enum OrderType {
+  DELIVERY
+  PICKUP
+}
+
+enum OrderStatus {
+  placed
+  paid
+  accepted
+  preparing
+  ready
+  out_for_delivery
+  picked_up
+  completed
+  rejected
+  cancelled
+  refunded
+}
+
+enum PaymentStatus {
+  PENDING
+  CAPTURED
+  FAILED
+  REFUNDED
+  PARTIALLY_REFUNDED
+}
+
+enum ReservationStatus {
+  pending
+  confirmed
+  declined
+  cancelled
+  no_show
+  completed
+}
+
+enum ReviewSource {
+  GOOGLE
+  MANUAL
+}
+
+enum GalleryCategory {
+  FOOD
+  INTERIORS
+  EVENTS
+}
+
+enum EnquiryType {
+  CONTACT
+  CATERING
+}
+
+enum NotificationChannel {
+  EMAIL
+  SMS
+  WHATSAPP
+  ADMIN_ALERT
+}
+
+enum PosJobStatus {
+  PENDING
+  PROCESSING
+  SUCCEEDED
+  FAILED
+  DEAD_LETTER
+}
+
+// 1. Role
+model Role {
+  id          String   @id @default(cuid())
+  name        RoleName @unique
+  description String?
+  permissions Json
+  users       User[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// 2. User (Admin / Staff accounts)
+model User {
+  id                  String     @id @default(cuid())
+  email               String     @unique
+  name                String
+  passwordHash        String
+  roleId              String
+  role                Role       @relation(fields: [roleId], references: [id])
+  isActive            Boolean    @default(true)
+  failedLoginAttempts Int        @default(0)
+  lockedUntil         DateTime?
+  sessions            Session[]
+  auditLogs           AuditLog[]
+  createdAt           DateTime   @default(now())
+  updatedAt           DateTime   @updatedAt
+
+  @@index([roleId])
+}
+
+// 3. Session
+model Session {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+// 4. Customer
+model Customer {
+  id               String        @id @default(cuid())
+  name             String
+  phone            String        @unique
+  email            String?
+  marketingConsent Boolean       @default(false)
+  notes            String?
+  addresses        Address[]
+  orders           Order[]
+  reservations     Reservation[]
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  @@index([phone])
+}
+
+// 5. Address
+model Address {
+  id          String    @id @default(cuid())
+  customerId  String
+  customer    Customer  @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  label       String?
+  line1       String
+  line2       String?
+  city        String
+  pincode     String
+  landmark    String?
+  isDefault   Boolean   @default(false)
+  orders      Order[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([customerId])
+  @@index([pincode])
+}
+
+// 6. Category
+model Category {
+  id          String     @id @default(cuid())
+  slug        String     @unique
+  name        String
+  description String?
+  sortOrder   Int        @default(0)
+  isVisible   Boolean    @default(true)
+  items       MenuItem[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([sortOrder])
+}
+
+// 7. MenuItem (with soft-delete `deletedAt` and POS sync tracking)
+model MenuItem {
+  id              String        @id @default(cuid())
+  slug            String        @unique
+  categoryId      String
+  category        Category      @relation(fields: [categoryId], references: [id])
+  name            String
+  description     String?
+  price           Int           // Stored in INR (or paise)
+  imageSlot       String
+  imageAspect     String        @default("4x3")
+  isVeg           Boolean       @default(true)
+  isSignature     Boolean       @default(false)
+  isNew           Boolean       @default(false)
+  isAvailable     Boolean       @default(true)
+  autoResetStock  Boolean       @default(true)
+  taxClassPercent Float         @default(5.0)
+  prepTimeMins    Int           @default(20)
+  sortOrder       Int           @default(0)
+  isVisible       Boolean       @default(true)
+  availableFrom   String?       // e.g. "12:00" for scheduled items
+  availableUntil  String?       // e.g. "16:00"
+  posExternalId   String?       @unique
+  posLastSyncedAt DateTime?
+  deletedAt       DateTime?     // Soft-delete per PRD 11.3
+  variants        ItemVariant[]
+  addOns          AddOn[]
+  allergens       AllergenTag[]
+  orderItems      OrderItem[]
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([categoryId])
+  @@index([isAvailable, isVisible, deletedAt])
+}
+
+// 8. ItemVariant
+model ItemVariant {
+  id         String   @id @default(cuid())
+  menuItemId String
+  menuItem   MenuItem @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+  name       String
+  priceDelta Int      @default(0)
+  isDefault  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([menuItemId])
+}
+
+// 9. AddOn
+model AddOn {
+  id          String   @id @default(cuid())
+  menuItemId  String
+  menuItem    MenuItem @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+  name        String
+  price       Int
+  isAvailable Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([menuItemId])
+}
+
+// 10. AllergenTag
+model AllergenTag {
+  id        String     @id @default(cuid())
+  code      String     @unique
+  label     String
+  menuItems MenuItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+// 11. Order (with unique orderNumber and idempotencyKey)
+model Order {
+  id              String             @id @default(cuid())
+  orderNumber     String             @unique
+  idempotencyKey  String             @unique
+  customerId      String?
+  customer        Customer?          @relation(fields: [customerId], references: [id])
+  addressId       String?
+  address         Address?           @relation(fields: [addressId], references: [id])
+  customerName    String
+  customerPhone   String
+  customerEmail   String?
+  deliveryAddress String?
+  pincode         String?
+  orderType       OrderType          @default(DELIVERY)
+  status          OrderStatus        @default(placed)
+  subtotal        Int
+  discountAmount  Int                @default(0)
+  taxAmount       Int
+  deliveryFee     Int                @default(0)
+  grandTotal      Int
+  couponCode      String?
+  scheduledFor    DateTime?
+  notes           String?
+  rejectionReason String?
+  posOrderId      String?
+  posSyncStatus   String             @default("PENDING")
+  items           OrderItem[]
+  statusEvents    OrderStatusEvent[]
+  payments        Payment[]
+  posSyncJobs     PosSyncJob[]
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  @@index([status, createdAt])
+  @@index([customerPhone])
+  @@index([customerId])
+}
+
+// 12. OrderItem
+model OrderItem {
+  id                  String    @id @default(cuid())
+  orderId             String
+  order               Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  menuItemId          String?
+  menuItem            MenuItem? @relation(fields: [menuItemId], references: [id])
+  nameSnapshot        String
+  unitPrice           Int
+  quantity            Int
+  variantSnapshot     String?
+  addOnsSnapshot      String?
+  specialInstructions String?
+  createdAt           DateTime  @default(now())
+
+  @@index([orderId])
+  @@index([menuItemId])
+}
+
+// 13. OrderStatusEvent
+model OrderStatusEvent {
+  id        String      @id @default(cuid())
+  orderId   String
+  order     Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  status    OrderStatus
+  note      String?
+  actorId   String?
+  createdAt DateTime    @default(now())
+
+  @@index([orderId, createdAt])
+}
+
+// 14. Payment (with idempotencyKey and provider IDs)
+model Payment {
+  id                String        @id @default(cuid())
+  orderId           String
+  order             Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  provider          String        // "razorpay" | "stripe" | "cod"
+  providerOrderId   String?       @unique
+  providerPaymentId String?       @unique
+  idempotencyKey    String        @unique
+  amount            Int
+  currency          String        @default("INR")
+  status            PaymentStatus @default(PENDING)
+  method            String?
+  webhookVerifiedAt DateTime?
+  rawPayload        Json?
+  refunds           Refund[]
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  @@index([orderId])
+  @@index([status])
+}
+
+// 15. Refund
+model Refund {
+  id               String   @id @default(cuid())
+  paymentId        String
+  payment          Payment  @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+  idempotencyKey   String   @unique
+  providerRefundId String?  @unique
+  amount           Int
+  reason           String
+  initiatedById    String?
+  status           String   @default("PROCESSED")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([paymentId])
+}
+
+// 16. Coupon
+model Coupon {
+  id              String    @id @default(cuid())
+  code            String    @unique
+  description     String
+  discountPercent Int       @default(0)
+  maxDiscount     Int?
+  minOrderAmount  Int       @default(0)
+  validFrom       DateTime
+  validUntil      DateTime
+  isActive        Boolean   @default(true)
+  usageLimit      Int?
+  usedCount       Int       @default(0)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([code, isActive])
+}
+
+// 17. Offer
+model Offer {
+  id              String   @id @default(cuid())
+  code            String   @unique
+  title           String
+  description     String
+  badgeText       String
+  imageSlot       String
+  discountPercent Int      @default(0)
+  minOrderAmount  Int      @default(0)
+  isHappyHour     Boolean  @default(false)
+  happyHourStart  String?
+  happyHourEnd    String?
+  validFrom       DateTime
+  validUntil      DateTime
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([isActive, validUntil])
+}
+
+// 18. Event
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  eventDate   DateTime
+  timeLabel   String
+  imageSlot   String
+  isUpcoming  Boolean  @default(true)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([eventDate, isUpcoming])
+}
+
+// 19. Reservation
+model Reservation {
+  id              String            @id @default(cuid())
+  reservationCode String            @unique
+  customerId      String?
+  customer        Customer?         @relation(fields: [customerId], references: [id])
+  guestName       String
+  guestPhone      String
+  guestEmail      String?
+  date            String            // YYYY-MM-DD
+  timeSlot        String            // HH:mm
+  partySize       Int
+  occasion        String?
+  specialRequests String?
+  staffNotes      String?
+  status          ReservationStatus @default(pending)
+  reminderSentAt  DateTime?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  @@index([date, timeSlot, status])
+  @@index([guestPhone])
+}
+
+// 20. ReservationSlotRule
+model ReservationSlotRule {
+  id                 String   @id @default(cuid())
+  dayOfWeek          Int      @unique // 0..6
+  slotLengthMins     Int      @default(30)
+  diningDurationMins Int      @default(90)
+  maxCapacityPerSlot Int      @default(40)
+  maxPartySizeOnline Int      @default(12)
+  leadTimeMins       Int      @default(60)
+  autoConfirm        Boolean  @default(true)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+// 21. BlackoutDate
+model BlackoutDate {
+  id        String   @id @default(cuid())
+  date      String   @unique // YYYY-MM-DD
+  reason    String
+  isFullDay Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// 22. Review
+model Review {
+  id           String       @id @default(cuid())
+  externalId   String?      @unique
+  reviewerName String
+  rating       Int
+  comment      String
+  dateLabel    String
+  source       ReviewSource @default(MANUAL)
+  isPublished  Boolean      @default(true)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  @@index([source, isPublished])
+}
+
+// 23. GalleryItem
+model GalleryItem {
+  id        String          @id @default(cuid())
+  title     String
+  category  GalleryCategory @default(FOOD)
+  imageSlot String
+  aspect    String          @default("4x3")
+  sortOrder Int             @default(0)
+  isVisible Boolean         @default(true)
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+
+  @@index([category, isVisible])
+}
+
+// 24. Banner
+model Banner {
+  id        String    @id @default(cuid())
+  placement String    // "hero" | "announcement" | "festive"
+  tagText   String?
+  heading   String
+  subtext   String?
+  ctaLabel  String?
+  ctaHref   String?
+  imageSlot String?
+  startsAt  DateTime?
+  endsAt    DateTime?
+  isActive  Boolean   @default(true)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([placement, isActive])
+}
+
+// 25. OpeningHours
+model OpeningHours {
+  id        String   @id @default(cuid())
+  dayOfWeek Int      @unique // 0..6
+  dayLabel  String
+  openTime  String
+  closeTime String
+  isClosed  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// 26. HolidayOverride
+model HolidayOverride {
+  id        String   @id @default(cuid())
+  date      String   @unique // YYYY-MM-DD
+  label     String
+  openTime  String?
+  closeTime String?
+  isClosed  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// 27. ContentBlock (Key/Value content layer per PRD 11.5)
+model ContentBlock {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  locale    String   @default("en")
+  value     String
+  section   String
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  @@index([section, locale])
+}
+
+// 28. MediaAsset
+model MediaAsset {
+  id        String   @id @default(cuid())
+  slotName  String   @unique
+  url       String
+  altText   String
+  aspect    String   @default("4x3")
+  mimeType  String   @default("image/svg+xml")
+  sizeBytes Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// 29. Enquiry (Contact & Catering submissions)
+model Enquiry {
+  id          String      @id @default(cuid())
+  type        EnquiryType @default(CONTACT)
+  name        String
+  phone       String
+  email       String?
+  eventType   String?
+  eventDate   String?
+  guestCount  Int?
+  budgetRange String?
+  message     String?
+  status      String      @default("NEW")
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([type, status, createdAt])
+}
+
+// 30. NotificationTemplate
+model NotificationTemplate {
+  id        String              @id @default(cuid())
+  eventKey  String              @unique
+  channel   NotificationChannel
+  subject   String?
+  body      String              // Always {{TEMPLATE_BODY}} in skeleton
+  isActive  Boolean             @default(true)
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @updatedAt
+}
+
+// 31. NotificationLog
+model NotificationLog {
+  id           String              @id @default(cuid())
+  eventKey     String
+  channel      NotificationChannel
+  recipient    String
+  payload      String
+  status       String              @default("SENT")
+  errorMessage String?
+  retryCount   Int                 @default(0)
+  createdAt    DateTime            @default(now())
+
+  @@index([eventKey, status, createdAt])
+}
+
+// 32. PosSyncJob (Retry queue with idempotency keys per PRD 10.4)
+model PosSyncJob {
+  id             String       @id @default(cuid())
+  idempotencyKey String       @unique
+  orderId        String
+  order          Order        @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  adapter        String       @default("manual")
+  status         PosJobStatus @default(PENDING)
+  attempts       Int          @default(0)
+  maxAttempts    Int          @default(5)
+  nextRetryAt    DateTime?
+  lastError      String?
+  logs           PosSyncLog[]
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@index([status, nextRetryAt])
+  @@index([orderId])
+}
+
+// 33. PosSyncLog
+model PosSyncLog {
+  id         String      @id @default(cuid())
+  jobId      String?
+  job        PosSyncJob? @relation(fields: [jobId], references: [id], onDelete: SetNull)
+  adapter    String
+  action     String
+  statusCode Int         @default(200)
+  request    Json?
+  response   Json?
+  createdAt  DateTime    @default(now())
+
+  @@index([jobId, createdAt])
+}
+
+// 34. Setting
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     Json
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
+
+// 35. AuditLog
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String?
+  actor      User?    @relation(fields: [actorId], references: [id], onDelete: SetNull)
+  actorEmail String
+  actorRole  String
+  action     String
+  entityType String
+  entityId   String?
+  metadata   Json?
+  createdAt  DateTime @default(now())
+
+  @@index([action, createdAt])
+  @@index([actorId])
+}
+
+// 36. DeliveryZone
+model DeliveryZone {
+  id             String   @id @default(cuid())
+  pincode        String   @unique
+  areaName       String
+  deliveryFee    Int      @default(50)
+  minOrderAmount Int      @default(300)
+  estimatedMins  Int      @default(40)
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
