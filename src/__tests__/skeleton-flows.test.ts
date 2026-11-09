@@ -13,13 +13,14 @@ import { enqueueAndPushOrderToPos, ManualPosAdapter } from '@/lib/pos/adapter';
 import { getStore } from '@/lib/db';
 
 describe('Saanjh Skeleton Core Flows (PRD Section 13)', () => {
-  it('resolves content keys to {{SECTION_FIELD}} tokens and never leaks raw strings', () => {
-    expect(t('home.hero.title')).toBe('{{HERO_HEADING}}');
+  it('resolves content keys to Saanjh Viman Nagar copy and falls back safely for unmapped keys', () => {
+    expect(t('home.hero.title')).toBe('Saanjh — An Evening Full Of Flavours');
     expect(t('unmapped.custom.field')).toBe('{{UNMAPPED_CUSTOM_FIELD}}');
     expect(formatPriceToken()).toBe('₹{{PRICE}}');
+    expect(formatPriceToken(385)).toBe('₹385');
     const slot = getImageSlot('hero_banner', '16x9');
     expect(slot.src).toBe('/placeholders/16x9.svg');
-    expect(slot.alt).toBe('{{ALT_HERO_BANNER}}');
+    expect(slot.alt).toBe('Saanjh Viman Nagar — hero banner');
   });
 
   it('enforces the PRD 9.9 Role Permission Matrix across STAFF, MANAGER, and OWNER', () => {

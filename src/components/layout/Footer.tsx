@@ -16,16 +16,16 @@ export function Footer() {
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newsletterEmail.trim()) return;
-    notify('{{NEWSLETTER_SUBSCRIBED_TOAST}}', 'success');
+    notify('You have been added to the Saanjh Viman Nagar guest list.', 'success');
     setNewsletterEmail('');
   };
 
   return (
     <footer className="w-full max-w-full overflow-x-clip bg-bg text-text border-t border-gold/30 pb-24 md:pb-12">
-      <div className="mx-auto max-w-[1240px] px-4 sm:px-6 lg:px-8 pt-12 md:pt-16">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-12 md:pt-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10 pb-12">
           {/* Brand Column (4 cols) */}
-          <div className="lg:col-span-4 space-y-4">
+          <div className="lg:col-span-4 min-w-0 space-y-4">
             <div>
               <Link
                 href="/"
@@ -33,29 +33,37 @@ export function Footer() {
               >
                 {t('brand.wordmark')}
               </Link>
-              <p className="text-xs uppercase tracking-[0.22em] text-muted mt-1">
+              <p className="text-xs uppercase tracking-[0.18em] text-muted mt-1">
                 {t('brand.tagline')}
               </p>
             </div>
             <p className="text-sm text-muted leading-relaxed max-w-sm">
               {t('global.footer.about_blurb')}
             </p>
-            <div className="pt-2 flex flex-wrap items-center gap-3 text-xs uppercase tracking-widest">
+            <div className="pt-2 flex flex-wrap items-center gap-2.5 text-xs uppercase tracking-wider">
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/saanjhpune/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="min-h-11 px-3 inline-flex items-center border border-gold/30 rounded-xs text-muted hover:text-gold hover:border-gold"
               >
-                {'{{SOCIAL_INSTAGRAM}}'}
+                Instagram @saanjhpune
               </a>
               <a
-                href="https://facebook.com"
+                href="https://www.zomato.com/pune/saanjh-an-evening-full-of-flavours-viman-nagar"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="min-h-11 px-3 inline-flex items-center border border-gold/30 rounded-xs text-muted hover:text-gold hover:border-gold"
               >
-                {'{{SOCIAL_FACEBOOK}}'}
+                Zomato
+              </a>
+              <a
+                href="https://www.eazydiner.com/pune/saanjh-an-evening-full-of-flavours-viman-nagar-pune-704890"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="min-h-11 px-3 inline-flex items-center border border-gold/30 rounded-xs text-muted hover:text-gold hover:border-gold"
+              >
+                EazyDiner
               </a>
               <a
                 href={t('brand.google_review_url')}
@@ -63,13 +71,13 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="min-h-11 px-3 inline-flex items-center border border-gold/30 rounded-xs text-muted hover:text-gold hover:border-gold"
               >
-                {'{{SOCIAL_GOOGLE_PROFILE}}'}
+                Google (4.5★)
               </a>
             </div>
           </div>
 
           {/* Navigation Links (2 cols) */}
-          <div className="lg:col-span-2 space-y-3">
+          <div className="lg:col-span-2 min-w-0 space-y-3">
             <h2 className="font-serif text-lg text-gold tracking-wide">
               {t('global.footer.links_heading')}
             </h2>
@@ -98,19 +106,21 @@ export function Footer() {
           </div>
 
           {/* Opening Hours Summary (3 cols) */}
-          <div className="lg:col-span-3 space-y-3">
+          <div className="lg:col-span-3 min-w-0 space-y-3">
             <h2 className="font-serif text-lg text-gold tracking-wide">
               {t('global.footer.hours_heading')}
             </h2>
             <dl className="space-y-1.5 text-xs sm:text-sm">
-              {SEED_OPENING_HOURS.slice(0, 4).map((slot) => (
+              {SEED_OPENING_HOURS.slice(0, 3).map((slot) => (
                 <div key={slot.id} className="flex justify-between gap-2 text-muted">
                   <dt>{slot.dayLabel}</dt>
-                  <dd className="text-text font-mono">
-                    {slot.openTime} – {slot.closeTime}
-                  </dd>
+                  <dd className="text-text font-mono">12:00 PM – 12:00 AM</dd>
                 </div>
               ))}
+              <div className="flex justify-between gap-2 text-gold text-xs pt-1">
+                <dt>Amenities</dt>
+                <dd>Valet · Wheelchair Access · New Bar</dd>
+              </div>
             </dl>
             <div className="pt-2 space-y-1 text-sm">
               <p className="text-text">{t('brand.address_line1')}</p>
@@ -135,7 +145,7 @@ export function Footer() {
           </div>
 
           {/* Newsletter & Legal (3 cols) */}
-          <div className="lg:col-span-3 space-y-3">
+          <div className="lg:col-span-3 min-w-0 space-y-3">
             <h2 className="font-serif text-lg text-gold tracking-wide">
               {t('global.footer.newsletter_heading')}
             </h2>
@@ -173,13 +183,13 @@ export function Footer() {
           <p>{t('global.footer.copyright')}</p>
           <div className="flex items-center gap-4">
             <Link href="/privacy" className="min-h-11 inline-flex items-center hover:text-gold">
-              {'{{NAV_PRIVACY_POLICY}}'}
+              Privacy Policy
             </Link>
             <Link href="/terms" className="min-h-11 inline-flex items-center hover:text-gold">
-              {'{{NAV_TERMS_CONDITIONS}}'}
+              Terms & Conditions
             </Link>
             <Link href="/admin" className="min-h-11 inline-flex items-center hover:text-gold">
-              {'{{NAV_STAFF_ADMIN}}'}
+              Staff Console
             </Link>
           </div>
         </div>
@@ -187,4 +197,3 @@ export function Footer() {
     </footer>
   );
 }
-

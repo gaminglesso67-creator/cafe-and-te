@@ -15,8 +15,7 @@ const runtimeOverrides = new Map<string, string>();
 
 /**
  * Resolves a namespaced content key (e.g. `home.hero.title`) to its stored
- * ContentBlock value or the placeholder token from `src/content/defaults.json`.
- * Never returns hard-coded copy: unmapped keys automatically format as `{{SECTION_FIELD}}`.
+ * ContentBlock value or the default dictionary from `src/content/defaults.json`.
  */
 export function t(key: ContentKey): string {
   if (runtimeOverrides.has(key)) {
@@ -26,9 +25,7 @@ export function t(key: ContentKey): string {
   if (key in dict) {
     return dict[key];
   }
-  const token = key
-    .replace(/[.-]/g, '_')
-    .toUpperCase();
+  const token = key.replace(/[.-]/g, '_').toUpperCase();
   return `{{${token}}}`;
 }
 
@@ -52,20 +49,20 @@ export function getAllContentEntries(): Record<string, string> {
 
 /**
  * Resolves a named image slot (`hero_image`, `gallery_1`, etc.) to a placeholder SVG
- * matching the required aspect ratio and alt token (PRD 4.1 & 4.2).
+ * matching the required aspect ratio and alt text.
  */
 export function getImageSlot(slotName: string, aspect: ImageAspect = '4x3'): ImageSlot {
-  const normalized = slotName.replace(/[.-]/g, '_').toUpperCase();
+  const normalized = slotName.replace(/[._-]/g, ' ');
   return {
     slot: slotName,
     aspect,
     src: `/placeholders/${aspect}.svg`,
-    alt: `{{ALT_${normalized}}}`,
+    alt: `Saanjh Viman Nagar — ${normalized}`,
   };
 }
 
 /**
- * Formats a price value or placeholder token according to PRD 4.2 (`₹{{PRICE}}`).
+ * Formats an INR price cleanly (`₹420`), or falls back to `₹{{PRICE}}` when no price is supplied.
  */
 export function formatPriceToken(price?: number | string | null): string {
   if (price === undefined || price === null || price === '{{PRICE}}') {
@@ -74,6 +71,5 @@ export function formatPriceToken(price?: number | string | null): string {
   if (typeof price === 'string' && price.startsWith('{{')) {
     return `₹${price}`;
   }
-  return `₹${Number(price).toLocaleString('en-IN')} ({{PRICE}})`;
+  return `₹${Number(price).toLocaleString('en-IN')}`;
 }
-

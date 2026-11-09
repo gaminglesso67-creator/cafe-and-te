@@ -8,7 +8,7 @@ import { Button } from '@/components/ui';
 const CONSENT_STORAGE_KEY = 'saanjh_cookie_consent_v1';
 
 /**
- * Consent-aware Cookie & Analytics Banner (PRD 7.8, 12.5, 12.6).
+ * Compact Consent-Aware Cookie & Analytics Banner (PRD 7.8, 12.5, 12.6).
  */
 export function ConsentBanner() {
   const [visible, setVisible] = useState(false);
@@ -38,15 +38,15 @@ export function ConsentBanner() {
   return (
     <aside
       aria-label="Cookie consent"
-      className="fixed bottom-20 md:bottom-4 left-4 right-4 md:left-6 md:right-auto md:max-w-md z-40 p-4 rounded-sm border border-gold/45 bg-surface text-text shadow-panel"
+      className="fixed bottom-16 md:bottom-4 left-4 right-4 md:left-6 md:right-auto md:max-w-md z-40 px-4 py-3 rounded-sm border border-gold/45 bg-surface/95 backdrop-blur-sm text-text shadow-panel flex flex-col sm:flex-row sm:items-center justify-between gap-3"
     >
-      <p className="text-xs sm:text-sm text-muted mb-3">
+      <p className="text-xs text-muted min-w-0">
         {t('global.consent.message')}{' '}
         <Link href="/privacy" className="text-gold underline underline-offset-4">
           {'{{PRIVACY_LINK}}'}
         </Link>
       </p>
-      <div className="flex items-center gap-2.5">
+      <div className="flex items-center gap-2 shrink-0">
         <Button variant="primary" size="sm" onClick={() => handleDecision('accepted')}>
           {t('global.consent.accept')}
         </Button>
@@ -57,4 +57,3 @@ export function ConsentBanner() {
     </aside>
   );
 }
-

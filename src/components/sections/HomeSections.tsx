@@ -37,7 +37,10 @@ export function HeroSignboardSection({ hours }: { hours: OpeningHourSlot[] }) {
   const { isOpen, todaySlot } = getLiveOpenStatus(hours);
 
   return (
-    <Section variant="dark" className="relative overflow-hidden pt-6 pb-12 md:py-16">
+    <Section
+      variant="dark"
+      className="relative overflow-hidden min-h-[calc(100dvh-6rem)] flex items-center py-6 sm:py-8 lg:py-10"
+    >
       {/* Radial gold signboard wash at top (PRD 5.3) */}
       <div
         aria-hidden="true"
@@ -47,9 +50,9 @@ export function HeroSignboardSection({ hours }: { hours: OpeningHourSlot[] }) {
       <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
         {/* Left 7 Cols: Lit Signboard Frame */}
         <div className="lg:col-span-7 min-w-0">
-          <Card variant="signboard" className="p-5 sm:p-7 lg:p-9">
+          <Card variant="signboard" className="p-5 sm:p-6 lg:p-8">
             {/* Top Status & Eyebrow Row */}
-            <div className="flex flex-wrap items-center justify-between gap-2 pb-4 mb-5 border-b border-gold/25">
+            <div className="flex flex-wrap items-center justify-between gap-2 pb-3.5 mb-4 border-b border-gold/25">
               <span className="text-xs uppercase tracking-[0.18em] text-gold font-medium break-words">
                 {t('home.hero.eyebrow')}
               </span>
@@ -72,11 +75,11 @@ export function HeroSignboardSection({ hours }: { hours: OpeningHourSlot[] }) {
             </div>
 
             {/* Glowing Calligraphic Heading (PRD 5.3) */}
-            <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold text-gold text-glow-gold tracking-wide leading-tight mb-4 break-words">
+            <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold text-gold text-glow-gold tracking-wide leading-tight mb-3 break-words">
               {t('home.hero.title')}
             </h1>
 
-            <p className="text-base text-muted max-w-xl mb-7 leading-relaxed break-words">
+            <p className="text-sm sm:text-base text-muted max-w-xl mb-6 leading-relaxed break-words">
               {t('home.hero.tagline')}
             </p>
 
@@ -91,12 +94,12 @@ export function HeroSignboardSection({ hours }: { hours: OpeningHourSlot[] }) {
             </div>
 
             {/* Direct Phone & WhatsApp Strip */}
-            <div className="mt-7 pt-4 border-t border-gold/20 flex flex-wrap items-center justify-between gap-3 text-xs text-muted">
+            <div className="mt-5 pt-3.5 border-t border-gold/20 flex flex-wrap items-center justify-between gap-3 text-xs text-muted">
               <a
                 href={t('brand.phone_href')}
                 className="min-h-11 inline-flex items-center gap-2 text-text hover:text-gold"
               >
-                <span className="text-gold uppercase tracking-wider">{'{{CALL_DIRECT}}:'}</span>
+                <span className="text-gold uppercase tracking-wider">Direct Desk:</span>
                 <span className="font-mono underline underline-offset-4">
                   {t('brand.phone_display')}
                 </span>
@@ -121,7 +124,7 @@ export function HeroSignboardSection({ hours }: { hours: OpeningHourSlot[] }) {
               <span className="font-serif italic text-text text-sm">
                 {t('home.hero.frame_caption')}
               </span>
-              <span className="font-mono text-[11px] text-gold">{'{{HERO_MEDIA_SLOT}}'}</span>
+              <span className="font-mono text-[11px] text-gold">Clover Park · Viman Nagar</span>
             </div>
           </div>
         </div>
@@ -198,7 +201,7 @@ export function HoursAndLocationSection({
                 {t('home.location.heading')}
               </h2>
               <span className="text-xs font-mono uppercase tracking-wider text-gold">
-                {'{{NAP_LOCAL_SEO_SLOT}}'}
+                Opposite Phoenix Marketcity
               </span>
             </div>
             <MapEmbed slotName="home_location_minimap" />
@@ -406,7 +409,7 @@ export function OffersTeaserSection({
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <Badge kind="offer" label={offer.badgeText} />
                   <span className="font-mono text-xs text-gold border border-gold/35 px-2 py-0.5 rounded-xs">
-                    {`{{CODE:${offer.code}}}`}
+                    {`CODE: ${offer.code}`}
                   </span>
                 </div>
                 <h3 className="font-serif text-2xl text-text">{offer.title}</h3>
@@ -469,7 +472,7 @@ export function ReviewsTeaserSection({
               <div className="space-y-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <RatingStars rating={rev.rating} />
-                  <Badge kind="neutral" label={`{{SOURCE_${rev.source}}}`} />
+                  <Badge kind="neutral" label={rev.source} />
                 </div>
                 <blockquote className="font-serif italic text-lg text-text leading-relaxed">
                   &ldquo;{rev.comment}&rdquo;

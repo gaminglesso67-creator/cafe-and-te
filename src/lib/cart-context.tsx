@@ -109,6 +109,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const applyCoupon = useCallback((code: string): boolean => {
     const normalized = code.trim().toUpperCase();
+    if (normalized === 'LUNCH10') {
+      setCouponCode(normalized);
+      setDiscountPercent(10);
+      return true;
+    }
     if (normalized === 'SAANJH15') {
       setCouponCode(normalized);
       setDiscountPercent(15);
@@ -117,6 +122,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     if (normalized === 'HAPPYHOUR') {
       setCouponCode(normalized);
       setDiscountPercent(20);
+      return true;
+    }
+    if (normalized === 'SAANJH25') {
+      setCouponCode(normalized);
+      setDiscountPercent(25);
       return true;
     }
     return false;

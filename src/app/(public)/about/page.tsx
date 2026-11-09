@@ -4,25 +4,50 @@ import { DualCtaBandSection } from '@/components/sections/HomeSections';
 import { Card, GoldDivider, ImageWithOverlay, Section } from '@/components/ui';
 
 /**
- * About / Story Page (PRD 7.3):
+ * About / Story Page (PRD 7.3) populated with Saanjh Viman Nagar details:
  * - Restaurant background section
- * - Chef profile section
- * - Values section (editorial ledger, no emoji cards)
- * - Timeline / milestones block
- * - Image-and-text alternating blocks (including Cream variant)
- * - CTA band
+ * - Culinary philosophy & newly opened bar section
+ * - Values section (Multi-generational warmth, Eclectic cuisine, Inclusive accessibility)
+ * - Amenities & highlights block
  */
 export default function AboutPage() {
   const values = [
-    { id: 'val-1', number: '01', title: '{{VALUE_1_TITLE}}', body: '{{VALUE_1_DESCRIPTION}}' },
-    { id: 'val-2', number: '02', title: '{{VALUE_2_TITLE}}', body: '{{VALUE_2_DESCRIPTION}}' },
-    { id: 'val-3', number: '03', title: '{{VALUE_3_TITLE}}', body: '{{VALUE_3_DESCRIPTION}}' },
+    {
+      id: 'val-1',
+      number: '01',
+      title: 'Warm Earthy Wood & Soft Amber Glow',
+      body: 'True to the word Saanjh (dusk), our space blends rustic natural wooden textures with soft amber lantern light—offering both air-conditioned indoor dining and a lush green outdoor patio.',
+    },
+    {
+      id: 'val-2',
+      number: '02',
+      title: 'An Eclectic Multi-Cuisine Table',
+      body: 'From regional Maharashtrian specialties and Royal Dum Biryanis to signature Wild Mushroom Crostinis, Italian thin-crust pizzas, Oriental wok favourites, and our newly opened bar.',
+    },
+    {
+      id: 'val-3',
+      number: '03',
+      title: 'Effortless Family & Group Hospitality',
+      body: 'Designed for multi-generational families and large group celebrations opposite Phoenix Marketcity, complete with complimentary valet parking and full wheelchair accessibility.',
+    },
   ];
 
   const milestones = [
-    { year: '{{YEAR_1}}', title: '{{MILESTONE_1_TITLE}}', detail: '{{MILESTONE_1_DETAIL}}' },
-    { year: '{{YEAR_2}}', title: '{{MILESTONE_2_TITLE}}', detail: '{{MILESTONE_2_DETAIL}}' },
-    { year: '{{YEAR_3}}', title: '{{MILESTONE_3_TITLE}}', detail: '{{MILESTONE_3_DETAIL}}' },
+    {
+      year: 'Ambience',
+      title: 'Indoor AC Dining & Lush Outdoor Patio',
+      detail: 'Choose between our cosy wooden indoor dining room or our breezy green outdoor setup in Clover Park.',
+    },
+    {
+      year: 'New Bar',
+      title: 'Newly Opened Craft Bar & Botanical Mocktails',
+      detail: 'Pouring signature cocktails, zero-proof botanical elixirs, and curated small plates till 12:00 Midnight.',
+    },
+    {
+      year: 'Access',
+      title: 'Valet Parking & Full Wheelchair Accessibility',
+      detail: 'Step-free entrance, accessible seating, and dedicated valet service at Plot 4, Survey No. 206, Lane 2, Viman Nagar.',
+    },
   ];
 
   return (
@@ -39,7 +64,7 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      {/* 1. Restaurant Background Section (Alternating Block 1) */}
+      {/* 1. Restaurant Background Section */}
       <Section variant="dark">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           <div className="lg:col-span-6 space-y-4">
@@ -48,17 +73,17 @@ export default function AboutPage() {
             <p className="text-base text-muted leading-relaxed">{t('about.story.body_2')}</p>
           </div>
           <div className="lg:col-span-6">
-            <ImageWithOverlay slot="about_origin_story" aspect="4x3" />
+            <ImageWithOverlay slot="saanjh_wooden_interiors" aspect="4x3" />
           </div>
         </div>
       </Section>
 
-      {/* 2. Chef Profile Section (Cream Variant — strictly charcoal text on cream) */}
+      {/* 2. Culinary Profile Section (Cream Variant — strictly charcoal text on cream) */}
       <Section variant="cream" className="border-y border-charcoal/20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           <div className="lg:col-span-5">
             <div className="p-2 border border-charcoal/30 bg-charcoal">
-              <ImageWithOverlay slot="about_chef_portrait" aspect="3x4" />
+              <ImageWithOverlay slot="signature_mushroom_crostini_bar" aspect="3x4" />
             </div>
           </div>
           <div className="lg:col-span-7 space-y-4">
@@ -71,7 +96,7 @@ export default function AboutPage() {
             <GoldDivider onCream ornament={false} />
             <p className="text-base text-charcoal/85 leading-relaxed">{t('about.chef.bio')}</p>
             <p className="text-sm font-mono uppercase tracking-wider text-charcoal/70">
-              {'{{CHEF_SIGNATURE_QUOTE_SLOT}}'}
+              Average Cost: ₹1,000 – ₹1,100 for two · Open Daily 12 Noon – 12 Midnight
             </p>
           </div>
         </div>
@@ -96,17 +121,17 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      {/* 4. Timeline / Milestones Block */}
+      {/* 4. Amenities & Facilities Block */}
       <Section variant="dark" className="border-t border-gold/20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           <div className="lg:col-span-5 space-y-4">
             <h2 className="font-serif text-3xl text-text">{t('about.milestones.heading')}</h2>
-            <ImageWithOverlay slot="about_ambience_detail" aspect="16x9" />
+            <ImageWithOverlay slot="lush_green_outdoor_patio" aspect="16x9" />
           </div>
           <div className="lg:col-span-7 space-y-4">
             {milestones.map((m) => (
               <Card key={m.year} variant="surface" className="flex flex-col sm:flex-row gap-4">
-                <span className="font-mono text-sm text-gold shrink-0 px-2.5 py-1 border border-gold/30 rounded-xs self-start">
+                <span className="font-mono text-xs uppercase text-gold shrink-0 px-2.5 py-1 border border-gold/30 rounded-xs self-start">
                   {m.year}
                 </span>
                 <div className="space-y-1">
@@ -123,4 +148,3 @@ export default function AboutPage() {
     </>
   );
 }
-

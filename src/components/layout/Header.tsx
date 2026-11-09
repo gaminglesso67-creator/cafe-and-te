@@ -26,7 +26,7 @@ export function Header() {
   return (
     <>
       <header className="sticky top-0 z-30 w-full max-w-full bg-bg/95 backdrop-blur-sm border-b border-gold/25">
-        <div className="mx-auto max-w-[1240px] px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-3">
           {/* Brand Wordmark & Tagline Lockup (PRD 5.3, 5.4) */}
           <Link
             href="/"

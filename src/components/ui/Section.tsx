@@ -37,7 +37,7 @@ export function Section({
       className={clsx(
         'relative w-full max-w-full overflow-x-clip',
         variantStyles[variant],
-        !noPadding && 'py-10 sm:py-14 lg:py-16',
+        !noPadding && 'py-10 sm:py-12 lg:py-16',
         className
       )}
       {...props}
@@ -46,7 +46,7 @@ export function Section({
         <div
           className={clsx(
             'mx-auto w-full px-4 sm:px-6 lg:px-8',
-            narrow ? 'max-w-4xl' : 'max-w-[1240px]'
+            narrow ? 'max-w-4xl' : 'max-w-7xl'
           )}
         >
           {children}
