@@ -28,11 +28,28 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
   title: {
     default: `${t('brand.wordmark')} — ${t('brand.tagline')}`,
     template: `%s | ${t('brand.wordmark')}`,
   },
   description: t('home.hero.tagline'),
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: `${t('brand.wordmark')} — ${t('brand.tagline')}`,
+    description: t('home.hero.tagline'),
+    type: 'website',
+    locale: 'en_IN',
+    images: ['/placeholders/16x9.svg'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${t('brand.wordmark')} — ${t('brand.tagline')}`,
+    description: t('home.hero.tagline'),
+    images: ['/placeholders/16x9.svg'],
+  },
 };
 
 export default function RootLayout({
