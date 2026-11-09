@@ -198,6 +198,30 @@
   .animate-cart-pop {
     animation: cart-pop 360ms cubic-bezier(0.34, 1.56, 0.64, 1);
   }
+
+  /* Cream section surface strictly enforces charcoal text & disables gold text (PRD 5.7) */
+  .section-cream {
+    background-color: var(--text);
+    color: var(--bg);
+  }
+
+  /* Thin gold hairline borders */
+  .hairline-gold {
+    border-color: rgba(232, 181, 71, 0.24);
+  }
+
+  .hairline-gold-strong {
+    border-color: rgba(232, 181, 71, 0.52);
+  }
+
+  /* Hide scrollbar for horizontal chip strip while preserving scrollability */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
 
 @keyframes signboard-breathe {
@@ -263,31 +287,6 @@
   }
   100% {
     transform: scale(1);
-  }
-}
-
-  /* Cream section surface strictly enforces charcoal text & disables gold text (PRD 5.7) */
-  .section-cream {
-    background-color: var(--text);
-    color: var(--bg);
-  }
-
-  /* Thin gold hairline borders */
-  .hairline-gold {
-    border-color: rgba(232, 181, 71, 0.24);
-  }
-
-  .hairline-gold-strong {
-    border-color: rgba(232, 181, 71, 0.52);
-  }
-
-  /* Hide scrollbar for horizontal chip strip while preserving scrollability */
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
   }
 }
 
