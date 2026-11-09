@@ -77,3 +77,4 @@ export const cateringEnquirySchema = z.object({
   notes: z.string().max(1500).optional(),
   honeypot: z.string().optional(),
 });
+

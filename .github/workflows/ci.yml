@@ -33,3 +33,4 @@ jobs:
 
       - name: Run automated tests (Vitest)
         run: npm test
+

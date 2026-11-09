@@ -181,3 +181,4 @@ export async function enqueueAndPushOrderToPos(order: OrderRecord): Promise<PosS
   order.posAdapterUsed = adapter.name;
   return job;
 }
+

@@ -25,23 +25,26 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-30 w-full bg-bg/95 backdrop-blur-sm border-b border-gold/25">
-        <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
+      <header className="sticky top-0 z-30 w-full max-w-full bg-bg/95 backdrop-blur-sm border-b border-gold/25">
+        <div className="mx-auto max-w-[1240px] px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
           {/* Brand Wordmark & Tagline Lockup (PRD 5.3, 5.4) */}
           <Link
             href="/"
-            className="flex flex-col justify-center min-h-11 py-1 pr-2 group shrink-0"
+            className="flex flex-col justify-center min-h-11 py-1 pr-2 group shrink-0 max-w-[55vw] sm:max-w-none"
           >
-            <span className="font-serif text-xl sm:text-2xl font-semibold tracking-wider text-gold text-glow-gold leading-none">
+            <span className="font-serif text-lg sm:text-xl font-semibold tracking-wider text-gold text-glow-gold leading-none truncate">
               {t('brand.wordmark')}
             </span>
-            <span className="font-sans text-[10px] sm:text-xs uppercase tracking-[0.2em] text-muted mt-0.5">
+            <span className="font-sans text-[10px] uppercase tracking-[0.16em] text-muted mt-1 truncate">
               {t('brand.tagline')}
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav aria-label="Main navigation" className="hidden lg:flex items-center gap-2">
+          {/* Desktop Navigation (xl+ so placeholder tokens never crowd laptop widths) */}
+          <nav
+            aria-label="Main navigation"
+            className="hidden xl:flex items-center gap-1 min-w-0 flex-1 justify-center"
+          >
             {NAV_LINKS.map((item) => {
               const active = pathname === item.href;
               return (
@@ -49,7 +52,7 @@ export function Header() {
                   key={item.href}
                   href={item.href}
                   className={clsx(
-                    'min-h-11 inline-flex items-center px-3 text-sm tracking-wide transition-colors border-b-2',
+                    'min-h-11 inline-flex items-center px-2.5 text-xs font-mono tracking-wider transition-colors border-b-2 whitespace-nowrap',
                     active
                       ? 'text-gold border-gold font-medium'
                       : 'text-text/90 border-transparent hover:text-gold'
@@ -61,7 +64,7 @@ export function Header() {
             })}
           </nav>
 
-          {/* Actions: Cart bottom-sheet trigger, Primary CTA, Mobile menu button */}
+          {/* Actions: Cart bottom-sheet trigger, Primary CTA, Navigation drawer button */}
           <div className="flex items-center gap-2 shrink-0">
             <button
               type="button"
@@ -76,14 +79,14 @@ export function Header() {
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.5"
-                className="text-gold"
+                className="text-gold shrink-0"
                 aria-hidden="true"
               >
                 <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
                 <line x1="3" y1="6" x2="21" y2="6" />
                 <path d="M16 10a4 4 0 01-8 0" />
               </svg>
-              <span className="hidden sm:inline text-xs uppercase tracking-wider">
+              <span className="hidden md:inline text-xs font-mono uppercase tracking-wider">
                 {t('global.nav.cart')}
               </span>
               <span className="inline-flex items-center justify-center min-w-5 h-5 px-1 text-xs font-semibold rounded-xs bg-gold text-charcoal">
@@ -92,21 +95,18 @@ export function Header() {
             </button>
 
             <div className="hidden md:flex items-center gap-2">
-              <Button variant="secondary" size="sm" href="/order">
-                {t('global.nav.order')}
-              </Button>
               <Button variant="primary" size="sm" href="/reserve">
                 {t('global.nav.reserve')}
               </Button>
             </div>
 
-            {/* Mobile Hamburger Trigger (>=44x44px) */}
+            {/* Hamburger Trigger (<1280px, >=44x44px) */}
             <button
               type="button"
               onClick={() => setMobileMenuOpen(true)}
               aria-label="Open navigation menu"
               aria-expanded={mobileMenuOpen}
-              className="lg:hidden inline-flex items-center justify-center min-h-11 min-w-11 rounded-xs border border-gold/35 bg-surface text-gold"
+              className="xl:hidden inline-flex items-center justify-center min-h-11 min-w-11 rounded-xs border border-gold/35 bg-surface text-gold"
             >
               <svg
                 width="20"
@@ -126,7 +126,7 @@ export function Header() {
         </div>
       </header>
 
-      {/* Mobile Navigation Drawer */}
+      {/* Mobile / Tablet Navigation Drawer */}
       <DrawerModal
         open={mobileMenuOpen}
         onClose={() => setMobileMenuOpen(false)}
@@ -142,26 +142,36 @@ export function Header() {
                 href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
                 className={clsx(
-                  'min-h-11 flex items-center justify-between px-4 py-2.5 rounded-xs border text-base',
+                  'min-h-11 flex items-center justify-between px-4 py-2.5 rounded-xs border text-sm sm:text-base',
                   active
                     ? 'border-gold bg-gold/10 text-gold font-medium'
                     : 'border-gold/20 bg-bg/60 text-text'
                 )}
               >
-                <span>{t(item.labelKey)}</span>
-                <span aria-hidden="true" className="text-gold text-sm">
+                <span className="truncate">{t(item.labelKey)}</span>
+                <span aria-hidden="true" className="text-gold text-sm shrink-0">
                   →
                 </span>
               </Link>
             );
           })}
           <Link
+            href="/order"
+            onClick={() => setMobileMenuOpen(false)}
+            className="min-h-11 flex items-center justify-between px-4 py-2.5 rounded-xs border border-gold/35 bg-surface text-gold text-sm sm:text-base font-medium"
+          >
+            <span className="truncate">{t('global.nav.order')}</span>
+            <span aria-hidden="true" className="text-gold text-sm shrink-0">
+              →
+            </span>
+          </Link>
+          <Link
             href="/account"
             onClick={() => setMobileMenuOpen(false)}
-            className="min-h-11 flex items-center justify-between px-4 py-2.5 rounded-xs border border-gold/20 bg-bg/60 text-muted text-base"
+            className="min-h-11 flex items-center justify-between px-4 py-2.5 rounded-xs border border-gold/20 bg-bg/60 text-muted text-sm sm:text-base"
           >
-            <span>{t('global.nav.account')}</span>
-            <span aria-hidden="true" className="text-gold text-sm">
+            <span className="truncate">{t('global.nav.account')}</span>
+            <span aria-hidden="true" className="text-gold text-sm shrink-0">
               →
             </span>
           </Link>
@@ -170,4 +180,3 @@ export function Header() {
     </>
   );
 }
-

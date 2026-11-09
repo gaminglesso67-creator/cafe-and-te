@@ -52,3 +52,4 @@ export class TestPaymentProvider implements PaymentProviderAdapter {
     return signatureHeader === expected;
   }
 }
+

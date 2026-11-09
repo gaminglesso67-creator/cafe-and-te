@@ -124,3 +124,4 @@ saanjh/
   - Live Razorpay / Stripe SDK credentials in `.env.example` (`PAYMENT_TEST_MODE="true"` used in skeleton).
   - Live Email (Resend/SES), SMS (MSG91/Twilio), and WhatsApp Cloud API credentials in `src/lib/notifications/service.ts` (logs `{{TEMPLATE_BODY}}` to `NotificationLog` in skeleton mode).
   - Staging HTTPS deployment (`TODO`: ready to deploy to Vercel + Neon/Supabase once domain and cloud accounts in PRD §19.6 are provisioned).
+

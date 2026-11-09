@@ -17,17 +17,17 @@ export function AnnouncementBar() {
     <div
       role="region"
       aria-label="Announcement"
-      className="w-full bg-surface border-b border-gold/25 px-3 py-2 text-xs sm:text-sm"
+      className="w-full max-w-full bg-surface border-b border-gold/25 px-4 sm:px-6 lg:px-8 py-2 text-xs"
     >
-      <div className="mx-auto max-w-7xl flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2.5 min-w-0 flex-1">
-          <span className="shrink-0 inline-block px-2 py-0.5 text-[11px] uppercase tracking-widest bg-crimson text-cream border border-gold/30 rounded-xs">
+      <div className="mx-auto max-w-[1240px] flex items-center justify-between gap-2">
+        <div className="flex flex-wrap items-center gap-2 min-w-0 flex-1">
+          <span className="shrink-0 inline-block px-2 py-0.5 text-[10px] sm:text-[11px] uppercase tracking-wider bg-crimson text-cream border border-gold/30 rounded-xs">
             {t('global.announcement.tag')}
           </span>
-          <p className="text-text truncate">{t('global.announcement.text')}</p>
+          <p className="text-text truncate min-w-0">{t('global.announcement.text')}</p>
           <Link
             href="/offers"
-            className="shrink-0 text-gold underline underline-offset-4 hover:text-text font-medium ml-1"
+            className="shrink-0 text-gold underline underline-offset-4 hover:text-text font-medium"
           >
             {t('global.announcement.cta')}
           </Link>
@@ -44,4 +44,3 @@ export function AnnouncementBar() {
     </div>
   );
 }
-

@@ -33,3 +33,4 @@ export function checkRateLimit(
 export function isHoneypotTriggered(honeypotValue?: string | null): boolean {
   return Boolean(honeypotValue && honeypotValue.trim().length > 0);
 }
+

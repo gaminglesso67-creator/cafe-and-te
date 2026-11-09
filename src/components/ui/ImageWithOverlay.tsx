@@ -63,7 +63,7 @@ export function ImageWithOverlay({
         />
       )}
       {/* Slot identifier badge in corner for content handoff clarity */}
-      <span className="absolute top-2 left-2 z-10 px-2 py-0.5 text-[11px] font-mono uppercase tracking-wider bg-bg/85 text-muted border border-gold/25 rounded-xs">
+      <span className="absolute top-2 left-2 z-10 max-w-[calc(100%-1rem)] truncate px-1.5 py-0.5 text-[10px] font-mono uppercase tracking-wider bg-bg/85 text-muted border border-gold/25 rounded-xs">
         {`{{SLOT:${slot.toUpperCase()}}}`}
       </span>
       {children && <div className="relative z-10 h-full w-full">{children}</div>}

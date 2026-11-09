@@ -9,3 +9,4 @@ export async function GET() {
     items: store.menuItems,
   });
 }
+

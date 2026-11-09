@@ -34,3 +34,4 @@ export async function GET(req: NextRequest) {
     maxSlotCapacity: MAX_SLOT_CAPACITY,
   });
 }
+

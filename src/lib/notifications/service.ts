@@ -46,3 +46,4 @@ export async function dispatchNotification(params: {
   store.notificationLogs.unshift(record);
   return record;
 }
+

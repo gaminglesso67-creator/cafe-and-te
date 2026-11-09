@@ -36,3 +36,4 @@ export async function POST(req: NextRequest) {
   order.status = 'accepted';
   return NextResponse.json({ acknowledged: true, orderId: order.id });
 }
+

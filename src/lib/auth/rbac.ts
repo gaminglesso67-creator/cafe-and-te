@@ -108,3 +108,4 @@ export const SEED_ADMIN_USERS: AdminUserAccount[] = [
     failedLoginAttempts: 0,
   },
 ];
+

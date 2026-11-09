@@ -40,13 +40,13 @@ const config: Config = {
       },
       fontSize: {
         base: ['1rem', { lineHeight: '1.65' }], // 16px minimum body text
-        lg: ['1.125rem', { lineHeight: '1.6' }],
-        xl: ['1.25rem', { lineHeight: '1.5' }],
-        '2xl': ['1.5rem', { lineHeight: '1.35' }],
-        '3xl': ['1.875rem', { lineHeight: '1.25' }],
-        '4xl': ['2.375rem', { lineHeight: '1.15' }],
-        '5xl': ['3.25rem', { lineHeight: '1.08' }],
-        '6xl': ['4.25rem', { lineHeight: '1.04' }],
+        lg: ['1.0625rem', { lineHeight: '1.6' }],
+        xl: ['1.1875rem', { lineHeight: '1.45' }],
+        '2xl': ['clamp(1.25rem, 2vw, 1.5rem)', { lineHeight: '1.3' }],
+        '3xl': ['clamp(1.5rem, 2.6vw, 1.875rem)', { lineHeight: '1.22' }],
+        '4xl': ['clamp(1.75rem, 3.4vw, 2.375rem)', { lineHeight: '1.15' }],
+        '5xl': ['clamp(2rem, 4.2vw, 3rem)', { lineHeight: '1.1' }],
+        '6xl': ['clamp(2.25rem, 4.8vw, 3.5rem)', { lineHeight: '1.06' }],
       },
       spacing: {
         'safe-b': 'env(safe-area-inset-bottom, 0px)',
@@ -73,7 +73,8 @@ const config: Config = {
       backgroundImage: {
         'gold-gradient': 'var(--gold-gradient)',
         'glow-hero': 'var(--glow-hero)',
-        'photo-overlay': 'linear-gradient(to top, rgba(15, 15, 16, 0.88) 0%, rgba(15, 15, 16, 0.45) 55%, rgba(15, 15, 16, 0.6) 100%)',
+        'photo-overlay':
+          'linear-gradient(to top, rgba(15, 15, 16, 0.88) 0%, rgba(15, 15, 16, 0.45) 55%, rgba(15, 15, 16, 0.6) 100%)',
       },
     },
   },
@@ -81,4 +82,3 @@ const config: Config = {
 };
 
 export default config;
-

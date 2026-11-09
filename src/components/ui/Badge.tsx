@@ -61,7 +61,7 @@ export function Badge({ kind = 'neutral', label, onCream = false, className }: B
     return (
       <span
         className={clsx(
-          'inline-flex items-center px-2.5 py-0.5 text-xs font-medium uppercase tracking-widest rounded-xs',
+          'inline-flex items-center px-2 py-0.5 text-[11px] font-medium uppercase tracking-wider rounded-xs max-w-full break-words',
           'bg-crimson text-cream border border-gold/35',
           className
         )}

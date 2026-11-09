@@ -7,3 +7,4 @@ export async function GET() {
     reviews: store.reviews.filter((r) => r.isPublished),
   });
 }
+

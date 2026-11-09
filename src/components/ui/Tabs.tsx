@@ -37,11 +37,11 @@ export function Tabs({
       role="tablist"
       aria-label={ariaLabel}
       className={clsx(
-        'flex items-center gap-2.5 overflow-x-auto no-scrollbar py-2',
+        'flex items-center gap-2.5 overflow-x-auto no-scrollbar py-2 w-full max-w-full',
         sticky &&
           (onCream
-            ? 'sticky top-16 z-20 bg-cream/95 border-b border-charcoal/15 px-4 -mx-4 sm:mx-0 sm:px-0'
-            : 'sticky top-16 z-20 bg-bg/95 border-b border-gold/20 px-4 -mx-4 sm:mx-0 sm:px-0'),
+            ? 'sticky top-16 z-20 bg-cream/95 border-b border-charcoal/15'
+            : 'sticky top-16 z-20 bg-bg/95 border-b border-gold/20'),
         className
       )}
     >
@@ -55,7 +55,7 @@ export function Tabs({
             aria-selected={isActive}
             onClick={() => onChange(item.id)}
             className={clsx(
-              'min-h-11 px-4 py-2 rounded-xs text-sm font-medium whitespace-nowrap shrink-0 border transition-all',
+              'min-h-11 px-3.5 py-2 rounded-xs text-xs sm:text-sm font-medium whitespace-nowrap shrink-0 border transition-all',
               onCream
                 ? isActive
                   ? 'bg-charcoal text-cream border-charcoal'
@@ -75,4 +75,3 @@ export function Tabs({
     </div>
   );
 }
-

@@ -8,3 +8,4 @@ export default function AdminDashboardLayout({
 }) {
   return <AdminShell>{children}</AdminShell>;
 }
+

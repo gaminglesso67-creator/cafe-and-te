@@ -342,3 +342,4 @@ export function appendAuditLog(entry: Omit<AuditLogRecord, 'id' | 'createdAt'>) 
     createdAt: new Date().toISOString(),
   });
 }
+

@@ -37,26 +37,28 @@ export function HeroSignboardSection({ hours }: { hours: OpeningHourSlot[] }) {
   const { isOpen, todaySlot } = getLiveOpenStatus(hours);
 
   return (
-    <Section variant="dark" className="relative overflow-hidden pt-8 pb-14 md:py-20">
+    <Section variant="dark" className="relative overflow-hidden pt-6 pb-12 md:py-16">
       {/* Radial gold signboard wash at top (PRD 5.3) */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-[460px] bg-glow-hero"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-glow-hero"
       />
 
-      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
         {/* Left 7 Cols: Lit Signboard Frame */}
-        <div className="lg:col-span-7">
-          <Card variant="signboard" className="p-6 sm:p-9 md:p-11">
+        <div className="lg:col-span-7 min-w-0">
+          <Card variant="signboard" className="p-5 sm:p-7 lg:p-9">
             {/* Top Status & Eyebrow Row */}
-            <div className="flex flex-wrap items-center justify-between gap-2 pb-5 mb-6 border-b border-gold/25">
-              <span className="text-xs uppercase tracking-[0.22em] text-gold font-medium">
+            <div className="flex flex-wrap items-center justify-between gap-2 pb-4 mb-5 border-b border-gold/25">
+              <span className="text-xs uppercase tracking-[0.18em] text-gold font-medium break-words">
                 {t('home.hero.eyebrow')}
               </span>
-              <span className="inline-flex items-center gap-2 px-2.5 py-1 text-xs uppercase tracking-wider rounded-xs border border-gold/35 bg-surface text-text">
+              <span className="inline-flex flex-wrap items-center gap-1.5 px-2.5 py-1 text-xs uppercase tracking-wider rounded-xs border border-gold/35 bg-surface text-text">
                 <span
                   aria-hidden="true"
-                  className={`w-2 h-2 rounded-full ${isOpen ? 'bg-emerald-400' : 'bg-crimson'}`}
+                  className={`w-2 h-2 rounded-full shrink-0 ${
+                    isOpen ? 'bg-emerald-400' : 'bg-crimson'
+                  }`}
                 />
                 <span>
                   {isOpen ? t('home.hours.status_open') : t('home.hours.status_closed')}
@@ -70,26 +72,26 @@ export function HeroSignboardSection({ hours }: { hours: OpeningHourSlot[] }) {
             </div>
 
             {/* Glowing Calligraphic Heading (PRD 5.3) */}
-            <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-semibold text-gold text-glow-gold tracking-wide leading-[1.08] mb-4">
+            <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold text-gold text-glow-gold tracking-wide leading-tight mb-4 break-words">
               {t('home.hero.title')}
             </h1>
 
-            <p className="text-base sm:text-lg text-muted max-w-xl mb-8 leading-relaxed">
+            <p className="text-base text-muted max-w-xl mb-7 leading-relaxed break-words">
               {t('home.hero.tagline')}
             </p>
 
             {/* Primary CTAs */}
-            <div className="flex flex-col xs:flex-row items-stretch xs:items-center gap-3">
-              <Button variant="primary" size="lg" href="/order">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+              <Button variant="primary" size="md" href="/order">
                 {t('home.hero.cta_order')}
               </Button>
-              <Button variant="secondary" size="lg" href="/reserve">
+              <Button variant="secondary" size="md" href="/reserve">
                 {t('home.hero.cta_reserve')}
               </Button>
             </div>
 
             {/* Direct Phone & WhatsApp Strip */}
-            <div className="mt-8 pt-5 border-t border-gold/20 flex flex-wrap items-center justify-between gap-4 text-xs text-muted">
+            <div className="mt-7 pt-4 border-t border-gold/20 flex flex-wrap items-center justify-between gap-3 text-xs text-muted">
               <a
                 href={t('brand.phone_href')}
                 className="min-h-11 inline-flex items-center gap-2 text-text hover:text-gold"
@@ -99,7 +101,7 @@ export function HeroSignboardSection({ hours }: { hours: OpeningHourSlot[] }) {
                   {t('brand.phone_display')}
                 </span>
               </a>
-              <span className="font-mono uppercase tracking-widest text-gold/80">
+              <span className="font-mono uppercase tracking-wider text-gold/80">
                 {t('brand.address_line1')}
               </span>
             </div>
@@ -107,15 +109,15 @@ export function HeroSignboardSection({ hours }: { hours: OpeningHourSlot[] }) {
         </div>
 
         {/* Right 5 Cols: Offset Editorial Visual Frame */}
-        <div className="lg:col-span-5 relative">
-          <div className="p-2 border border-gold/35 bg-surface rounded-xs">
+        <div className="lg:col-span-5 min-w-0">
+          <div className="p-2.5 border border-gold/35 bg-surface rounded-xs">
             <ImageWithOverlay
               slot="hero_signboard_visual"
               aspect="4x3"
               priority
               sizes="(max-width: 1024px) 100vw, 42vw"
             />
-            <div className="pt-3 px-2 pb-1 flex items-center justify-between gap-2 text-xs text-muted">
+            <div className="pt-3 px-1 pb-0.5 flex flex-wrap items-center justify-between gap-2 text-xs text-muted">
               <span className="font-serif italic text-text text-sm">
                 {t('home.hero.frame_caption')}
               </span>
@@ -147,10 +149,10 @@ export function HoursAndLocationSection({
       {state === 'error' && <ErrorState />}
       {state === 'empty' && <EmptyState />}
       {state === 'ready' && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left 5 cols: Opening Hours Ledger */}
-          <div className="lg:col-span-5 space-y-5">
-            <div className="flex items-center justify-between gap-3 border-b border-gold/25 pb-3">
+          <div className="lg:col-span-5 min-w-0 space-y-5">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-gold/25 pb-3">
               <h2 className="font-serif text-2xl sm:text-3xl text-text">
                 {t('home.hours.heading')}
               </h2>
@@ -164,7 +166,7 @@ export function HoursAndLocationSection({
               {hours.map((slot) => (
                 <div
                   key={slot.id}
-                  className="py-2.5 first:pt-0 last:pb-0 flex items-center justify-between gap-4 text-sm"
+                  className="py-2.5 first:pt-0 last:pb-0 flex flex-wrap items-center justify-between gap-2 text-sm"
                 >
                   <dt className="text-muted font-medium">{slot.dayLabel}</dt>
                   <dd className="font-mono text-text">
@@ -190,12 +192,12 @@ export function HoursAndLocationSection({
           </div>
 
           {/* Right 7 cols: Location & Mini-Map */}
-          <div className="lg:col-span-7 space-y-4">
-            <div className="border-b border-gold/25 pb-3 flex items-center justify-between">
+          <div className="lg:col-span-7 min-w-0 space-y-4">
+            <div className="border-b border-gold/25 pb-3 flex flex-wrap items-center justify-between gap-2">
               <h2 className="font-serif text-2xl sm:text-3xl text-text">
                 {t('home.location.heading')}
               </h2>
-              <span className="text-xs font-mono uppercase tracking-widest text-gold">
+              <span className="text-xs font-mono uppercase tracking-wider text-gold">
                 {'{{NAP_LOCAL_SEO_SLOT}}'}
               </span>
             </div>
@@ -238,9 +240,9 @@ export function SignatureHighlightsSection({
 
   return (
     <Section variant="dark">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
-        <div>
-          <p className="text-xs uppercase tracking-[0.22em] text-gold mb-2">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <div className="min-w-0">
+          <p className="text-xs uppercase tracking-[0.18em] text-gold mb-1.5">
             {t('home.highlights.eyebrow')}
           </p>
           <h2 className="font-serif text-3xl sm:text-4xl text-text">
@@ -256,19 +258,23 @@ export function SignatureHighlightsSection({
       {state === 'error' && <ErrorState />}
       {state === 'empty' && <EmptyState actionLabel={t('global.nav.menu')} actionHref="/menu" />}
       {state === 'ready' && leadItem && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
           {/* Left 5 Cols: Lead Signature Plate */}
-          <Card variant="surface" padded={false} className="lg:col-span-5 flex flex-col overflow-hidden">
+          <Card
+            variant="surface"
+            padded={false}
+            className="lg:col-span-5 min-w-0 flex flex-col overflow-hidden"
+          >
             <ImageWithOverlay slot={leadItem.imageSlot} aspect="4x3" />
-            <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between gap-4">
+            <div className="p-5 flex-1 flex flex-col justify-between gap-4">
               <div className="space-y-2.5">
                 <div className="flex flex-wrap items-center gap-2">
                   <Badge kind={leadItem.isVeg ? 'veg' : 'non_veg'} />
                   {leadItem.isSignature && <Badge kind="chefs_special" />}
                 </div>
-                <div className="flex items-baseline justify-between gap-3">
+                <div className="flex flex-wrap items-baseline justify-between gap-2">
                   <h3 className="font-serif text-2xl text-text">{leadItem.name}</h3>
-                  <span className="font-mono text-base font-semibold text-gold shrink-0">
+                  <span className="font-mono text-sm sm:text-base font-semibold text-gold shrink-0">
                     {formatPriceToken(leadItem.price)}
                   </span>
                 </div>
@@ -286,18 +292,18 @@ export function SignatureHighlightsSection({
           </Card>
 
           {/* Right 7 Cols: Editorial Printed-Menu Ledger Rows */}
-          <div className="lg:col-span-7 flex flex-col justify-between divide-y divide-gold/20 border-y border-gold/25">
+          <div className="lg:col-span-7 min-w-0 flex flex-col justify-between divide-y divide-gold/20 border-y border-gold/25">
             {ledgerItems.map((dish) => (
               <article
                 key={dish.id}
-                className="py-5 first:pt-4 last:pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                className="py-4 first:pt-3 last:pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
               >
-                <div className="flex items-start gap-4 min-w-0">
-                  <div className="w-24 sm:w-28 shrink-0">
+                <div className="flex items-start gap-3.5 min-w-0">
+                  <div className="w-20 sm:w-24 shrink-0">
                     <ImageWithOverlay slot={dish.imageSlot} aspect="1x1" />
                   </div>
-                  <div className="space-y-1.5 min-w-0">
-                    <div className="flex flex-wrap items-center gap-2">
+                  <div className="space-y-1 min-w-0">
+                    <div className="flex flex-wrap items-center gap-1.5">
                       <Badge kind={dish.isVeg ? 'veg' : 'non_veg'} />
                       {dish.isSignature && <Badge kind="chefs_special" />}
                       {dish.isNew && <Badge kind="new" />}
@@ -307,8 +313,8 @@ export function SignatureHighlightsSection({
                   </div>
                 </div>
 
-                <div className="flex sm:flex-col items-center sm:items-end justify-between gap-3 shrink-0 border-t sm:border-t-0 border-gold/15 pt-3 sm:pt-0">
-                  <span className="font-mono text-base font-semibold text-gold">
+                <div className="flex sm:flex-col items-center sm:items-end justify-between gap-2 shrink-0 border-t sm:border-t-0 border-gold/15 pt-3 sm:pt-0">
+                  <span className="font-mono text-sm font-semibold text-gold">
                     {formatPriceToken(dish.price)}
                   </span>
                   <Button variant="secondary" size="sm" onClick={() => handleQuickAdd(dish)}>
@@ -332,9 +338,9 @@ export function SignatureHighlightsSection({
 export function AboutTeaserSection() {
   return (
     <Section variant="cream" className="border-y border-charcoal/20">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-        <div className="lg:col-span-6 space-y-4">
-          <p className="text-xs uppercase tracking-[0.22em] text-charcoal/70 font-semibold">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div className="lg:col-span-6 min-w-0 space-y-4">
+          <p className="text-xs uppercase tracking-[0.18em] text-charcoal/70 font-semibold">
             {t('home.about.eyebrow')}
           </p>
           <h2 className="font-serif text-3xl sm:text-4xl text-charcoal leading-tight">
@@ -348,7 +354,7 @@ export function AboutTeaserSection() {
             </Button>
           </div>
         </div>
-        <div className="lg:col-span-6">
+        <div className="lg:col-span-6 min-w-0">
           <div className="p-2 border border-charcoal/25 bg-charcoal">
             <ImageWithOverlay slot="home_about_story" aspect="16x9" />
           </div>
@@ -372,8 +378,8 @@ export function OffersTeaserSection({
   return (
     <Section variant="surface">
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
-        <div>
-          <p className="text-xs uppercase tracking-[0.22em] text-gold mb-2">
+        <div className="min-w-0">
+          <p className="text-xs uppercase tracking-[0.18em] text-gold mb-1.5">
             {t('home.offers.eyebrow')}
           </p>
           <h2 className="font-serif text-3xl sm:text-4xl text-text">
@@ -391,9 +397,13 @@ export function OffersTeaserSection({
       {state === 'ready' && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {offers.map((offer) => (
-            <Card key={offer.id} variant="dark" className="flex flex-col justify-between gap-5">
+            <Card
+              key={offer.id}
+              variant="dark"
+              className="min-w-0 flex flex-col justify-between gap-5"
+            >
               <div className="space-y-3">
-                <div className="flex items-center justify-between gap-2">
+                <div className="flex flex-wrap items-center justify-between gap-2">
                   <Badge kind="offer" label={offer.badgeText} />
                   <span className="font-mono text-xs text-gold border border-gold/35 px-2 py-0.5 rounded-xs">
                     {`{{CODE:${offer.code}}}`}
@@ -402,7 +412,7 @@ export function OffersTeaserSection({
                 <h3 className="font-serif text-2xl text-text">{offer.title}</h3>
                 <p className="text-sm text-muted">{offer.description}</p>
               </div>
-              <div className="pt-4 border-t border-gold/20 flex items-center justify-between gap-3 text-xs text-muted">
+              <div className="pt-4 border-t border-gold/20 flex flex-wrap items-center justify-between gap-3 text-xs text-muted">
                 <span>
                   {offer.validFrom} → {offer.validUntil}
                 </span>
@@ -431,9 +441,9 @@ export function ReviewsTeaserSection({
 }) {
   return (
     <Section variant="dark" className="border-t border-gold/20">
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
-        <div>
-          <p className="text-xs uppercase tracking-[0.22em] text-gold mb-2">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+        <div className="min-w-0">
+          <p className="text-xs uppercase tracking-[0.18em] text-gold mb-1.5">
             {t('home.reviews.eyebrow')}
           </p>
           <h2 className="font-serif text-3xl sm:text-4xl text-text">
@@ -449,19 +459,15 @@ export function ReviewsTeaserSection({
       {state === 'error' && <ErrorState />}
       {state === 'empty' && <EmptyState />}
       {state === 'ready' && (
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-          {reviews.slice(0, 3).map((rev, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {reviews.slice(0, 3).map((rev) => (
             <Card
               key={rev.id}
               variant="surface"
-              className={
-                index === 0
-                  ? 'md:col-span-6 flex flex-col justify-between gap-4'
-                  : 'md:col-span-3 flex flex-col justify-between gap-4'
-              }
+              className="min-w-0 flex flex-col justify-between gap-4"
             >
               <div className="space-y-3">
-                <div className="flex items-center justify-between gap-2">
+                <div className="flex flex-wrap items-center justify-between gap-2">
                   <RatingStars rating={rev.rating} />
                   <Badge kind="neutral" label={`{{SOURCE_${rev.source}}}`} />
                 </div>
@@ -469,7 +475,7 @@ export function ReviewsTeaserSection({
                   &ldquo;{rev.comment}&rdquo;
                 </blockquote>
               </div>
-              <footer className="pt-3 border-t border-gold/15 flex items-center justify-between text-xs text-muted">
+              <footer className="pt-3 border-t border-gold/15 flex flex-wrap items-center justify-between gap-2 text-xs text-muted">
                 <span className="font-medium text-text">{rev.reviewerName}</span>
                 <span>{rev.dateLabel}</span>
               </footer>
@@ -495,8 +501,8 @@ export function GalleryTeaserSection({
   return (
     <Section variant="surface" className="border-t border-gold/20">
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
-        <div>
-          <p className="text-xs uppercase tracking-[0.22em] text-gold mb-2">
+        <div className="min-w-0">
+          <p className="text-xs uppercase tracking-[0.18em] text-gold mb-1.5">
             {t('home.gallery.eyebrow')}
           </p>
           <h2 className="font-serif text-3xl sm:text-4xl text-text">
@@ -513,16 +519,16 @@ export function GalleryTeaserSection({
       {state === 'empty' && <EmptyState />}
       {state === 'ready' && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4">
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-7 min-w-0">
             <ImageWithOverlay slot={items[1]?.imageSlot ?? 'gallery_1'} aspect="16x9" />
           </div>
-          <div className="lg:col-span-5">
+          <div className="lg:col-span-5 min-w-0">
             <ImageWithOverlay slot={items[0]?.imageSlot ?? 'gallery_2'} aspect="4x3" />
           </div>
-          <div className="lg:col-span-4">
+          <div className="lg:col-span-4 min-w-0">
             <ImageWithOverlay slot={items[2]?.imageSlot ?? 'gallery_3'} aspect="1x1" />
           </div>
-          <div className="lg:col-span-8">
+          <div className="lg:col-span-8 min-w-0">
             <ImageWithOverlay slot={items[4]?.imageSlot ?? 'gallery_4'} aspect="16x9" />
           </div>
         </div>
@@ -538,19 +544,19 @@ export function GalleryTeaserSection({
 export function DualCtaBandSection() {
   return (
     <Section variant="dark" className="border-t border-gold/25">
-      <Card variant="signboard" className="p-6 sm:p-10 md:p-12">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
-          <div className="space-y-2 max-w-2xl">
+      <Card variant="signboard" className="p-6 sm:p-9 lg:p-11">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <div className="space-y-2 max-w-2xl min-w-0">
             <h2 className="font-serif text-3xl sm:text-4xl text-gold text-glow-gold">
               {t('home.cta_band.heading')}
             </h2>
             <p className="text-base text-muted">{t('home.cta_band.subtext')}</p>
           </div>
-          <div className="flex flex-col xs:flex-row items-stretch xs:items-center gap-3 shrink-0">
-            <Button variant="primary" size="lg" href="/reserve">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
+            <Button variant="primary" size="md" href="/reserve">
               {t('home.cta_band.reserve')}
             </Button>
-            <Button variant="secondary" size="lg" href="/order">
+            <Button variant="secondary" size="md" href="/order">
               {t('home.cta_band.order')}
             </Button>
           </div>
@@ -559,4 +565,3 @@ export function DualCtaBandSection() {
     </Section>
   );
 }
-

@@ -30,9 +30,9 @@ const variantClasses: Record<ButtonVariant, string> = {
 
 const sizeClasses: Record<ButtonSize, string> = {
   // All sizes maintain >= 44px height (min-h-11) for mobile touch targets
-  sm: 'min-h-11 min-w-11 px-4 py-2 text-sm',
-  md: 'min-h-11 min-w-11 px-6 py-2.5 text-base',
-  lg: 'min-h-12 min-w-11 px-8 py-3.5 text-base font-medium',
+  sm: 'min-h-11 min-w-11 px-3.5 py-2 text-xs sm:text-sm',
+  md: 'min-h-11 min-w-11 px-5 py-2.5 text-sm sm:text-base',
+  lg: 'min-h-12 min-w-11 px-6 py-3 text-sm sm:text-base font-medium',
 };
 
 export function Button({
@@ -47,7 +47,7 @@ export function Button({
   ...props
 }: ButtonProps) {
   const classes = clsx(
-    'inline-flex items-center justify-center gap-2 rounded-sm select-none text-center',
+    'inline-flex items-center justify-center gap-2 rounded-sm select-none text-center max-w-full break-words leading-snug',
     'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold',
     'disabled:opacity-45 disabled:pointer-events-none',
     variantClasses[variant],
@@ -82,4 +82,3 @@ export function Button({
     </button>
   );
 }
-
