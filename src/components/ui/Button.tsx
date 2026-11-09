@@ -19,13 +19,13 @@ const variantClasses: Record<ButtonVariant, string> = {
   primary: 'btn-gold-primary font-medium tracking-wide border border-gold/60',
   // Secondary outline in gold on dark backgrounds
   secondary:
-    'bg-transparent text-text border border-gold/55 hover:border-gold hover:shadow-gold-glow active:bg-gold/10 transition-all',
+    'bg-transparent text-text border border-gold/55 hover:border-gold hover:-translate-y-0.5 hover:shadow-gold-glow active:translate-y-0 active:scale-[0.98] active:bg-gold/10 transition-all duration-200',
   // Ghost button
   ghost:
-    'bg-transparent text-muted hover:text-text hover:bg-white/5 active:bg-white/10 border border-transparent transition-colors',
+    'bg-transparent text-muted hover:text-gold hover:bg-white/[0.04] active:scale-[0.98] border border-transparent transition-all duration-200',
   // Charcoal button exclusively for use inside Cream sections (PRD 5.7: never gold on cream)
   charcoal:
-    'bg-charcoal text-cream border border-charcoal hover:bg-charcoal-surface active:bg-charcoal transition-colors',
+    'bg-charcoal text-cream border border-charcoal hover:-translate-y-0.5 hover:bg-charcoal-surface active:translate-y-0 active:scale-[0.98] transition-all duration-200',
 };
 
 const sizeClasses: Record<ButtonSize, string> = {

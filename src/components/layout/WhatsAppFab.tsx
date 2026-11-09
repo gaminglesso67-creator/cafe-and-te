@@ -16,7 +16,7 @@ export function WhatsAppFab() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label={t('global.whatsapp.label')}
-      className="fixed right-4 bottom-20 md:bottom-6 z-30 min-h-11 min-w-11 px-3.5 py-2.5 rounded-xs border border-gold/60 bg-surface text-gold shadow-gold-glow hover:shadow-gold-glow-strong inline-flex items-center gap-2 text-xs font-medium tracking-wider uppercase transition-shadow"
+      className="fixed right-4 bottom-20 md:bottom-6 z-30 min-h-11 min-w-11 px-3.5 py-2.5 rounded-full border border-gold/50 bg-surface/95 backdrop-blur-md text-gold shadow-gold-glow hover:shadow-gold-glow-strong hover:-translate-y-0.5 active:translate-y-0 inline-flex items-center gap-2 text-xs font-medium tracking-wider uppercase transition-all duration-300"
     >
       <svg
         width="18"

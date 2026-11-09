@@ -48,7 +48,7 @@ export function Header() {
             </span>
           </Link>
 
-          {/* Center: Minimal 5-Item Desktop Navigation */}
+          {/* Center: Minimal 5-Item Desktop Navigation with sliding gold underline */}
           <nav
             aria-label="Main navigation"
             className="hidden md:flex items-center gap-7 lg:gap-9"
@@ -59,20 +59,15 @@ export function Header() {
                 <Link
                   key={item.href}
                   href={item.href}
+                  data-active={active}
                   className={clsx(
-                    'relative py-2 text-[13px] tracking-[0.06em] transition-colors whitespace-nowrap',
+                    'link-underline-gold py-2 text-[13px] tracking-[0.06em] transition-colors duration-200 whitespace-nowrap',
                     active
                       ? 'text-gold font-medium'
                       : 'text-text/75 hover:text-text'
                   )}
                 >
                   {item.label}
-                  {active && (
-                    <span
-                      aria-hidden="true"
-                      className="absolute inset-x-0 -bottom-0.5 h-[1.5px] bg-gold rounded-full"
-                    />
-                  )}
                 </Link>
               );
             })}
@@ -82,8 +77,9 @@ export function Header() {
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             <Link
               href="/order"
+              data-active={pathname === '/order'}
               className={clsx(
-                'hidden lg:inline-flex items-center px-3 py-1.5 text-[13px] tracking-[0.04em] transition-colors',
+                'link-underline-gold hidden lg:inline-flex items-center px-2 py-1.5 text-[13px] tracking-[0.04em] transition-colors duration-200',
                 pathname === '/order' ? 'text-gold font-medium' : 'text-text/80 hover:text-gold'
               )}
             >
@@ -94,7 +90,7 @@ export function Header() {
               type="button"
               onClick={openSheet}
               aria-label={t('global.nav.cart')}
-              className="relative inline-flex items-center justify-center gap-1.5 min-h-10 px-2.5 rounded-full text-text/85 hover:text-gold transition-colors"
+              className="group relative inline-flex items-center justify-center gap-1.5 min-h-10 px-2.5 rounded-full text-text/85 hover:text-gold active:scale-95 transition-all duration-200"
             >
               <svg
                 width="18"
@@ -103,7 +99,7 @@ export function Header() {
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.5"
-                className="text-gold shrink-0"
+                className="text-gold shrink-0 transition-transform duration-200 group-hover:-translate-y-0.5"
                 aria-hidden="true"
               >
                 <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
@@ -111,7 +107,10 @@ export function Header() {
                 <path d="M16 10a4 4 0 01-8 0" />
               </svg>
               {totalQuantity > 0 && (
-                <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] font-semibold rounded-full bg-gold text-charcoal">
+                <span
+                  key={totalQuantity}
+                  className="animate-cart-pop inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] font-semibold rounded-full bg-gold text-charcoal"
+                >
                   {totalQuantity}
                 </span>
               )}

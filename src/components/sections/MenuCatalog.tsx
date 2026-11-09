@@ -234,22 +234,27 @@ export function MenuCatalog({
         />
       ) : null}
 
-      {/* Editorial Printed-Menu Rows (Open layout with subtle bottom hairlines instead of heavy cards) */}
+      {/* Editorial Printed-Menu Rows with smooth category switch transition & hover micro-interactions */}
       {state === 'ready' && filteredItems.length > 0 && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-2">
+        <div
+          key={`${activeCategory}-${dietFilter}`}
+          className="animate-menu-switch grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-2"
+        >
           {filteredItems.map((item) => (
             <article
               key={item.id}
               className={clsx(
-                'py-6 border-b flex flex-col sm:flex-row gap-5 justify-between items-start',
-                useCreamVariant ? 'border-charcoal/15' : 'border-gold/15'
+                'group py-6 border-b flex flex-col sm:flex-row gap-5 justify-between items-start transition-colors duration-300',
+                useCreamVariant
+                  ? 'border-charcoal/15 hover:border-charcoal/40'
+                  : 'border-gold/15 hover:border-gold/40'
               )}
             >
               {/* Dish Thumbnail */}
               <button
                 type="button"
                 onClick={() => openItemModal(item)}
-                className="w-full sm:w-32 shrink-0 text-left"
+                className="w-full sm:w-32 shrink-0 text-left overflow-hidden rounded-sm"
               >
                 <ImageWithOverlay
                   slot={item.imageSlot}
@@ -267,7 +272,7 @@ export function MenuCatalog({
                       <button
                         type="button"
                         onClick={() => openItemModal(item)}
-                        className="text-left font-serif text-xl sm:text-2xl font-semibold hover:text-gold transition-colors"
+                        className="text-left font-serif text-xl sm:text-2xl font-semibold transition-all duration-300 group-hover:text-gold group-hover:translate-x-1"
                       >
                         {item.name}
                       </button>
@@ -313,7 +318,7 @@ export function MenuCatalog({
                       disabled={!item.isAvailable}
                       onClick={() => openItemModal(item)}
                       className={clsx(
-                        'min-h-9 px-3.5 py-1 text-xs uppercase tracking-wider rounded-xs border transition-colors',
+                        'min-h-9 px-3.5 py-1 text-xs uppercase tracking-wider rounded-xs border transition-all duration-200 active:scale-95',
                         useCreamVariant
                           ? 'border-charcoal text-charcoal hover:bg-charcoal hover:text-cream'
                           : 'border-gold/40 text-gold hover:border-gold hover:bg-gold/10'

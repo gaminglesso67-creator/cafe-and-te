@@ -43,36 +43,44 @@ export function HeroSignboardSection({ hours }: { hours: OpeningHourSlot[] }) {
       {/* Radial gold signboard wash at top (PRD 5.3) */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-[480px] bg-glow-hero"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[480px] bg-glow-hero animate-signboard-breathe"
       />
 
       <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
         {/* Left 6 Cols: Open Editorial Typography & Signboard Glow */}
         <div className="lg:col-span-6 min-w-0 space-y-6">
-          <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.2em] text-gold/90">
+          <div className="animate-reveal-1 flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.2em] text-gold/90">
             <span>{t('home.hero.eyebrow')}</span>
             <span aria-hidden="true" className="text-gold/40">·</span>
-            <span className="inline-flex items-center gap-1.5 text-text/80">
-              <span
-                aria-hidden="true"
-                className={`w-2 h-2 rounded-full shrink-0 ${
-                  isOpen ? 'bg-emerald-400' : 'bg-crimson'
-                }`}
-              />
+            <span className="inline-flex items-center gap-2 text-text/80">
+              <span className="relative flex h-2 w-2 shrink-0">
+                {isOpen && (
+                  <span
+                    aria-hidden="true"
+                    className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"
+                  />
+                )}
+                <span
+                  aria-hidden="true"
+                  className={`relative inline-flex rounded-full h-2 w-2 ${
+                    isOpen ? 'bg-emerald-400' : 'bg-crimson'
+                  }`}
+                />
+              </span>
               <span>{isOpen ? 'Open Today · 12 PM – 12 Midnight' : t('home.hours.status_closed')}</span>
             </span>
           </div>
 
-          <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold text-gold text-glow-gold tracking-wide leading-[1.08] break-words">
+          <h1 className="animate-reveal-1 font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold text-gold text-glow-gold tracking-wide leading-[1.08] break-words">
             {t('home.hero.title')}
           </h1>
 
-          <p className="text-base sm:text-lg text-muted max-w-xl leading-relaxed break-words">
+          <p className="animate-reveal-2 text-base sm:text-lg text-muted max-w-xl leading-relaxed break-words">
             {t('home.hero.tagline')}
           </p>
 
           {/* Primary CTAs */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 pt-2">
+          <div className="animate-reveal-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 pt-2">
             <Button variant="primary" size="lg" href="/order">
               {t('home.hero.cta_order')}
             </Button>
@@ -82,7 +90,7 @@ export function HeroSignboardSection({ hours }: { hours: OpeningHourSlot[] }) {
           </div>
 
           {/* Subtle Inline Concierge & Location Line */}
-          <div className="pt-4 border-t border-gold/15 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-muted">
+          <div className="animate-reveal-3 pt-4 border-t border-gold/15 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-muted">
             <a
               href={t('brand.phone_href')}
               className="min-h-11 inline-flex items-center gap-2 text-text hover:text-gold transition-colors"
@@ -97,7 +105,7 @@ export function HeroSignboardSection({ hours }: { hours: OpeningHourSlot[] }) {
         </div>
 
         {/* Right 6 Cols: Clean Frameless Hero Photograph */}
-        <div className="lg:col-span-6 min-w-0">
+        <div className="animate-reveal-3 lg:col-span-6 min-w-0">
           <ImageWithOverlay
             slot="hero_signboard_visual"
             aspect="4x3"
@@ -276,7 +284,7 @@ export function SignatureHighlightsSection({
             {ledgerItems.map((dish) => (
               <article
                 key={dish.id}
-                className="py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                className="group py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors duration-300"
               >
                 <div className="flex items-start gap-4 min-w-0">
                   <div className="w-20 sm:w-24 shrink-0">
@@ -285,7 +293,9 @@ export function SignatureHighlightsSection({
                   <div className="space-y-1 min-w-0">
                     <div className="flex items-center gap-2">
                       <Badge kind={dish.isVeg ? 'veg' : 'non_veg'} />
-                      <h3 className="font-serif text-xl sm:text-2xl text-text">{dish.name}</h3>
+                      <h3 className="font-serif text-xl sm:text-2xl text-text transition-all duration-300 group-hover:text-gold group-hover:translate-x-1">
+                        {dish.name}
+                      </h3>
                     </div>
                     <p className="text-sm text-muted line-clamp-2 leading-relaxed">
                       {dish.description}
@@ -300,7 +310,7 @@ export function SignatureHighlightsSection({
                   <button
                     type="button"
                     onClick={() => handleQuickAdd(dish)}
-                    className="min-h-10 px-3 py-1 text-xs uppercase tracking-wider text-gold border border-gold/30 hover:border-gold rounded-xs transition-colors"
+                    className="min-h-10 px-3 py-1 text-xs uppercase tracking-wider text-gold border border-gold/30 hover:border-gold hover:bg-gold/10 active:scale-95 rounded-xs transition-all duration-200"
                   >
                     + {t('menu.item.add_cta')}
                   </button>

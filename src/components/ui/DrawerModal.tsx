@@ -44,7 +44,7 @@ export function DrawerModal({
     >
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/80 transition-opacity"
+        className="fixed inset-0 bg-black/80 animate-backdrop-fade"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -52,7 +52,7 @@ export function DrawerModal({
       {/* Sheet / Dialog Panel */}
       <div
         className={clsx(
-          'relative z-10 w-full bg-surface text-text border-t md:border border-gold/40 shadow-panel',
+          'relative z-10 w-full bg-surface text-text border-t md:border border-gold/40 shadow-panel animate-sheet-up',
           'max-h-[90dvh] flex flex-col pb-safe-b',
           mode === 'bottom-sheet'
             ? 'rounded-t-md md:rounded-sm md:max-w-lg'
