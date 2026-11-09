@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1200" width="900" height="1200">
+  <rect width="900" height="1200" fill="#1A1815" />
+  <rect x="16" y="16" width="868" height="1168" fill="none" stroke="#E8B547" stroke-opacity="0.28" stroke-width="2" />
+  <rect x="28" y="28" width="844" height="1144" fill="none" stroke="#E8B547" stroke-opacity="0.12" stroke-width="1" />
+  <line x1="16" y1="16" x2="884" y2="1184" stroke="#E8B547" stroke-opacity="0.08" stroke-width="1" />
+  <line x1="884" y1="16" x2="16" y2="1184" stroke="#E8B547" stroke-opacity="0.08" stroke-width="1" />
+  <rect x="280" y="555" width="340" height="90" fill="#0F0F10" stroke="#E8B547" stroke-opacity="0.35" stroke-width="1" />
+  <text x="450" y="608" text-anchor="middle" fill="#D9C7A8" font-family="monospace" font-size="24" letter-spacing="3">{{IMAGE_3X4}}</text>
+</svg>
+

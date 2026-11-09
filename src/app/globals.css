@@ -1,0 +1,138 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0F0F10;
+  --surface: #1A1815;
+  --text: #FFF4E0;
+  --muted: #D9C7A8;
+  --gold: #E8B547;
+  --gold-deep: #C98A2B;
+  --accent-red: #B3202A;
+
+  /* additions for the skeleton */
+  --gold-gradient: linear-gradient(135deg, #E8B547, #C98A2B);
+  --glow-text: 0 0 24px rgba(232, 181, 71, 0.45);
+  --glow-hero: radial-gradient(circle at 50% 0%, rgba(232, 181, 71, 0.18), transparent 60%);
+  --photo-overlay: rgba(15, 15, 16, 0.6);
+}
+
+@layer base {
+  html {
+    background-color: var(--bg);
+    color: var(--text);
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    overflow-x: clip;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body), system-ui, sans-serif;
+    font-size: 1rem;
+    line-height: 1.65;
+    min-height: 100dvh;
+    overflow-x: clip;
+    selection-background-color: var(--gold);
+  }
+
+  ::selection {
+    background: rgba(232, 181, 71, 0.28);
+    color: var(--text);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  .font-display {
+    font-family: var(--font-heading), Georgia, serif;
+    letter-spacing: 0.01em;
+  }
+
+  /* Visible gold focus rings on every interactive element (PRD 5.7) */
+  :focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+
+  /* Enforce minimum 16px on inputs to prevent iOS auto-zoom */
+  input,
+  select,
+  textarea {
+    font-size: 1rem;
+  }
+}
+
+@layer utilities {
+  /* Signboard text glow (PRD 5.3) */
+  .text-glow-gold {
+    text-shadow: var(--glow-text);
+  }
+
+  /* Metallic backlit gold heading text (never used on cream sections) */
+  .text-gold-foil {
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 24px rgba(232, 181, 71, 0.32);
+  }
+
+  /* CTA button glow that brightens on hover/active without changing colour (PRD 5.3) */
+  .btn-gold-primary {
+    background-image: var(--gold-gradient);
+    color: #0F0F10;
+    box-shadow: 0 0 18px rgba(232, 181, 71, 0.3), inset 0 1px 0 rgba(255, 244, 224, 0.35);
+    transition: box-shadow 200ms ease, transform 150ms ease;
+  }
+
+  .btn-gold-primary:hover,
+  .btn-gold-primary:active {
+    background-image: var(--gold-gradient);
+    color: #0F0F10;
+    box-shadow: 0 0 32px rgba(232, 181, 71, 0.62), 0 0 10px rgba(232, 181, 71, 0.55),
+      inset 0 1px 0 rgba(255, 244, 224, 0.5);
+  }
+
+  /* Cream section surface strictly enforces charcoal text & disables gold text (PRD 5.7) */
+  .section-cream {
+    background-color: var(--text);
+    color: var(--bg);
+  }
+
+  /* Thin gold hairline borders */
+  .hairline-gold {
+    border-color: rgba(232, 181, 71, 0.24);
+  }
+
+  .hairline-gold-strong {
+    border-color: rgba(232, 181, 71, 0.52);
+  }
+
+  /* Hide scrollbar for horizontal chip strip while preserving scrollability */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Respect prefers-reduced-motion: static glow, no transitions or animations (PRD 5.3 & 12.7) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
