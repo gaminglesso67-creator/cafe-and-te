@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { checkRateLimit } from '@/lib/security/spam-guard';
 import { isSanityConfigured, SANITY_PROJECT_ID, SANITY_STUDIO_URL } from '@/sanity/env';
 
-export const ADMIN_COOKIE_NAME = 'saanjh_sanity_session';
+const ADMIN_COOKIE_NAME = 'saanjh_sanity_session';
 
 function getExpectedServerToken(): string | null {
   const token =
