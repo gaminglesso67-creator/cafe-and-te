@@ -330,6 +330,10 @@
     animation: carousel-progress 4500ms linear forwards;
   }
 
+  .animate-hero-rotate {
+    animation: hero-word-rotate 680ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
   .animate-menu-switch {
     animation: menu-switch 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
   }
@@ -425,6 +429,19 @@
   }
   to {
     transform: scaleX(1);
+  }
+}
+
+@keyframes hero-word-rotate {
+  0% {
+    opacity: 0;
+    transform: translateY(26px) scale(0.97);
+    filter: blur(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
   }
 }
 

@@ -74,36 +74,84 @@ function NocturneArrowCta({
 }
 
 /**
- * 1. HERO SECTION ("The Ember Room" -> "The Saanjh Room" Nocturne Layout):
+ * 1. HERO SECTION ("The Saanjh Room" Nocturne Layout with Self-Rotating Display Heading):
  * Full-bleed atmospheric dusk photography fading into pitch-black,
  * vertical ritual/experience list with hollow circles on the left,
- * giant offset high-contrast serif display title ("The Saanjh / Room") on the right,
+ * giant offset self-rotating serif display title on the right,
  * poetic paragraph, and "BOOK A TABLE (→)" circular CTA.
  */
 export function HeroSignboardSection({ hours: _hours }: { hours: OpeningHourSlot[] }) {
-  const heroVisual = getImageSlot('hero_signboard_visual', '16x9');
+  const heroSlides = [
+    {
+      line1: 'The Saanjh',
+      line2: 'Room',
+      tag: 'Warm Teakwood Interiors · Viman Nagar',
+      copy: 'Here, guests gather for unhurried evenings — warm teakwood interiors, lush patio air, artisanal cocktails, and flavours crafted for the whole family.',
+      slot: 'hero_signboard_visual',
+    },
+    {
+      line1: 'An Evening',
+      line2: 'Of Flavours',
+      tag: 'Multi-Cuisine Heritage & Modern Fusion',
+      copy: 'From wild mushroom crostinis and wood-fired pesto pizzas to slow-simmered Khandeshi handis and royal dum biryanis.',
+      slot: 'mushroom_crostini_signature',
+    },
+    {
+      line1: 'Lush Garden',
+      line2: 'Patio & Bar',
+      tag: 'Open-Air Sanctuary & Newly Opened Bar',
+      copy: "Step into Viman Nagar's botanical outdoor courtyard — glowing amber lanterns, botanical mocktails, and curated evening pours.",
+      slot: 'lush_green_outdoor_patio',
+    },
+    {
+      line1: 'Crafted For',
+      line2: 'Every Table',
+      tag: 'Family Resto Bar · Valet & Wheelchair Friendly',
+      copy: 'Multi-generational family dinners, celebratory toasts, and unhurried conversations in Clover Park opposite Phoenix Marketcity.',
+      slot: 'home_about_story',
+    },
+  ];
+
+  const [activeSlide, setActiveSlide] = React.useState(0);
+  const [paused, setPaused] = React.useState(false);
+
+  React.useEffect(() => {
+    if (paused) return;
+    const timer = window.setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 4000);
+    return () => window.clearInterval(timer);
+  }, [paused, heroSlides.length]);
+
+  const currentSlide = heroSlides[activeSlide] ?? heroSlides[0]!;
+  const heroVisual = getImageSlot(currentSlide.slot, '16x9');
 
   const rituals = [
-    { label: 'Lush Garden Patio', href: '/gallery' },
-    { label: 'Artisanal Bar & Cocktails', href: '/menu' },
-    { label: 'Wild Mushroom Crostinis', href: '/order' },
-    { label: 'Khandeshi Heritage Handis', href: '/order' },
-    { label: 'Wood-Fired Pizzas & Wok', href: '/menu' },
-    { label: 'Private Family Dinners', href: '/offers' },
-    { label: "The Chef's Tasting Course", href: '/menu' },
+    { label: 'Lush Garden Patio', href: '/gallery', slideIdx: 2 },
+    { label: 'Artisanal Bar & Cocktails', href: '/menu', slideIdx: 2 },
+    { label: 'Wild Mushroom Crostinis', href: '/order', slideIdx: 1 },
+    { label: 'Khandeshi Heritage Handis', href: '/order', slideIdx: 1 },
+    { label: 'Wood-Fired Pizzas & Wok', href: '/menu', slideIdx: 1 },
+    { label: 'Private Family Dinners', href: '/offers', slideIdx: 3 },
+    { label: "The Chef's Tasting Course", href: '/menu', slideIdx: 0 },
   ];
 
   return (
-    <section className="relative w-full min-h-[calc(100dvh-4rem)] bg-bg overflow-hidden flex items-center py-12 sm:py-16 lg:py-20">
+    <section
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      className="relative w-full min-h-[calc(100dvh-4rem)] bg-bg overflow-hidden flex items-center py-12 sm:py-16 lg:py-20"
+    >
       {/* Full-Bleed Atmospheric Bokeh Background Image with Deep Black Vignette Fades */}
       <div className="pointer-events-none absolute inset-0 z-0">
         <Image
+          key={heroVisual.src}
           src={heroVisual.src}
           alt={heroVisual.alt}
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center opacity-55 scale-105 animate-signboard-breathe"
+          className="object-cover object-center opacity-55 scale-105 animate-signboard-breathe transition-opacity duration-700"
         />
         {/* Radial & Linear Vignettes so edges dissolve seamlessly into #070708 black */}
         <div
@@ -142,6 +190,7 @@ export function HeroSignboardSection({ hours: _hours }: { hours: OpeningHourSlot
                   <li key={item.label} className="relative">
                     <Link
                       href={item.href}
+                      onMouseEnter={() => setActiveSlide(item.slideIdx)}
                       className="group flex items-center justify-between gap-3 text-xs sm:text-[13px] tracking-wide text-text/80 hover:text-text transition-colors py-0.5"
                     >
                       <span className="inline-flex items-center gap-4">
@@ -166,28 +215,55 @@ export function HeroSignboardSection({ hours: _hours }: { hours: OpeningHourSlot
             </div>
           </div>
 
-          {/* Right 8 Cols: Giant Offset Serif Title ("The Saanjh / Room") + Floating Glass Summary Card */}
+          {/* Right 8 Cols: Giant Offset Rotating Serif Title + Floating Glass Summary Card */}
           <div className="lg:col-span-8 order-1 lg:order-2 flex flex-col items-start lg:items-end justify-between min-h-[54dvh] gap-12">
-            {/* Giant Stacked Offset Display Heading */}
-            <div className="animate-reveal-1 lg:text-right w-full">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-pill animate-float-slow mb-4">
+            {/* Giant Stacked Offset Rotating Display Heading */}
+            <div className="lg:text-right w-full space-y-4">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-pill animate-float-slow">
                 <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
                 <span className="text-[11px] uppercase tracking-[0.24em] text-gold/95">
-                  Viman Nagar, Pune · 4.5 ★ (191 Reviews)
+                  {currentSlide.tag} · 4.5 ★
                 </span>
               </div>
-              <h1 className="font-serif font-normal text-5xl sm:text-7xl lg:text-[88px] text-text leading-[0.94] tracking-[-0.02em] drop-shadow-[0_12px_32px_rgba(0,0,0,0.85)]">
-                <span className="block">The Saanjh</span>
-                <span className="block pl-16 sm:pl-28 lg:pl-0 text-ember-gradient">
-                  R<span className="tracking-[-0.06em]">oo</span>m
-                </span>
-              </h1>
+
+              <div key={activeSlide} aria-live="polite" className="animate-hero-rotate">
+                <h1 className="font-serif font-normal text-5xl sm:text-7xl lg:text-[86px] text-text leading-[0.96] tracking-[-0.02em] drop-shadow-[0_12px_32px_rgba(0,0,0,0.85)]">
+                  <span className="block">{currentSlide.line1}</span>
+                  <span className="block pl-12 sm:pl-24 lg:pl-0 text-ember-gradient">
+                    {currentSlide.line2}
+                  </span>
+                </h1>
+              </div>
+
+              {/* Interactive Rotation Pills */}
+              <div className="flex items-center lg:justify-end gap-2 pt-2">
+                {heroSlides.map((slide, idx) => {
+                  const isCurrent = idx === activeSlide;
+                  return (
+                    <button
+                      key={slide.line1}
+                      type="button"
+                      aria-label={`Show hero slide: ${slide.line1} ${slide.line2}`}
+                      aria-current={isCurrent}
+                      onClick={() => setActiveSlide(idx)}
+                      className={`h-1.5 rounded-full transition-all duration-500 ${
+                        isCurrent
+                          ? 'w-9 bg-gold shadow-gold-glow'
+                          : 'w-2.5 bg-white/20 hover:bg-gold/50'
+                      }`}
+                    />
+                  );
+                })}
+              </div>
             </div>
 
-            {/* Bottom-Right Floating Glass Card with Poetic Copy & Circular Arrow CTA */}
+            {/* Bottom-Right Floating Glass Card with Rotating Poetic Copy & Circular Arrow CTA */}
             <div className="animate-reveal-3 lg:max-w-sm glass-card glass-card-interactive rounded-md p-6 space-y-5 lg:mr-2">
-              <p className="text-xs sm:text-[13px] text-text/85 leading-relaxed relative z-10">
-                Here, guests gather for unhurried evenings — warm teakwood interiors, lush patio air, artisanal cocktails, and flavours crafted for the whole family.
+              <p
+                key={`copy-${activeSlide}`}
+                className="animate-menu-switch text-xs sm:text-[13px] text-text/85 leading-relaxed relative z-10 min-h-[3.75rem]"
+              >
+                {currentSlide.copy}
               </p>
               <div className="relative z-10 flex flex-wrap items-center justify-between gap-4 pt-1 border-t border-white/10">
                 <NocturneArrowCta href="/reserve" label="BOOK A TABLE" />
