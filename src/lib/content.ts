@@ -88,6 +88,14 @@ const SAANJH_IMAGE_SLOT_MAP: Record<string, string> = {
  * or a placeholder SVG matching the required aspect ratio and alt text.
  */
 export function getImageSlot(slotName: string, aspect: ImageAspect = '4x3'): ImageSlot {
+  if (slotName.startsWith('https://') || slotName.startsWith('http://')) {
+    return {
+      slot: slotName,
+      aspect,
+      src: slotName,
+      alt: 'Saanjh Viman Nagar — Sanity CMS photograph',
+    };
+  }
   const normalized = slotName.replace(/[._-]/g, ' ');
   const mappedSrc = SAANJH_IMAGE_SLOT_MAP[slotName];
   return {

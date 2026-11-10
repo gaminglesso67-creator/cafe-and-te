@@ -4,6 +4,7 @@ import { createOrderSchema } from '@/lib/validations/schemas';
 import { checkRateLimit, isHoneypotTriggered } from '@/lib/security/spam-guard';
 import { dispatchNotification } from '@/lib/notifications/service';
 import { enqueueAndPushOrderToPos } from '@/lib/pos/adapter';
+import { syncOrderToSanity } from '@/sanity/lib/fetchers';
 
 export async function GET() {
   return NextResponse.json({ orders: getStore().orders });
@@ -92,6 +93,7 @@ export async function POST(req: NextRequest) {
   };
 
   store.orders.unshift(record);
+  await syncOrderToSanity(record);
 
   await dispatchNotification({
     eventKey: 'ORDER_PLACED',

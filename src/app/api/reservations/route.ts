@@ -3,6 +3,7 @@ import { getStore, ReservationRecord } from '@/lib/db';
 import { reservationSchema } from '@/lib/validations/schemas';
 import { checkRateLimit, isHoneypotTriggered } from '@/lib/security/spam-guard';
 import { dispatchNotification } from '@/lib/notifications/service';
+import { syncReservationToSanity } from '@/sanity/lib/fetchers';
 
 const MAX_SLOT_CAPACITY = 40;
 
@@ -77,6 +78,7 @@ export async function POST(req: NextRequest) {
   };
 
   store.reservations.unshift(record);
+  await syncReservationToSanity(record);
 
   // Dispatch Customer & Restaurant notifications (PRD 8.1 & 8.4)
   await dispatchNotification({

@@ -203,27 +203,16 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
             <Badge kind="neutral" label={`{{ROLE:${role}}}`} className="hidden md:inline-flex" />
           </div>
 
-          {/* Interactive Role Switcher (to verify PRD 9.9 RBAC Matrix) + Sound Toggle */}
+          {/* Sanity Studio Link + Sound Toggle + Server Logout (Client Role Switcher Removed) */}
           <div className="flex items-center gap-2">
-            <div
-              role="group"
-              aria-label="RBAC Role Switcher"
-              className="flex items-center bg-bg border border-gold/30 rounded-xs p-0.5"
+            <Button
+              variant="secondary"
+              size="sm"
+              href="https://www.sanity.io/manage"
+              external
             >
-              {(['STAFF', 'MANAGER', 'OWNER'] as AdminRole[]).map((r) => (
-                <button
-                  key={r}
-                  type="button"
-                  onClick={() => setRoleState(r)}
-                  className={clsx(
-                    'min-h-9 px-2.5 text-[11px] font-mono uppercase tracking-wider rounded-xs transition-colors',
-                    role === r ? 'btn-gold-primary font-semibold' : 'text-muted hover:text-text'
-                  )}
-                >
-                  {r}
-                </button>
-              ))}
-            </div>
+              Sanity Studio ↗
+            </Button>
 
             <button
               type="button"
@@ -244,7 +233,11 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => router.push('/admin/login')}
+              onClick={async () => {
+                await fetch('/api/admin/session', { method: 'DELETE' });
+                router.push('/admin/login');
+                router.refresh();
+              }}
               className="hidden md:inline-flex"
             >
               {'{{LOGOUT}}'}
@@ -314,7 +307,7 @@ export function PermissionGuard({
   capability: PermissionCapability;
   children: React.ReactNode;
 }) {
-  const { role, setRole } = useAdminSession();
+  const { role } = useAdminSession();
 
   if (!hasPermission(role, capability)) {
     return (
@@ -328,9 +321,6 @@ export function PermissionGuard({
           {'{{PRD_9_9_PERMISSION_MATRIX_ENFORCED}}'}
         </p>
         <div className="pt-2 flex flex-wrap justify-center gap-3">
-          <Button variant="primary" size="sm" onClick={() => setRole('OWNER')}>
-            {'{{SWITCH_TO_OWNER_TO_TEST}}'}
-          </Button>
           <Button variant="secondary" size="sm" href="/admin">
             {'{{BACK_TO_OVERVIEW}}'}
           </Button>

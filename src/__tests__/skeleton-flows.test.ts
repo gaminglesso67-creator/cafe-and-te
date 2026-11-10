@@ -11,6 +11,8 @@ import { checkRateLimit, isHoneypotTriggered } from '@/lib/security/spam-guard';
 import { computeWebhookSignature, TestPaymentProvider } from '@/lib/payments/provider';
 import { enqueueAndPushOrderToPos, ManualPosAdapter } from '@/lib/pos/adapter';
 import { getStore } from '@/lib/db';
+import { schemaTypes } from '@/sanity/schemaTypes';
+import { fetchSanityHomePageData, fetchSanityMenuCatalog } from '@/sanity/lib/fetchers';
 
 describe('Saanjh Skeleton Core Flows (PRD Section 13)', () => {
   it('resolves content keys to Saanjh Viman Nagar copy and falls back safely for unmapped keys', () => {
@@ -101,6 +103,24 @@ describe('Saanjh Skeleton Core Flows (PRD Section 13)', () => {
     const manualAdapter = new ManualPosAdapter();
     const health = await manualAdapter.healthCheck();
     expect(health.healthy).toBe(true);
+  });
+
+  it('registers all 11 Sanity CMS document schemas and resolves GROQ fetchers with fallback', async () => {
+    expect(schemaTypes.length).toBe(11);
+    const schemaNames = schemaTypes.map((s) => s.name);
+    expect(schemaNames).toContain('menuItem');
+    expect(schemaNames).toContain('menuCategory');
+    expect(schemaNames).toContain('offer');
+    expect(schemaNames).toContain('review');
+    expect(schemaNames).toContain('reservation');
+    expect(schemaNames).toContain('order');
+
+    const homeData = await fetchSanityHomePageData();
+    expect(homeData.signatureDishes.length).toBeGreaterThan(0);
+
+    const catalogData = await fetchSanityMenuCatalog();
+    expect(catalogData.categories.length).toBeGreaterThan(0);
+    expect(catalogData.items.length).toBeGreaterThan(0);
   });
 });
 

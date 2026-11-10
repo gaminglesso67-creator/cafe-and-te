@@ -1,11 +1,11 @@
 import React from 'react';
 import { t } from '@/lib/content';
-import { SEED_CATEGORIES, SEED_MENU_ITEMS } from '@/lib/seed-data';
 import { MenuCatalog } from '@/components/sections/MenuCatalog';
 import { SectionDataState } from '@/components/sections/HomeSections';
 import { GoldDivider, Section } from '@/components/ui';
+import { fetchSanityMenuCatalog } from '@/sanity/lib/fetchers';
 
-export default function MenuPage({
+export default async function MenuPage({
   searchParams,
 }: {
   searchParams?: { state?: string; cream?: string };
@@ -15,6 +15,8 @@ export default function MenuPage({
     requestedState === 'loading' || requestedState === 'empty' || requestedState === 'error'
       ? requestedState
       : 'ready';
+
+  const { categories, items } = await fetchSanityMenuCatalog();
 
   return (
     <>
@@ -31,8 +33,8 @@ export default function MenuPage({
       </Section>
       <GoldDivider ornament={false} />
       <MenuCatalog
-        categories={SEED_CATEGORIES}
-        items={SEED_MENU_ITEMS}
+        categories={categories}
+        items={items}
         defaultCreamSurface={searchParams?.cream === '1'}
         state={state}
       />

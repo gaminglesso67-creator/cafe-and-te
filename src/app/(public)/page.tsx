@@ -10,15 +10,9 @@ import {
   SectionDataState,
   SignatureHighlightsSection,
 } from '@/components/sections/HomeSections';
-import {
-  SEED_GALLERY,
-  SEED_MENU_ITEMS,
-  SEED_OFFERS,
-  SEED_OPENING_HOURS,
-  SEED_REVIEWS,
-} from '@/lib/seed-data';
+import { fetchSanityHomePageData } from '@/sanity/lib/fetchers';
 
-export default function HomePage({
+export default async function HomePage({
   searchParams,
 }: {
   searchParams?: { state?: string };
@@ -29,17 +23,18 @@ export default function HomePage({
       ? requestedState
       : 'ready';
 
-  const signatureDishes = SEED_MENU_ITEMS.filter((item) => item.isSignature);
+  const { hours, signatureDishes, offers, reviews, gallery } =
+    await fetchSanityHomePageData();
 
   return (
     <>
-      <HeroSignboardSection hours={SEED_OPENING_HOURS} />
+      <HeroSignboardSection hours={hours} />
       <SignatureHighlightsSection items={signatureDishes} state={sectionState} />
-      <HoursAndLocationSection hours={SEED_OPENING_HOURS} state={sectionState} />
-      <ReviewsTeaserSection reviews={SEED_REVIEWS} state={sectionState} />
-      <OffersTeaserSection offers={SEED_OFFERS} state={sectionState} />
+      <HoursAndLocationSection hours={hours} state={sectionState} />
+      <ReviewsTeaserSection reviews={reviews} state={sectionState} />
+      <OffersTeaserSection offers={offers} state={sectionState} />
       <AboutTeaserSection />
-      <GalleryTeaserSection items={SEED_GALLERY} state={sectionState} />
+      <GalleryTeaserSection items={gallery} state={sectionState} />
       <DualCtaBandSection />
     </>
   );

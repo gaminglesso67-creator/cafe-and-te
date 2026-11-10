@@ -12,10 +12,13 @@
     "test": "vitest run",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
-    "db:seed": "tsx prisma/seed.ts"
+    "db:seed": "tsx prisma/seed.ts",
+    "sanity:seed": "tsx scripts/sanity-seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
+    "@sanity/client": "^8.15.1",
+    "@sanity/image-url": "^2.1.1",
     "clsx": "^2.1.1",
     "next": "^14.2.21",
     "react": "^18.3.1",
@@ -38,4 +41,3 @@
     "vitest": "^2.1.8"
   }
 }
-

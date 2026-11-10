@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { cateringEnquirySchema } from '@/lib/validations/schemas';
 import { checkRateLimit, isHoneypotTriggered } from '@/lib/security/spam-guard';
 import { dispatchNotification } from '@/lib/notifications/service';
+import { syncCateringEnquiryToSanity } from '@/sanity/lib/fetchers';
 
 export async function POST(req: NextRequest) {
   const ip = req.headers.get('x-forwarded-for') ?? 'local';
@@ -28,6 +29,17 @@ export async function POST(req: NextRequest) {
   }
 
   const enquiryId = `ENQ-${Date.now().toString().slice(-5)}`;
+  await syncCateringEnquiryToSanity({
+    enquiryId,
+    name: parsed.data.name,
+    phone: parsed.data.phone,
+    email: parsed.data.email || undefined,
+    eventType: parsed.data.eventType,
+    eventDate: parsed.data.eventDate,
+    guestCount: parsed.data.guestCount,
+    budgetRange: parsed.data.budgetRange,
+    notes: parsed.data.notes,
+  });
 
   await dispatchNotification({
     eventKey: 'ADMIN_NEW_ENQUIRY_ALERT',
