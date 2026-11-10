@@ -2,16 +2,14 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 
 /**
- * Minimal, modern top privilege bar (hidden on the immersive Nocturne homepage).
+ * Minimal, modern top privilege bar.
  */
 export function AnnouncementBar() {
-  const pathname = usePathname();
   const [dismissed, setDismissed] = useState(false);
 
-  if (dismissed || pathname === '/') return null;
+  if (dismissed) return null;
 
   return (
     <div

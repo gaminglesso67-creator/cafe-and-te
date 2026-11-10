@@ -17,6 +17,8 @@ import {
   Button,
   EmptyState,
   ErrorState,
+  GoldDivider,
+  ImageWithOverlay,
   MapEmbed,
   RatingStars,
   Section,
@@ -27,10 +29,10 @@ import {
 export type SectionDataState = 'ready' | 'loading' | 'empty' | 'error';
 
 /**
- * Signature Nocturne Action Link ("BOOK A TABLE (→)", "BOOK A ROOM (→)", "LEARN MORE (→)")
- * Matches the reference video: tracked uppercase text + white/cream circular arrow button.
+ * Signature Nocturne Action Link ("BOOK A ROOM (→)", "LEARN MORE (→)", "BOOK A TABLE (→)")
+ * Matches the uploaded reference layout: tracked uppercase text + white/cream circular arrow button.
  */
-export function NocturneArrowCta({
+function NocturneArrowCta({
   href,
   label,
   size = 'md',
@@ -40,10 +42,10 @@ export function NocturneArrowCta({
   size?: 'sm' | 'md' | 'lg';
 }) {
   const circleSize =
-    size === 'lg' ? 'w-10 h-10' : size === 'sm' ? 'w-7 h-7' : 'w-8 h-8';
+    size === 'lg' ? 'w-11 h-11' : size === 'sm' ? 'w-7 h-7' : 'w-8 h-8';
   const textSize =
     size === 'lg'
-      ? 'text-xs tracking-[0.22em]'
+      ? 'text-xs sm:text-sm tracking-[0.22em]'
       : 'text-[11px] tracking-[0.22em]';
 
   return (
@@ -57,12 +59,12 @@ export function NocturneArrowCta({
         className={`${circleSize} rounded-full bg-text text-bg inline-flex items-center justify-center transition-all duration-300 group-hover:bg-gold group-hover:scale-105 group-hover:translate-x-0.5 shadow-gold-glow`}
       >
         <svg
-          width="13"
-          height="13"
+          width="14"
+          height="14"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          strokeWidth="1.9"
+          strokeWidth="1.8"
         >
           <path d="M5 12h14M13 6l6 6-6 6" />
         </svg>
@@ -72,529 +74,130 @@ export function NocturneArrowCta({
 }
 
 /**
- *Glowing Warm Amber Orb (used in Section 2 "Where Time Slows" and Section 6 "Real Experience" per video 00:03 & 00:13)
- */
-function NocturneAmberOrb({ className = '' }: { className?: string }) {
-  return (
-    <div
-      aria-hidden="true"
-      className={`relative pointer-events-none select-none ${className}`}
-    >
-      {/* Outer wide atmospheric amber halo */}
-      <div
-        className="w-48 h-48 sm:w-64 sm:h-64 rounded-full blur-2xl opacity-85"
-        style={{
-          background:
-            'radial-gradient(circle, rgba(223,141,68,0.55) 0%, rgba(164,80,35,0.28) 48%, rgba(7,7,8,0) 76%)',
-        }}
-      />
-      {/* Inner luminous golden-yellow core */}
-      <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 sm:w-32 sm:h-32 rounded-full blur-[3px]"
-        style={{
-          background:
-            'radial-gradient(circle at 38% 38%, #FFF4C2 0%, #E7B257 52%, rgba(201,106,43,0.15) 85%, transparent 100%)',
-        }}
-      />
-    </div>
-  );
-}
-
-/**
- * 1. FULL-SCREEN NOCTURNE HERO (Video 00:00 – 00:02):
- * - Transitions from "Where The City / Whispers" (soft bokeh blur + 3s countdown)
- *   into "No Rush. / Night Is Ours." (crisp bar focus + live night countdown & lit copper dots).
- * - Centered "BOOK A TABLE (→)" CTA.
- * - Bottom-left floating glass clock widget with 12-dot analog SVG clock.
- * - Bottom-center location label + bottom-right 4 square-bordered social/contact icons.
+ * 1. HERO SECTION ("The Ember Room" -> "The Saanjh Room" Nocturne Layout):
+ * Full-bleed atmospheric dusk photography fading into pitch-black,
+ * vertical ritual/experience list with hollow circles on the left,
+ * giant offset high-contrast serif display title ("The Saanjh / Room") on the right,
+ * poetic paragraph, and "BOOK A TABLE (→)" circular CTA.
  */
 export function HeroSignboardSection({ hours: _hours }: { hours: OpeningHourSlot[] }) {
-  const heroVisual = getImageSlot('newly_opened_bar', '16x9');
-  const [nightUnlocked, setNightUnlocked] = React.useState(false);
-  const [introSecs, setIntroSecs] = React.useState(3);
-  const [nightTimer, setNightTimer] = React.useState('05:59:59');
-  const [angles, setAngles] = React.useState({ hour: 60, minute: 15, second: 210 });
+  const heroVisual = getImageSlot('hero_signboard_visual', '16x9');
 
-  // 3-second intro countdown ("00:00:03" -> "00:00:00") then unlocks "No Rush. Night Is Ours." (just like video 00:00 -> 00:02)
-  React.useEffect(() => {
-    if (nightUnlocked) return;
-    if (introSecs <= 0) {
-      setNightUnlocked(true);
-      return;
-    }
-    const tId = window.setTimeout(() => {
-      setIntroSecs((prev) => prev - 1);
-    }, 1000);
-    return () => window.clearTimeout(tId);
-  }, [introSecs, nightUnlocked]);
-
-  // Live analog hands + night countdown
-  React.useEffect(() => {
-    const updateClock = () => {
-      const now = new Date();
-      const midnight = new Date(now);
-      midnight.setHours(23, 59, 59, 999);
-      const diffSec = Math.max(0, Math.floor((midnight.getTime() - now.getTime()) / 1000));
-      const hrs = String(Math.floor(diffSec / 3600)).padStart(2, '0');
-      const mins = String(Math.floor((diffSec % 3600) / 60)).padStart(2, '0');
-      const secs = String(diffSec % 60).padStart(2, '0');
-      setNightTimer(`${hrs}:${mins}:${secs}`);
-
-      const h = now.getHours() % 12;
-      const m = now.getMinutes();
-      const s = now.getSeconds();
-      setAngles({
-        hour: h * 30 + m * 0.5,
-        minute: m * 6,
-        second: s * 6,
-      });
-    };
-
-    updateClock();
-    const interval = window.setInterval(updateClock, 1000);
-    return () => window.clearInterval(interval);
-  }, []);
-
-  const whatsappUrl = `https://wa.me/${t('brand.whatsapp_number')}?text=${encodeURIComponent(
-    t('brand.whatsapp_prefill')
-  )}`;
+  const rituals = [
+    { label: 'Lush Garden Patio', href: '/gallery' },
+    { label: 'Artisanal Bar & Cocktails', href: '/menu' },
+    { label: 'Wild Mushroom Crostinis', href: '/order' },
+    { label: 'Khandeshi Heritage Handis', href: '/order' },
+    { label: 'Wood-Fired Pizzas & Wok', href: '/menu' },
+    { label: 'Private Family Dinners', href: '/offers' },
+    { label: "The Chef's Tasting Course", href: '/menu' },
+  ];
 
   return (
-    <section className="relative w-full min-h-[calc(100dvh-4rem)] bg-bg overflow-hidden flex flex-col justify-between py-8 sm:py-10">
-      {/* Full-Screen Atmospheric Bar & Lounge Backdrop (Soft Blur during Whisper Intro -> Crisp Focus on Night Unlock) */}
-      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+    <section className="relative w-full min-h-[calc(100dvh-4rem)] bg-bg overflow-hidden flex items-center py-12 sm:py-16 lg:py-20">
+      {/* Full-Bleed Atmospheric Bokeh Background Image with Deep Black Vignette Fades */}
+      <div className="pointer-events-none absolute inset-0 z-0">
         <Image
           src={heroVisual.src}
           alt={heroVisual.alt}
           fill
           priority
           sizes="100vw"
-          className={`object-cover object-center transition-all duration-1000 ease-out ${
-            nightUnlocked
-              ? 'scale-100 blur-0 opacity-65'
-              : 'scale-110 blur-[6px] opacity-55'
-          }`}
-        />
-        {/* Warm amber dusk radial wash + deep pitch-black edge vignettes */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-0"
-          style={{
-            background:
-              'radial-gradient(ellipse at 50% 45%, rgba(223, 141, 68, 0.14) 0%, rgba(7, 7, 8, 0.52) 58%, #070708 96%)',
-          }}
-        />
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-b from-bg/75 via-transparent to-bg"
-        />
-      </div>
-
-      {/* Top Spacer */}
-      <div className="relative z-10" />
-
-      {/* Centerpiece Display Serif Heading + BOOK A TABLE (→) CTA */}
-      <div className="relative z-10 mx-auto max-w-4xl px-4 text-center my-auto py-12">
-        <div
-          key={nightUnlocked ? 'night-ours' : 'city-whispers'}
-          className="animate-menu-switch space-y-8"
-        >
-          {nightUnlocked ? (
-            <h1 className="font-serif font-normal text-5xl sm:text-7xl lg:text-[86px] text-text leading-[0.98] tracking-[-0.02em]">
-              <span className="block">No Rush.</span>
-              <span className="block">Night Is Ours.</span>
-            </h1>
-          ) : (
-            <h1 className="font-serif font-normal text-5xl sm:text-7xl lg:text-[86px] text-text leading-[0.98] tracking-[-0.02em]">
-              <span className="block">Where The City</span>
-              <span className="block">Whispers</span>
-            </h1>
-          )}
-
-          <div className="flex justify-center pt-1">
-            <NocturneArrowCta href="/reserve" label="BOOK A TABLE" size="lg" />
-          </div>
-        </div>
-      </div>
-
-      {/* Bottom Bar: Floating Glass Clock Widget (Left) · Location Label (Center) · 4 Square Social Icons (Right) */}
-      <div className="relative z-10 mx-auto max-w-7xl w-full px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          {/* Bottom-Left Floating Glass Clock Widget (Click to toggle Whisper / Night state) */}
-          <button
-            type="button"
-            onClick={() => {
-              setNightUnlocked((prev) => !prev);
-              setIntroSecs(3);
-            }}
-            title="Toggle Dusk / Night mood"
-            className="text-left group w-full sm:w-[295px] rounded-xs border border-white/15 hover:border-gold/45 bg-black/60 backdrop-blur-md p-4 flex items-center justify-between gap-4 transition-all duration-300 shadow-panel"
-          >
-            <div className="space-y-1.5">
-              <p className="text-[11px] text-muted/90">
-                {nightUnlocked ? 'Enjoy night menu' : 'Left to night menu'}
-              </p>
-              <p className="font-sans font-light text-2xl tracking-wider text-text tabular-nums">
-                {nightUnlocked
-                  ? nightTimer
-                  : `00:00:0${Math.max(0, introSecs)}`}
-              </p>
-              <p className="text-[11px] text-text/80 pt-1">
-                {nightUnlocked ? 'Night is ours!' : "We're almost there!"}
-              </p>
-            </div>
-
-            {/* Minimalist 12-Dot Analog Clock SVG */}
-            <div className="relative w-20 h-20 shrink-0" aria-hidden="true">
-              <svg viewBox="0 0 100 100" className="w-full h-full">
-                {Array.from({ length: 12 }).map((_, idx) => {
-                  const rad = ((idx * 30 - 90) * Math.PI) / 180;
-                  const cx = 50 + 40 * Math.cos(rad);
-                  const cy = 50 + 40 * Math.sin(rad);
-                  const isLitArc = nightUnlocked && idx >= 0 && idx <= 5;
-                  return (
-                    <circle
-                      key={idx}
-                      cx={cx}
-                      cy={cy}
-                      r={isLitArc ? 2.3 : 1.5}
-                      fill={isLitArc ? '#DF8D44' : 'rgba(255,244,224,0.22)'}
-                    />
-                  );
-                })}
-                {/* Hour hand */}
-                <line
-                  x1="50"
-                  y1="50"
-                  x2="50"
-                  y2="27"
-                  stroke="#FFF4E0"
-                  strokeWidth="1.4"
-                  strokeLinecap="round"
-                  transform={`rotate(${angles.hour} 50 50)`}
-                />
-                {/* Minute hand */}
-                <line
-                  x1="50"
-                  y1="50"
-                  x2="50"
-                  y2="18"
-                  stroke="rgba(255,244,224,0.75)"
-                  strokeWidth="1"
-                  strokeLinecap="round"
-                  transform={`rotate(${angles.minute} 50 50)`}
-                />
-                {/* Copper Second hand */}
-                <line
-                  x1="50"
-                  y1="54"
-                  x2="50"
-                  y2="16"
-                  stroke="#DF8D44"
-                  strokeWidth="1"
-                  strokeLinecap="round"
-                  transform={`rotate(${angles.second} 50 50)`}
-                />
-                <circle cx="50" cy="50" r="2" fill="#DF8D44" />
-              </svg>
-            </div>
-          </button>
-
-          {/* Bottom-Center Location Coordinate Label */}
-          <div className="text-center md:pb-1">
-            <Link
-              href="/contact"
-              className="text-[10px] sm:text-[11px] uppercase tracking-[0.24em] text-text/80 hover:text-gold transition-colors"
-            >
-              CLOVER PARK, VIMAN NAGAR, PUNE
-            </Link>
-          </div>
-
-          {/* Bottom-Right 4 Square-Bordered Social / Quick Action Icons */}
-          <div className="flex items-center justify-center md:justify-end gap-2 md:pb-1">
-            <a
-              href="https://www.instagram.com/saanjhpune/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Instagram"
-              className="w-8 h-8 border border-white/15 hover:border-gold text-text/80 hover:text-gold inline-flex items-center justify-center transition-colors"
-            >
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
-                <rect x="2" y="2" width="20" height="20" rx="5" />
-                <circle cx="12" cy="12" r="4" />
-                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
-              </svg>
-            </a>
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="WhatsApp Concierge"
-              className="w-8 h-8 border border-white/15 hover:border-gold text-text/80 hover:text-gold inline-flex items-center justify-center transition-colors"
-            >
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
-                <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
-              </svg>
-            </a>
-            <a
-              href={t('brand.phone_tel')}
-              aria-label="Call Saanjh"
-              className="w-8 h-8 border border-white/15 hover:border-gold text-text/80 hover:text-gold inline-flex items-center justify-center transition-colors"
-            >
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
-              </svg>
-            </a>
-            <a
-              href={t('brand.google_maps_directions_url')}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Google Maps Directions"
-              className="w-8 h-8 border border-white/15 hover:border-gold text-text/80 hover:text-gold inline-flex items-center justify-center transition-colors"
-            >
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
-                <circle cx="12" cy="10" r="3" />
-                <path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 7 8 11.7z" />
-              </svg>
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/**
- * 2. "WHERE TIME SLOWS. AND SENSES WAKE." + 4 STAGGERED NUMBERED PILLARS (Video 00:03 – 00:05):
- * - Top: Glowing warm amber orb on the left + 3-line display serif heading & 2-column copy on the right.
- * - Bottom: 4 diagonally staggered vertical cards (`1`, `2`, `3`, `4`) with giant copper-gold watermark numerals.
- */
-export function AboutTeaserSection() {
-  const pillars = [
-    {
-      num: '1',
-      title: 'Night is ours',
-      copy: 'Time slows. Conversations soften, music hums, every plate moves to its own quiet rhythm.',
-      offsetClass: 'lg:mt-0',
-    },
-    {
-      num: '2',
-      title: 'Heat First',
-      copy: 'The flame decides everything — sear, scent, smoke. What begins with fire ends in flavour.',
-      offsetClass: 'lg:mt-10',
-    },
-    {
-      num: '3',
-      title: 'Silence Matters',
-      copy: 'The hush between courses is part of the ritual — the pause before the toast, the warmth after.',
-      offsetClass: 'lg:mt-20',
-    },
-    {
-      num: '4',
-      title: 'Craft Is Honest',
-      copy: 'Spice is truth, sweetness is rare — honesty is the craft of the midnight kitchen.',
-      offsetClass: 'lg:mt-32',
-    },
-  ];
-
-  return (
-    <Section variant="dark" className="py-20 sm:py-28 overflow-hidden">
-      {/* Part A: Glowing Amber Orb + "Where Time Slows. And Senses Wake." */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center mb-20 sm:mb-28">
-        <div className="lg:col-span-5 flex justify-center lg:justify-start">
-          <NocturneAmberOrb />
-        </div>
-
-        <div className="lg:col-span-7 space-y-10">
-          <h2 className="font-serif font-normal text-4xl sm:text-6xl lg:text-[68px] text-text leading-[1.02] tracking-[-0.02em]">
-            <span className="block">Where Time</span>
-            <span className="block">Slows. And</span>
-            <span className="block">Senses Wake.</span>
-          </h2>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-2">
-            <p className="text-xs sm:text-[13px] text-muted/85 leading-relaxed">
-              Dining after dark is a ritual — a balance of mood, flavor, and light. Every detail moves like a scene: the clink of glasses, the warm teakwood glow, the slow drift of spices across our Viman Nagar patio.
-            </p>
-            <p className="text-xs sm:text-[13px] text-muted/85 leading-relaxed">
-              Each evening is crafted to awaken the senses. Light and shadow, warmth and unhurried conversation — forming a multi-generational sanctuary that breathes until midnight.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Part B: 4 Staggered Pillars with Giant Watermark Numerals 1, 2, 3, 4 (Video 00:05) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 items-start">
-        {pillars.map((pillar) => (
-          <div
-            key={pillar.num}
-            className={`${pillar.offsetClass} group relative aspect-[3/4] rounded-xs border border-white/10 hover:border-gold/40 bg-gradient-to-b from-[#1A130E] via-[#0E0C0A] to-[#080809] p-6 sm:p-7 flex flex-col justify-between overflow-hidden transition-all duration-500`}
-          >
-            {/* Giant Translucent Copper-Amber Numeral Watermark */}
-            <span
-              aria-hidden="true"
-              className="pointer-events-none select-none absolute top-2 right-4 font-serif text-[120px] sm:text-[140px] leading-none text-gold/15 group-hover:text-gold/25 transition-colors duration-500"
-            >
-              {pillar.num}
-            </span>
-
-            {/* Top-Left Title */}
-            <h3 className="relative z-10 font-serif text-lg sm:text-xl text-text">
-              {pillar.title}
-            </h3>
-
-            {/* Bottom Description */}
-            <p className="relative z-10 text-xs text-muted/85 leading-relaxed max-w-[230px]">
-              {pillar.copy}
-            </p>
-          </div>
-        ))}
-      </div>
-    </Section>
-  );
-}
-
-/**
- * 3. "THE EMBER ROOM" / "THE SAANJH ROOM" (Video 00:06 – 00:07):
- * - Full-bleed warm bokeh background image dissolving into pitch black.
- * - Left vertical list of 7 rituals with hollow circle markers (`○`) and vertical line.
- * - Right giant stacked offset serif title ("The Ember / Room") + bottom-right paragraph & "BOOK A ROOM (→)".
- */
-export function GalleryTeaserSection({
-  items: _items,
-  state: _state = 'ready',
-}: {
-  items: GalleryItemSlot[];
-  state?: SectionDataState;
-}) {
-  const emberVisual = getImageSlot('hero_signboard_visual', '16x9');
-  const [activeRitual, setActiveRitual] = React.useState(0);
-
-  const rituals = [
-    {
-      label: 'Intimate Tastings',
-      blurb:
-        'Here, guests gather for quiet rituals — private tastings, artisanal pours, and whispered conversations under warm amber light.',
-    },
-    {
-      label: 'Artisanal Cocktails',
-      blurb:
-        'Botanical infusions, smoked spices, and signature evening pours crafted at our newly opened Viman Nagar bar.',
-    },
-    {
-      label: 'Moonlit Dessert Pairings',
-      blurb:
-        'Indulgent late-evening desserts paired with espresso infusions and warm outdoor patio breezes.',
-    },
-    {
-      label: 'Private Family Dinners',
-      blurb:
-        'Long teakwood tables reserved for multi-generational celebrations, complete with valet parking and bespoke menus.',
-    },
-    {
-      label: 'Vinyl & Acoustic Evenings',
-      blurb:
-        'Curated acoustic soundscapes that let conversation linger effortlessly from dusk until midnight.',
-    },
-    {
-      label: 'Candle Ceremonies',
-      blurb:
-        'Soft amber table lamps and warm shadows that transform dinner into an unhurried nocturnal sanctuary.',
-    },
-    {
-      label: "The Chef's Course",
-      blurb:
-        'A multi-cuisine tasting journey spanning Maharashtrian heritage handis, mushroom crostinis, and wood-fired classics.',
-    },
-  ];
-
-  return (
-    <section className="relative w-full min-h-[82dvh] bg-bg overflow-hidden flex items-center py-20 sm:py-28">
-      {/* Full-Bleed Bokeh Portrait/Interior Photo Fading into Pitch Black */}
-      <div className="pointer-events-none absolute inset-0 z-0">
-        <Image
-          src={emberVisual.src}
-          alt={emberVisual.alt}
-          fill
-          sizes="100vw"
           className="object-cover object-center opacity-55 scale-105 animate-signboard-breathe"
         />
+        {/* Radial & Linear Vignettes so edges dissolve seamlessly into #070708 black */}
         <div
           aria-hidden="true"
           className="absolute inset-0"
           style={{
             background:
-              'radial-gradient(ellipse at 48% 45%, rgba(223, 141, 68, 0.16) 0%, rgba(7, 7, 8, 0.62) 54%, #070708 92%)',
+              'radial-gradient(ellipse at 52% 42%, rgba(223, 141, 68, 0.14) 0%, rgba(7, 7, 8, 0.58) 52%, #070708 92%)',
           }}
         />
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-b from-bg via-transparent to-bg"
+          className="absolute inset-0 bg-gradient-to-b from-bg/70 via-transparent to-bg"
         />
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-r from-bg via-transparent to-bg/90"
+          className="absolute inset-0 bg-gradient-to-r from-bg via-transparent to-bg/85"
         />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl w-full px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center min-h-[60dvh]">
-          {/* Left 4 Cols: Vertical Hollow-Circle Rituals List */}
-          <div className="lg:col-span-4 order-2 lg:order-1">
-            <ul className="relative space-y-5 pl-1">
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute left-[7px] top-2 bottom-2 w-px bg-white/10"
-              />
-              {rituals.map((item, idx) => {
-                const isSelected = idx === activeRitual;
-                return (
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center min-h-[68dvh]">
+          {/* Left 4 Cols: Floating Smoked-Glass Rituals Dock ("○ Intimate Tastings" style) */}
+          <div className="lg:col-span-4 order-2 lg:order-1 animate-reveal-2">
+            <div className="glass-card glass-card-interactive rounded-md p-6 sm:p-7 max-w-sm">
+              <p className="text-[10px] uppercase tracking-[0.26em] text-gold/80 mb-5">
+                Evening Rituals
+              </p>
+              <ul className="relative space-y-4 pl-1">
+                {/* Faint vertical connecting hairline */}
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute left-[7px] top-2 bottom-2 w-px bg-gradient-to-b from-gold/45 via-white/15 to-transparent"
+                />
+                {rituals.map((item) => (
                   <li key={item.label} className="relative">
-                    <button
-                      type="button"
-                      onMouseEnter={() => setActiveRitual(idx)}
-                      onClick={() => setActiveRitual(idx)}
-                      className={`group inline-flex items-center gap-4 text-left transition-colors ${
-                        isSelected ? 'text-text' : 'text-text/65 hover:text-text'
-                      }`}
+                    <Link
+                      href={item.href}
+                      className="group flex items-center justify-between gap-3 text-xs sm:text-[13px] tracking-wide text-text/80 hover:text-text transition-colors py-0.5"
                     >
+                      <span className="inline-flex items-center gap-4">
+                        <span
+                          aria-hidden="true"
+                          className="w-2 h-2 rounded-full border border-white/60 bg-bg group-hover:border-gold group-hover:bg-gold group-hover:scale-125 group-hover:shadow-gold-glow transition-all duration-300 shrink-0"
+                        />
+                        <span className="font-serif text-sm sm:text-base tracking-wide group-hover:translate-x-1.5 group-hover:text-gold transition-all duration-300">
+                          {item.label}
+                        </span>
+                      </span>
                       <span
                         aria-hidden="true"
-                        className={`w-2 h-2 rounded-full border transition-colors shrink-0 ${
-                          isSelected
-                            ? 'border-gold bg-gold shadow-gold-glow'
-                            : 'border-white/55 bg-bg group-hover:border-gold'
-                        }`}
-                      />
-                      <span className="font-serif text-sm sm:text-base tracking-wide group-hover:translate-x-1 transition-transform duration-300">
-                        {item.label}
+                        className="text-gold/0 group-hover:text-gold -translate-x-2 group-hover:translate-x-0 transition-all duration-300 text-xs"
+                      >
+                        →
                       </span>
-                    </button>
+                    </Link>
                   </li>
-                );
-              })}
-            </ul>
+                ))}
+              </ul>
+            </div>
           </div>
 
-          {/* Right 8 Cols: Giant Offset Serif Title ("The Ember / Room") + Bottom-Right Copy & CTA */}
-          <div className="lg:col-span-8 order-1 lg:order-2 flex flex-col items-start lg:items-end justify-between min-h-[52dvh] gap-12">
-            <div className="lg:text-right w-full">
-              <h2 className="font-serif font-normal text-5xl sm:text-7xl lg:text-[88px] text-text leading-[0.94] tracking-[-0.02em]">
-                <span className="block">The Ember</span>
-                <span className="block pl-16 sm:pl-28 lg:pl-0">
+          {/* Right 8 Cols: Giant Offset Serif Title ("The Saanjh / Room") + Floating Glass Summary Card */}
+          <div className="lg:col-span-8 order-1 lg:order-2 flex flex-col items-start lg:items-end justify-between min-h-[54dvh] gap-12">
+            {/* Giant Stacked Offset Display Heading */}
+            <div className="animate-reveal-1 lg:text-right w-full">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-pill animate-float-slow mb-4">
+                <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
+                <span className="text-[11px] uppercase tracking-[0.24em] text-gold/95">
+                  Viman Nagar, Pune · 4.5 ★ (191 Reviews)
+                </span>
+              </div>
+              <h1 className="font-serif font-normal text-5xl sm:text-7xl lg:text-[88px] text-text leading-[0.94] tracking-[-0.02em] drop-shadow-[0_12px_32px_rgba(0,0,0,0.85)]">
+                <span className="block">The Saanjh</span>
+                <span className="block pl-16 sm:pl-28 lg:pl-0 text-ember-gradient">
                   R<span className="tracking-[-0.06em]">oo</span>m
                 </span>
-              </h2>
+              </h1>
             </div>
 
-            <div className="lg:max-w-xs space-y-6 lg:mr-6">
-              <p
-                key={activeRitual}
-                className="animate-menu-switch text-xs sm:text-[13px] text-text/80 leading-relaxed"
-              >
-                {rituals[activeRitual]?.blurb}
+            {/* Bottom-Right Floating Glass Card with Poetic Copy & Circular Arrow CTA */}
+            <div className="animate-reveal-3 lg:max-w-sm glass-card glass-card-interactive rounded-md p-6 space-y-5 lg:mr-2">
+              <p className="text-xs sm:text-[13px] text-text/85 leading-relaxed relative z-10">
+                Here, guests gather for unhurried evenings — warm teakwood interiors, lush patio air, artisanal cocktails, and flavours crafted for the whole family.
               </p>
-              <NocturneArrowCta href="/reserve" label="BOOK A ROOM" />
+              <div className="relative z-10 flex flex-wrap items-center justify-between gap-4 pt-1 border-t border-white/10">
+                <NocturneArrowCta href="/reserve" label="BOOK A TABLE" />
+                <Link
+                  href="/order"
+                  className="text-[11px] uppercase tracking-[0.22em] text-muted hover:text-gold transition-colors link-underline-gold py-1"
+                >
+                  ORDER ONLINE →
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -604,12 +207,11 @@ export function GalleryTeaserSection({
 }
 
 /**
- * 4. "TONIGHT'S SPECIAL" — HOVER-REVEAL PORTRAIT CARDS (Video 00:08 – 00:10):
- * - Giant offset ember-copper-gold gradient serif heading ("Tonight's / Special") + compact side paragraph.
- * - 4 tall portrait cards (`aspect-[3/4]`):
- *   - Cards 1–3 are sleek dark monoliths where hovering/focusing reveals the circular plated dish in the center!
- *   - Card 4 is the fluted amber "✦ Unlocked after 12:00pm — Chef's Secret Plate".
- * - Centered "LEARN MORE (→)" CTA underneath.
+ * 2. TONIGHT'S SPECIAL — 4-CARD PORTRAIT SHOWCASE (Matches bottom-left of reference image):
+ * - Giant offset ember-gradient serif title ("Tonight's / Special") + side paragraph
+ * - 4 tall portrait cards (`aspect-[3/4]`) with dark top vignette & dish name at bottom
+ * - 4th card is the fluted amber "Unlocked after 6:00pm — Chef's Secret Plate"
+ * - Centered "LEARN MORE / EXPLORE MENU (→)" CTA below
  */
 export function SignatureHighlightsSection({
   items,
@@ -620,7 +222,6 @@ export function SignatureHighlightsSection({
 }) {
   const { addItem, openSheet } = useCart();
   const { notify } = useToast();
-  const [hoveredId, setHoveredId] = React.useState<string | null>(items[0]?.id ?? null);
 
   const handleQuickAdd = (item: MenuItemSlot) => {
     addItem({
@@ -641,13 +242,13 @@ export function SignatureHighlightsSection({
     <Section variant="dark" className="py-16 sm:py-24">
       {/* Header Row: Offset Ember-Gradient "Tonight's / Special" + Side Description */}
       <div className="flex flex-col md:flex-row md:items-end gap-8 md:gap-14 mb-14">
-        <h2 className="font-serif font-normal text-5xl sm:text-6xl lg:text-[76px] leading-[0.95] tracking-[-0.02em] text-ember-gradient shrink-0">
+        <h2 className="font-serif font-normal text-5xl sm:text-6xl lg:text-[74px] leading-[0.95] tracking-[-0.02em] text-ember-gradient shrink-0">
           <span className="block">Tonight&apos;s</span>
           <span className="block pl-12 sm:pl-20">Special</span>
         </h2>
 
         <p className="text-xs sm:text-[13px] text-muted/85 max-w-[260px] leading-relaxed pb-1">
-          Small plates designed to awaken the senses. Each dish combines warmth, contrast, and texture, setting the tone for the meal ahead.
+          Small plates and heritage mains designed to awaken the senses. Each dish combines warmth, contrast, and texture, setting the tone for the evening ahead.
         </p>
       </div>
 
@@ -656,16 +257,19 @@ export function SignatureHighlightsSection({
       {state === 'empty' && <EmptyState actionLabel={t('global.nav.menu')} actionHref="/menu" />}
       {state === 'ready' && (
         <>
-          {/* 4-Column Portrait Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {portraitDishes.map((dish) => {
-              const img = getImageSlot(dish.imageSlot, '1x1');
-              const isRevealed = hoveredId === dish.id;
+          {/* 4-Column Glassmorphic Portrait Cards Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {portraitDishes.map((dish, idx) => {
+              const img = getImageSlot(dish.imageSlot, '3x4');
+              const staggerClass =
+                idx === 0
+                  ? 'animate-stagger-1'
+                  : idx === 1
+                    ? 'animate-stagger-2'
+                    : 'animate-stagger-3';
               return (
                 <div
                   key={dish.id}
-                  onMouseEnter={() => setHoveredId(dish.id)}
-                  onFocus={() => setHoveredId(dish.id)}
                   onClick={() => handleQuickAdd(dish)}
                   role="button"
                   tabIndex={0}
@@ -675,50 +279,45 @@ export function SignatureHighlightsSection({
                       handleQuickAdd(dish);
                     }
                   }}
-                  className="group relative aspect-[3/4] rounded-xs border border-white/10 hover:border-white/25 bg-[#0A0A0B] overflow-hidden flex flex-col justify-between p-6 cursor-pointer transition-all duration-500"
+                  className={`${staggerClass} glass-card glass-card-interactive group relative aspect-[3/4] rounded-md overflow-hidden flex flex-col justify-between p-4 cursor-pointer`}
                 >
-                  {/* Top Subtle Price & Quick Add on Hover */}
+                  {/* Dish Image Emerging from Deep Nocturnal Vignette */}
+                  <Image
+                    src={img.src}
+                    alt={dish.name}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    className="object-cover object-center opacity-75 group-hover:opacity-95 group-hover:scale-110 transition-all duration-700 ease-out"
+                  />
                   <div
-                    className={`relative z-10 flex items-center justify-between text-[11px] transition-opacity duration-500 ${
-                      isRevealed ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
-                    }`}
-                  >
-                    <span className="font-mono text-gold">{formatPriceToken(dish.price)}</span>
-                    <span className="uppercase tracking-widest text-[10px] text-text/75 group-hover:text-gold">
-                      + Add to Bag
+                    aria-hidden="true"
+                    className="absolute inset-0 bg-gradient-to-b from-bg/85 via-bg/35 to-bg/95 transition-opacity duration-500 group-hover:opacity-80"
+                  />
+
+                  {/* Top Frosted Glass Price & Quick-Add Pill */}
+                  <div className="relative z-10 flex items-center justify-between gap-2">
+                    <span className="glass-pill px-3 py-1 rounded-full font-mono text-xs text-gold">
+                      {formatPriceToken(dish.price)}
+                    </span>
+                    <span className="glass-pill px-3 py-1 rounded-full uppercase tracking-widest text-[10px] text-text/90 group-hover:bg-gold group-hover:text-bg group-hover:border-gold transition-all duration-300">
+                      + Add
                     </span>
                   </div>
 
-                  {/* Center Circular Plated Dish Photo — Materializes Smoothly on Hover (Video 00:08 -> 00:10) */}
-                  <div className="relative z-10 my-auto flex items-center justify-center">
-                    <div
-                      className={`relative w-44 h-44 sm:w-48 sm:h-48 rounded-full overflow-hidden border border-white/10 shadow-2xl transition-all duration-700 ease-out ${
-                        isRevealed
-                          ? 'opacity-100 scale-100 translate-y-0'
-                          : 'opacity-0 scale-90 translate-y-3 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0'
-                      }`}
-                    >
-                      <Image
-                        src={img.src}
-                        alt={dish.name}
-                        fill
-                        sizes="220px"
-                        className="object-cover object-center"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Bottom Centered Serif Dish Title */}
-                  <div className="relative z-10 text-center">
-                    <h3 className="font-serif text-sm sm:text-base text-text group-hover:text-gold transition-colors">
+                  {/* Bottom Frosted Glass Dock with Reveal-on-Hover Description */}
+                  <div className="relative z-10 rounded-sm bg-black/55 backdrop-blur-md border border-white/12 p-4 text-center transition-all duration-500 group-hover:border-gold/40 group-hover:-translate-y-1">
+                    <h3 className="font-serif text-base sm:text-lg text-text group-hover:text-gold transition-colors">
                       {dish.name}
                     </h3>
+                    <p className="text-[11px] text-muted/90 line-clamp-2 mt-1.5 max-h-0 opacity-0 group-hover:max-h-14 group-hover:opacity-100 transition-all duration-500 overflow-hidden">
+                      {dish.description}
+                    </p>
                   </div>
                 </div>
               );
             })}
 
-            {/* 4th Card: "♦ Unlocked after 12:00pm — Chef's Secret Plate" with Fluted Amber Ribs */}
+            {/* 4th Card: "Unlocked after 6:00pm — Chef's Secret Plate" with Fluted Amber Glass */}
             {secretPlate && (
               <div
                 onClick={() => handleQuickAdd(secretPlate)}
@@ -730,32 +329,41 @@ export function SignatureHighlightsSection({
                     handleQuickAdd(secretPlate);
                   }
                 }}
-                className="group relative aspect-[3/4] rounded-xs border border-gold/25 hover:border-gold/60 bg-ember-fluted overflow-hidden flex flex-col justify-between p-6 cursor-pointer transition-all duration-500"
+                className="animate-stagger-4 glass-card-interactive group relative aspect-[3/4] rounded-md border border-gold/35 hover:border-gold/70 bg-ember-fluted overflow-hidden flex flex-col justify-between p-4 cursor-pointer"
               >
-                <div className="relative z-10 flex items-center gap-2 text-[11px] text-text/90">
-                  <span aria-hidden="true" className="text-gold text-xs">
+                {/* Top-Left Frosted Glass Lock Indicator ("✦ Unlocked after 6:00pm") */}
+                <div className="relative z-10 inline-flex items-center gap-2 self-start glass-pill px-3 py-1 rounded-full text-[11px] text-text/95">
+                  <span aria-hidden="true" className="text-gold text-xs animate-pulse">
                     ✦
                   </span>
-                  <span>Unlocked after 12:00pm</span>
+                  <span>Unlocked after 6:00pm</span>
                 </div>
 
+                {/* Living Vertical Amber Light Core */}
                 <div
                   aria-hidden="true"
-                  className="pointer-events-none absolute inset-x-6 inset-y-12 rounded-full bg-gold/10 blur-2xl group-hover:bg-gold/20 transition-all duration-700"
+                  className="pointer-events-none absolute inset-x-6 inset-y-12 rounded-full bg-gold/15 blur-2xl group-hover:bg-gold/30 group-hover:scale-110 transition-all duration-700"
                 />
 
-                <div className="relative z-10 text-center">
-                  <h3 className="font-serif text-sm sm:text-base text-text group-hover:text-gold transition-colors">
+                {/* Bottom Frosted Glass Dock */}
+                <div className="relative z-10 rounded-sm bg-black/60 backdrop-blur-md border border-gold/25 p-4 text-center space-y-1 transition-all duration-500 group-hover:border-gold/60 group-hover:-translate-y-1">
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-gold/90">
+                    {formatPriceToken(secretPlate.price)} · Dusk Bar
+                  </p>
+                  <h3 className="font-serif text-base sm:text-lg text-text group-hover:text-gold transition-colors">
                     Chef&apos;s Secret Plate
                   </h3>
+                  <p className="text-[11px] text-muted/90 line-clamp-2 pt-1 max-h-0 opacity-0 group-hover:max-h-14 group-hover:opacity-100 transition-all duration-500 overflow-hidden">
+                    {secretPlate.name} — {secretPlate.description}
+                  </p>
                 </div>
               </div>
             )}
           </div>
 
-          {/* Centered "LEARN MORE (→)" CTA */}
+          {/* Centered "LEARN MORE / EXPLORE MENU (→)" CTA */}
           <div className="mt-12 flex justify-center">
-            <NocturneArrowCta href="/menu" label="LEARN MORE" />
+            <NocturneArrowCta href="/menu" label="EXPLORE MENU" />
           </div>
         </>
       )}
@@ -764,9 +372,11 @@ export function SignatureHighlightsSection({
 }
 
 /**
- * 5. "BOOK A TABLE" CINEMATIC FLAME BANNER + 4-COLUMN HORIZONTAL RESERVATION BAR (Video 00:11 – 00:12):
- * - Wide dramatic culinary banner with "Book A Table" display serif heading at top-left.
- * - Directly attached 4-column interactive horizontal booking bar (`Seats`, `Date`, `Time`, `BOOK A TABLE (→)`).
+ * 3. THE NOCTURNE EXPERIENCE & LIVE CLOCK SECTION (Matches right half of reference image):
+ * - Interactive Nocturne Card with live digital countdown ("05:59:59"),
+ *   minimalist 12-dot analog clock with copper hands, warm fireplace/patio ambience,
+ *   "No Rush. Evening Is Ours." display serif typography, and "BOOK A TABLE (→)" CTA.
+ * - Paired with Viman Nagar Location, Hours & Interactive Google Map on the right.
  */
 export function HoursAndLocationSection({
   hours: _hours,
@@ -775,115 +385,194 @@ export function HoursAndLocationSection({
   hours: OpeningHourSlot[];
   state?: SectionDataState;
 }) {
-  const bannerVisual = getImageSlot('khandeshi_mutton_handi', '16x9');
-  const [guests, setGuests] = React.useState('2 PERSONS');
-  const [dateVal, setDateVal] = React.useState('2026-11-10');
-  const [timeSlot, setTimeSlot] = React.useState('08:00 PM');
+  const [countdown, setCountdown] = React.useState('05:59:59');
+  const [angles, setAngles] = React.useState({ hour: 65, minute: 15, second: 210 });
+
+  React.useEffect(() => {
+    const updateClock = () => {
+      const now = new Date();
+      // Countdown until 12:00 Midnight closing
+      const midnight = new Date(now);
+      midnight.setHours(23, 59, 59, 999);
+      const diffSec = Math.max(0, Math.floor((midnight.getTime() - now.getTime()) / 1000));
+      const hrs = String(Math.floor(diffSec / 3600)).padStart(2, '0');
+      const mins = String(Math.floor((diffSec % 3600) / 60)).padStart(2, '0');
+      const secs = String(diffSec % 60).padStart(2, '0');
+      setCountdown(`${hrs}:${mins}:${secs}`);
+
+      const h = now.getHours() % 12;
+      const m = now.getMinutes();
+      const s = now.getSeconds();
+      setAngles({
+        hour: h * 30 + m * 0.5,
+        minute: m * 6,
+        second: s * 6,
+      });
+    };
+
+    updateClock();
+    const timer = window.setInterval(updateClock, 1000);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  const patioVisual = getImageSlot('lush_green_outdoor_patio', '3x4');
 
   return (
-    <Section variant="dark" className="py-12 sm:py-20">
+    <Section variant="dark" className="border-t border-white/[0.07]">
       {state === 'loading' && <SkeletonLoader lines={5} />}
       {state === 'error' && <ErrorState />}
       {state === 'empty' && <EmptyState />}
       {state === 'ready' && (
-        <div className="space-y-16">
-          {/* Cinematic "Book A Table" Banner + Attached 4-Column Booking Strip (Video 00:11–00:12) */}
-          <div className="border border-white/10 bg-[#09090A] overflow-hidden">
-            {/* Top Culinary Flame Banner */}
-            <div className="relative min-h-[300px] sm:min-h-[400px] w-full overflow-hidden flex items-start p-6 sm:p-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
+          {/* Left 5 Cols: "THE NOCTURNE — No Rush. Evening Is Ours." Glassmorphic Showcase Card */}
+          <div className="lg:col-span-5 min-w-0">
+            <div className="glass-panel-deep glass-card-interactive relative rounded-[28px] overflow-hidden p-6 sm:p-8 min-h-[550px] flex flex-col justify-between">
+              {/* Warm Bokeh Lounge / Patio Background */}
               <Image
-                src={bannerVisual.src}
-                alt="Flame-seared culinary craft at Saanjh"
+                src={patioVisual.src}
+                alt="Saanjh Evening Ambience"
                 fill
-                sizes="100vw"
-                className="object-cover object-center opacity-65"
+                sizes="(max-width: 1024px) 100vw, 42vw"
+                className="object-cover object-center opacity-50 transition-transform duration-1000 hover:scale-105"
               />
               <div
                 aria-hidden="true"
-                className="absolute inset-0 bg-gradient-to-r from-bg/90 via-bg/35 to-bg/80"
-              />
-              <div
-                aria-hidden="true"
-                className="absolute inset-0 bg-gradient-to-t from-[#09090A] via-transparent to-bg/60"
+                className="absolute inset-0 bg-gradient-to-b from-bg/90 via-bg/40 to-bg/95"
               />
 
-              <h2 className="relative z-10 font-serif font-normal text-4xl sm:text-6xl lg:text-7xl text-text tracking-[-0.02em]">
-                Book A Table
-              </h2>
-            </div>
-
-            {/* Attached 4-Column Horizontal Reservation Strip */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-t border-white/15 divide-y sm:divide-y-0 sm:divide-x divide-white/10 bg-[#09090A]">
-              {/* Col 1: Guests */}
-              <label className="p-5 sm:px-7 flex flex-col justify-center gap-1.5 cursor-pointer hover:bg-white/[0.02] transition-colors">
-                <span className="text-[11px] text-muted">Seats</span>
-                <div className="flex items-center justify-between gap-2">
-                  <select
-                    aria-label="Select number of guests"
-                    value={guests}
-                    onChange={(e) => setGuests(e.target.value)}
-                    className="w-full bg-transparent text-xs sm:text-sm uppercase tracking-wider text-text focus:outline-none cursor-pointer"
+              {/* Top Mini Header inside the Nocturne Frame */}
+              <div className="relative z-10 space-y-5">
+                <div className="flex items-center justify-between pb-3 border-b border-white/15 text-[11px] uppercase tracking-[0.22em] text-text/85">
+                  <Link href="/menu" className="hover:text-gold transition-colors link-underline-gold py-0.5">
+                    MENU
+                  </Link>
+                  <Link
+                    href="/reserve"
+                    className="inline-flex items-center gap-1.5 glass-pill px-3 py-1 rounded-full hover:border-gold/50 hover:text-gold transition-all"
                   >
-                    <option value="1 PERSON" className="bg-bg text-text">1 PERSON</option>
-                    <option value="2 PERSONS" className="bg-bg text-text">2 PERSONS</option>
-                    <option value="4 PERSONS" className="bg-bg text-text">4 PERSONS</option>
-                    <option value="6 PERSONS" className="bg-bg text-text">6 PERSONS</option>
-                    <option value="8+ GROUP" className="bg-bg text-text">8+ GROUP</option>
-                  </select>
+                    <span aria-hidden="true" className="text-gold">
+                      🛎
+                    </span>
+                    <span>RESERVE</span>
+                  </Link>
                 </div>
-              </label>
 
-              {/* Col 2: Date */}
-              <label className="p-5 sm:px-7 flex flex-col justify-center gap-1.5 cursor-pointer hover:bg-white/[0.02] transition-colors">
-                <span className="text-[11px] text-muted">Date</span>
-                <input
-                  type="date"
-                  aria-label="Select reservation date"
-                  value={dateVal}
-                  onChange={(e) => setDateVal(e.target.value)}
-                  className="w-full bg-transparent text-xs sm:text-sm uppercase tracking-wider text-text focus:outline-none cursor-pointer"
-                />
-              </label>
+                {/* Live Evening Privilege Countdown & Analog Clock Glass Card */}
+                <div className="glass-card glass-card-interactive rounded-md p-5 flex items-center justify-between gap-4">
+                  <div className="space-y-1.5 relative z-10">
+                    <p className="text-xs text-muted/90">Enjoy evening &amp; bar menu</p>
+                    <p className="font-sans font-light text-2xl sm:text-3xl tracking-wider text-text tabular-nums drop-shadow-[0_2px_10px_rgba(223,141,68,0.25)]">
+                      {countdown}
+                    </p>
+                    <p className="text-xs text-gold/90 pt-1">Evening is ours!</p>
+                  </div>
 
-              {/* Col 3: Time */}
-              <label className="p-5 sm:px-7 flex flex-col justify-center gap-1.5 cursor-pointer hover:bg-white/[0.02] transition-colors">
-                <span className="text-[11px] text-muted">Time</span>
-                <select
-                  aria-label="Select reservation time"
-                  value={timeSlot}
-                  onChange={(e) => setTimeSlot(e.target.value)}
-                  className="w-full bg-transparent text-xs sm:text-sm uppercase tracking-wider text-text focus:outline-none cursor-pointer"
-                >
-                  <option value="12:30 PM" className="bg-bg text-text">12:30 PM (LUNCH 10% OFF)</option>
-                  <option value="02:00 PM" className="bg-bg text-text">02:00 PM (LUNCH 10% OFF)</option>
-                  <option value="07:30 PM" className="bg-bg text-text">07:30 PM</option>
-                  <option value="08:00 PM" className="bg-bg text-text">08:00 PM</option>
-                  <option value="09:00 PM" className="bg-bg text-text">09:00 PM</option>
-                  <option value="10:30 PM" className="bg-bg text-text">10:30 PM</option>
-                </select>
-              </label>
+                  {/* Minimalist 12-Dot Analog Clock SVG with Ambient Copper Halo */}
+                  <div className="relative w-24 h-24 shrink-0 z-10" aria-hidden="true">
+                    <span className="pointer-events-none absolute inset-2 rounded-full bg-gold/10 blur-md animate-pulse" />
+                    <svg viewBox="0 0 100 100" className="w-full h-full relative">
+                      {/* 12 Perimeter Dots */}
+                      {Array.from({ length: 12 }).map((_, idx) => {
+                        const rad = ((idx * 30 - 90) * Math.PI) / 180;
+                        const cx = 50 + 40 * Math.cos(rad);
+                        const cy = 50 + 40 * Math.sin(rad);
+                        const isEveningArc = idx >= 0 && idx <= 5;
+                        return (
+                          <circle
+                            key={idx}
+                            cx={cx}
+                            cy={cy}
+                            r={isEveningArc ? 2.2 : 1.5}
+                            fill={isEveningArc ? '#DF8D44' : 'rgba(255,244,224,0.22)'}
+                          />
+                        );
+                      })}
+                      {/* Hour hand */}
+                      <line
+                        x1="50"
+                        y1="50"
+                        x2="50"
+                        y2="26"
+                        stroke="#FFF4E0"
+                        strokeWidth="1.4"
+                        strokeLinecap="round"
+                        transform={`rotate(${angles.hour} 50 50)`}
+                      />
+                      {/* Minute hand */}
+                      <line
+                        x1="50"
+                        y1="50"
+                        x2="50"
+                        y2="18"
+                        stroke="rgba(255,244,224,0.75)"
+                        strokeWidth="1"
+                        strokeLinecap="round"
+                        transform={`rotate(${angles.minute} 50 50)`}
+                      />
+                      {/* Copper Second hand */}
+                      <line
+                        x1="50"
+                        y1="54"
+                        x2="50"
+                        y2="16"
+                        stroke="#DF8D44"
+                        strokeWidth="1"
+                        strokeLinecap="round"
+                        transform={`rotate(${angles.second} 50 50)`}
+                      />
+                      <circle cx="50" cy="50" r="2.2" fill="#DF8D44" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
 
-              {/* Col 4: BOOK A TABLE (→) */}
-              <div className="p-5 sm:px-7 flex items-center justify-between sm:justify-center bg-white/[0.01]">
-                <NocturneArrowCta href="/reserve" label="BOOK A TABLE" />
+              {/* Bottom Centered "No Rush. Evening Is Ours." & Circular Arrow CTA */}
+              <div className="relative z-10 text-center space-y-6 pt-16 pb-2">
+                <h2 className="font-serif font-normal text-4xl sm:text-5xl text-text leading-[1.05] drop-shadow-[0_6px_24px_rgba(0,0,0,0.85)]">
+                  <span className="block">No Rush.</span>
+                  <span className="block text-ember-gradient">Evening Is Ours.</span>
+                </h2>
+                <div className="flex justify-center">
+                  <NocturneArrowCta href="/reserve" label="BOOK A TABLE" size="lg" />
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Compact Viman Nagar Sanctuary Map & Directions Strip */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pt-4">
-            <div className="lg:col-span-5 space-y-3">
-              <p className="text-[11px] uppercase tracking-[0.24em] text-gold">
-                CLOVER PARK · OPPOSITE PHOENIX MARKETCITY
+          {/* Right 7 Cols: Viman Nagar Location, 4 Glass Bento Info Cards & Interactive Google Map */}
+          <div className="lg:col-span-7 min-w-0 space-y-7">
+            <div className="space-y-3">
+              <p className="text-[11px] uppercase tracking-[0.26em] text-gold">
+                THE SAANJH SANCTUARY · VIMAN NAGAR
               </p>
-              <h3 className="font-serif text-2xl sm:text-3xl text-text">
+              <h2 className="font-serif text-3xl sm:text-5xl text-text leading-tight">
                 {t('home.location.heading')}
-              </h3>
-              <p className="text-xs sm:text-sm text-muted leading-relaxed">
-                Open daily 12:00 PM – 12:00 Midnight · Flat 10% Off Walk-In Lunch (12–4 PM) · Valet Parking · Direct Desk: {t('brand.phone_display')}
+              </h2>
+              <p className="text-sm text-muted max-w-xl leading-relaxed">
+                Located in Clover Park opposite Phoenix Marketcity, featuring air-conditioned wooden interiors, a lush green outdoor patio, our newly opened bar section, complimentary valet parking, and full wheelchair accessibility.
               </p>
             </div>
-            <div className="lg:col-span-7">
+
+            <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+              <div className="glass-card glass-card-interactive rounded-md p-4">
+                <dt className="text-[11px] uppercase tracking-widest text-muted">Hours (All Days)</dt>
+                <dd className="font-serif text-lg text-gold mt-1">12:00 PM – 12:00 Midnight</dd>
+              </div>
+              <div className="glass-card glass-card-interactive rounded-md p-4">
+                <dt className="text-[11px] uppercase tracking-widest text-muted">Walk-In Lunch Deal</dt>
+                <dd className="font-serif text-lg text-text mt-1">Flat 10% OFF (12 PM – 4 PM)</dd>
+              </div>
+              <div className="glass-card glass-card-interactive rounded-md p-4">
+                <dt className="text-[11px] uppercase tracking-widest text-muted">Direct Desk</dt>
+                <dd className="font-mono text-sm text-text mt-1">{t('brand.phone_display')}</dd>
+              </div>
+              <div className="glass-card glass-card-interactive rounded-md p-4">
+                <dt className="text-[11px] uppercase tracking-widest text-muted">Average Cost</dt>
+                <dd className="text-sm text-text mt-1">₹1,000 – ₹1,100 for two</dd>
+              </div>
+            </dl>
+
+            <div className="glass-card rounded-md p-2">
               <MapEmbed slotName="Clover Park, Viman Nagar" />
             </div>
           </div>
@@ -894,134 +583,39 @@ export function HoursAndLocationSection({
 }
 
 /**
- * 6. "REAL EXPERIENCE" — EDITORIAL SPLIT PORTRAIT TESTIMONIAL CAROUSEL (Video 00:13 – 00:15):
- * - Left: Glowing amber orb at top-left, "5:" above 5 stars, large editorial quote, author attribution,
- *   and bottom circular `( ← )` `( → )` navigation buttons + auto-rotation.
- * - Right: Giant stacked offset serif heading ("Real / Experience") overlapping the top-right of a tall candlelit portrait photo.
+ * 4. SHORT ABOUT TEASER (PRD 7.1 & 5.7):
+ * Uses the `cream` section variant (#FFF4E0) with strictly charcoal text (#0F0F10).
  */
-export function ReviewsTeaserSection({
-  reviews,
-  state = 'ready',
-}: {
-  reviews: ReviewSlot[];
-  state?: SectionDataState;
-}) {
-  const [activeIndex, setActiveIndex] = React.useState(0);
-  const [paused, setPaused] = React.useState(false);
-
-  const total = reviews.length;
-
-  const portraitSlots = [
-    'warm_wooden_family_dining',
-    'newly_opened_bar',
-    'lush_green_outdoor_patio',
-    'hero_signboard_visual',
-  ];
-
-  React.useEffect(() => {
-    if (paused || total <= 1) return;
-    const timer = window.setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % total);
-    }, 4800);
-    return () => window.clearInterval(timer);
-  }, [paused, total]);
-
-  const activeReview = reviews[activeIndex] ?? reviews[0];
-  const activePortrait = getImageSlot(
-    portraitSlots[activeIndex % portraitSlots.length] ?? 'warm_wooden_family_dining',
-    '3x4'
-  );
-
+export function AboutTeaserSection() {
   return (
-    <Section variant="dark" className="py-20 sm:py-28 overflow-hidden">
-      {state === 'loading' && <SkeletonLoader lines={4} />}
-      {state === 'error' && <ErrorState />}
-      {state === 'empty' && <EmptyState />}
-      {state === 'ready' && activeReview && (
-        <div
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
-          aria-roledescription="carousel"
-          aria-label="Real Guest Experiences"
-          className="relative grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center"
-        >
-          {/* Left 6 Cols: Glowing Orb + Rating + Quote + Circular Prev/Next Buttons */}
-          <div className="lg:col-span-6 relative space-y-8">
-            {/* Top-Left Glowing Warm Amber Orb (Video 00:13) */}
-            <div className="-ml-10 -mt-10 mb-2">
-              <NocturneAmberOrb />
-            </div>
-
-            <div key={activeReview.id} className="animate-menu-switch space-y-6 max-w-lg">
-              <div className="space-y-1.5">
-                <p className="text-sm font-sans text-text">{activeReview.rating}:</p>
-                <RatingStars rating={activeReview.rating} />
-              </div>
-
-              <blockquote className="font-sans font-light text-lg sm:text-xl lg:text-[22px] text-text leading-relaxed">
-                &ldquo;{activeReview.comment}&rdquo;
-              </blockquote>
-
-              <p className="text-xs text-muted tracking-wide pt-1">
-                — {activeReview.reviewerName} · {activeReview.dateLabel}
-              </p>
-            </div>
-
-            {/* Bottom-Left Circular Prev / Next Arrow Buttons (Video 00:13–00:15) */}
-            <div className="flex items-center gap-3 pt-4">
-              <button
-                type="button"
-                aria-label="Previous experience"
-                onClick={() => setActiveIndex((prev) => (prev - 1 + total) % total)}
-                className="w-10 h-10 rounded-full border border-white/15 hover:border-gold text-text/80 hover:text-gold inline-flex items-center justify-center transition-all active:scale-95"
-              >
-                ←
-              </button>
-              <button
-                type="button"
-                aria-label="Next experience"
-                onClick={() => setActiveIndex((prev) => (prev + 1) % total)}
-                className="w-10 h-10 rounded-full border border-white/15 hover:border-gold text-text/80 hover:text-gold inline-flex items-center justify-center transition-all active:scale-95"
-              >
-                →
-              </button>
-            </div>
-          </div>
-
-          {/* Right 6 Cols: Overlapping "Real / Experience" Serif Heading + Tall Candlelit Portrait Image */}
-          <div className="lg:col-span-6 relative pt-10 sm:pt-14">
-            {/* Overlapping Giant Stacked Serif Heading (Top-Right) */}
-            <h2 className="relative z-20 font-serif font-normal text-5xl sm:text-6xl lg:text-[76px] text-text leading-[0.94] tracking-[-0.02em] text-right mb-[-28px] sm:mb-[-38px] pr-2">
-              <span className="block">Real</span>
-              <span className="block">Experience</span>
-            </h2>
-
-            {/* Tall Portrait Image Frame */}
-            <div
-              key={activePortrait.src}
-              className="animate-menu-switch relative aspect-[4/5] w-full max-w-md ml-auto overflow-hidden rounded-xs border border-white/10 bg-surface"
-            >
-              <Image
-                src={activePortrait.src}
-                alt={activePortrait.alt}
-                fill
-                sizes="(max-width: 1024px) 100vw, 45vw"
-                className="object-cover object-center"
-              />
-              <div
-                aria-hidden="true"
-                className="absolute inset-0 bg-gradient-to-t from-bg/70 via-transparent to-bg/30"
-              />
-            </div>
+    <Section variant="cream">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        <div className="lg:col-span-6 min-w-0 space-y-5">
+          <p className="text-xs uppercase tracking-[0.2em] text-charcoal/70 font-semibold">
+            {t('home.about.eyebrow')}
+          </p>
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-charcoal leading-tight">
+            {t('home.about.heading')}
+          </h2>
+          <GoldDivider onCream ornament={false} className="my-2" />
+          <p className="text-base text-charcoal/85 leading-relaxed">{t('home.about.body')}</p>
+          <div className="pt-2">
+            <Button variant="charcoal" size="md" href="/about">
+              {t('home.about.cta')}
+            </Button>
           </div>
         </div>
-      )}
+        <div className="lg:col-span-6 min-w-0">
+          <ImageWithOverlay slot="home_about_story" aspect="16x9" overlay={false} />
+        </div>
+      </div>
     </Section>
   );
 }
 
 /**
- * 7. OFFERS & HAPPY HOURS TEASER (Preserved for Offers / Inner flows):
+ * 5. OFFERS & HAPPY HOURS TEASER (PRD 7.1 & 5.5):
+ * Two-column glassmorphic privilege cards with frosted code pills and hover lift.
  */
 export function OffersTeaserSection({
   offers,
@@ -1050,29 +644,29 @@ export function OffersTeaserSection({
       {state === 'error' && <ErrorState />}
       {state === 'empty' && <EmptyState />}
       {state === 'ready' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-12">
-          {offers.map((offer) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
+          {offers.map((offer, idx) => (
             <div
               key={offer.id}
-              className="min-w-0 pt-6 border-t border-gold/30 flex flex-col justify-between gap-4"
+              className={`${
+                idx === 0 ? 'animate-stagger-1' : 'animate-stagger-2'
+              } glass-card glass-card-interactive rounded-md p-6 sm:p-8 flex flex-col justify-between gap-6`}
             >
-              <div className="space-y-3">
+              <div className="space-y-4 relative z-10">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <Badge kind="offer" label={offer.badgeText} />
-                  <span className="text-xs uppercase tracking-widest text-gold">
+                  <span className="glass-pill px-3 py-1 rounded-full text-xs font-mono uppercase tracking-widest text-gold">
                     Code: {offer.code}
                   </span>
                 </div>
                 <h3 className="font-serif text-2xl sm:text-3xl text-text">{offer.title}</h3>
                 <p className="text-sm text-muted leading-relaxed">{offer.description}</p>
               </div>
-              <div className="pt-2 flex flex-wrap items-center justify-between gap-3 text-xs text-muted">
+              <div className="relative z-10 pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-3 text-xs text-muted">
                 <span>
                   {offer.validFrom} — {offer.validUntil}
                 </span>
-                <Button variant="ghost" size="sm" href="/offers">
-                  {t('home.offers.cta')} →
-                </Button>
+                <NocturneArrowCta href="/offers" label="CLAIM OFFER" size="sm" />
               </div>
             </div>
           ))}
@@ -1083,21 +677,257 @@ export function OffersTeaserSection({
 }
 
 /**
- * 8. DUAL CTA BAND
+ * 6. REVIEWS TEASER (PRD 7.1 & 7.5):
+ * Self-rotating glassmorphic testimonial card carousel with auto-advance,
+ * animated 4.5s progress bar pill, pause-on-hover, and "Up Next" glass preview card.
+ */
+export function ReviewsTeaserSection({
+  reviews,
+  state = 'ready',
+}: {
+  reviews: ReviewSlot[];
+  state?: SectionDataState;
+}) {
+  const [activeIndex, setActiveIndex] = React.useState(0);
+  const [paused, setPaused] = React.useState(false);
+
+  const total = reviews.length;
+
+  React.useEffect(() => {
+    if (paused || total <= 1) return;
+    const timer = window.setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % total);
+    }, 4500);
+    return () => window.clearInterval(timer);
+  }, [paused, total]);
+
+  const activeReview = reviews[activeIndex] ?? reviews[0];
+  const nextReview = reviews[(activeIndex + 1) % total];
+
+  return (
+    <Section variant="dark" className="border-t border-gold/15">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+        <div className="min-w-0 space-y-2">
+          <p className="text-xs uppercase tracking-[0.2em] text-gold">
+            {t('home.reviews.eyebrow')}
+          </p>
+          <h2 className="font-serif text-3xl sm:text-4xl text-text">
+            {t('home.reviews.heading')}
+          </h2>
+        </div>
+        <div className="flex items-center gap-3">
+          <Button variant="secondary" size="sm" href="/reviews">
+            {t('home.reviews.cta')}
+          </Button>
+        </div>
+      </div>
+
+      {state === 'loading' && <SkeletonLoader lines={4} />}
+      {state === 'error' && <ErrorState />}
+      {state === 'empty' && <EmptyState />}
+      {state === 'ready' && activeReview && (
+        <div
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onFocus={() => setPaused(true)}
+          onBlur={() => setPaused(false)}
+          aria-roledescription="carousel"
+          aria-label="Guest testimonials"
+          className="space-y-6"
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+            {/* Primary Self-Rotating Glassmorphic Testimonial Card */}
+            <div
+              key={activeReview.id}
+              aria-live="polite"
+              className="lg:col-span-8 animate-menu-switch glass-panel-deep glass-card-interactive rounded-md p-6 sm:p-9 flex flex-col justify-between gap-6"
+            >
+              {/* Decorative Quote Watermark */}
+              <span
+                aria-hidden="true"
+                className="pointer-events-none select-none absolute -top-4 right-5 font-serif text-8xl text-gold/12 leading-none"
+              >
+                &ldquo;
+              </span>
+
+              <div className="space-y-4 relative z-10">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <RatingStars rating={activeReview.rating} />
+                  <span className="glass-pill px-3 py-1 text-[11px] uppercase tracking-widest rounded-full text-gold">
+                    {activeReview.source === 'GOOGLE' ? 'Google Verified · 4.5★' : 'Verified Diner'}
+                  </span>
+                </div>
+
+                <blockquote className="font-serif italic text-xl sm:text-2xl lg:text-[26px] text-text leading-relaxed">
+                  &ldquo;{activeReview.comment}&rdquo;
+                </blockquote>
+              </div>
+
+              <footer className="relative z-10 pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <span className="w-10 h-10 rounded-full glass-pill text-gold font-serif text-base font-semibold inline-flex items-center justify-center">
+                    {activeReview.reviewerName.charAt(0)}
+                  </span>
+                  <div>
+                    <div className="text-sm font-medium text-text">{activeReview.reviewerName}</div>
+                    <div className="text-xs text-muted">{activeReview.dateLabel}</div>
+                  </div>
+                </div>
+
+                {/* Prev / Next Controls */}
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    aria-label="Previous testimonial"
+                    onClick={() => setActiveIndex((prev) => (prev - 1 + total) % total)}
+                    className="w-9 h-9 rounded-full glass-pill text-gold hover:border-gold hover:bg-gold/15 active:scale-95 inline-flex items-center justify-center transition-all"
+                  >
+                    ←
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Next testimonial"
+                    onClick={() => setActiveIndex((prev) => (prev + 1) % total)}
+                    className="w-9 h-9 rounded-full glass-pill text-gold hover:border-gold hover:bg-gold/15 active:scale-95 inline-flex items-center justify-center transition-all"
+                  >
+                    →
+                  </button>
+                </div>
+              </footer>
+            </div>
+
+            {/* Secondary Up-Next Glass Preview Card (Desktop) */}
+            {nextReview && (
+              <button
+                type="button"
+                onClick={() => setActiveIndex((activeIndex + 1) % total)}
+                className="hidden lg:flex lg:col-span-4 text-left glass-card glass-card-interactive rounded-md p-6 flex-col justify-between gap-4 opacity-80 hover:opacity-100"
+              >
+                <div className="space-y-3 relative z-10">
+                  <div className="flex items-center justify-between text-xs uppercase tracking-widest text-gold/85">
+                    <span>Up Next</span>
+                    <span>{(activeIndex + 2) > total ? 1 : activeIndex + 2} / {total}</span>
+                  </div>
+                  <RatingStars rating={nextReview.rating} />
+                  <p className="font-serif italic text-lg text-text/85 line-clamp-4 leading-relaxed">
+                    &ldquo;{nextReview.comment}&rdquo;
+                  </p>
+                </div>
+                <div className="relative z-10 pt-3 border-t border-white/10 text-xs text-muted">
+                  <span className="text-text font-medium block">{nextReview.reviewerName}</span>
+                  <span>{nextReview.dateLabel}</span>
+                </div>
+              </button>
+            )}
+          </div>
+
+          {/* Interactive Rotation Progress Pills with Animated Fill */}
+          <div className="flex items-center justify-center sm:justify-start gap-2.5 pt-1">
+            {reviews.map((rev, idx) => {
+              const isCurrent = idx === activeIndex;
+              return (
+                <button
+                  key={rev.id}
+                  type="button"
+                  aria-label={`Show review by ${rev.reviewerName}`}
+                  aria-current={isCurrent}
+                  onClick={() => setActiveIndex(idx)}
+                  className={`relative h-1.5 rounded-full overflow-hidden transition-all duration-500 ${
+                    isCurrent ? 'w-10 bg-white/15' : 'w-2.5 bg-gold/25 hover:bg-gold/50'
+                  }`}
+                >
+                  {isCurrent && (
+                    <span
+                      key={`${activeIndex}-${paused ? 'paused' : 'playing'}`}
+                      className={`block h-full w-full origin-left bg-gold rounded-full ${
+                        paused ? 'scale-x-100' : 'animate-carousel-progress'
+                      }`}
+                    />
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </Section>
+  );
+}
+
+/**
+ * 7. GALLERY TEASER (PRD 7.1 & 7.4):
+ * Asymmetric editorial photography mosaic.
+ */
+export function GalleryTeaserSection({
+  items,
+  state = 'ready',
+}: {
+  items: GalleryItemSlot[];
+  state?: SectionDataState;
+}) {
+  return (
+    <Section variant="surface" className="border-t border-gold/15">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+        <div className="min-w-0 space-y-2">
+          <p className="text-xs uppercase tracking-[0.2em] text-gold">
+            {t('home.gallery.eyebrow')}
+          </p>
+          <h2 className="font-serif text-3xl sm:text-4xl text-text">
+            {t('home.gallery.heading')}
+          </h2>
+        </div>
+        <Button variant="secondary" size="sm" href="/gallery">
+          {t('home.gallery.cta')}
+        </Button>
+      </div>
+
+      {state === 'loading' && <SkeletonLoader lines={5} />}
+      {state === 'error' && <ErrorState />}
+      {state === 'empty' && <EmptyState />}
+      {state === 'ready' && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-5">
+          <div className="lg:col-span-7 min-w-0">
+            <ImageWithOverlay slot={items[1]?.imageSlot ?? 'gallery_1'} aspect="16x9" overlay={false} />
+          </div>
+          <div className="lg:col-span-5 min-w-0">
+            <ImageWithOverlay slot={items[0]?.imageSlot ?? 'gallery_2'} aspect="4x3" overlay={false} />
+          </div>
+          <div className="lg:col-span-4 min-w-0">
+            <ImageWithOverlay slot={items[2]?.imageSlot ?? 'gallery_3'} aspect="4x3" overlay={false} />
+          </div>
+          <div className="lg:col-span-8 min-w-0">
+            <ImageWithOverlay slot={items[4]?.imageSlot ?? 'gallery_4'} aspect="16x9" overlay={false} />
+          </div>
+        </div>
+      )}
+    </Section>
+  );
+}
+
+/**
+ * 8. RESERVATION & ORDER CTA BAND (PRD 7.1):
+ * Glassmorphic Nocturne callout card before the footer.
  */
 export function DualCtaBandSection() {
   return (
-    <Section variant="dark" className="border-t border-white/10">
-      <div className="py-4 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
-        <div className="space-y-3 max-w-2xl min-w-0">
+    <Section variant="dark" className="border-t border-gold/20">
+      <div className="glass-panel-deep glass-card-interactive rounded-md p-8 sm:p-12 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+        <div className="space-y-3 max-w-2xl min-w-0 relative z-10">
+          <p className="text-[11px] uppercase tracking-[0.26em] text-gold">
+            RESERVE OR ORDER DIRECT
+          </p>
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-ember-gradient">
             {t('home.cta_band.heading')}
           </h2>
-          <p className="text-sm text-muted leading-relaxed">{t('home.cta_band.subtext')}</p>
+          <p className="text-base text-muted leading-relaxed">{t('home.cta_band.subtext')}</p>
         </div>
-        <div className="flex flex-wrap items-center gap-6 shrink-0">
-          <NocturneArrowCta href="/reserve" label="BOOK A TABLE" size="lg" />
-          <NocturneArrowCta href="/order" label="ORDER ONLINE" size="lg" />
+        <div className="relative z-10 flex flex-col sm:flex-row items-stretch sm:items-center gap-5 shrink-0">
+          <Button variant="primary" size="lg" href="/reserve">
+            {t('home.cta_band.reserve')}
+          </Button>
+          <Button variant="secondary" size="lg" href="/order">
+            {t('home.cta_band.order')}
+          </Button>
         </div>
       </div>
     </Section>

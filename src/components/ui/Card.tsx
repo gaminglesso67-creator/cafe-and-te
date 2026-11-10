@@ -17,12 +17,15 @@ export function Card({
   return (
     <div
       className={clsx(
-        'relative rounded-sm transition-colors',
-        variant === 'surface' && 'bg-surface/70 text-text border border-gold/15',
-        variant === 'dark' && 'bg-bg/80 text-text border border-gold/15',
-        variant === 'cream' && 'bg-cream text-charcoal border border-charcoal/15',
+        'relative rounded-md',
+        variant === 'surface' &&
+          'glass-card glass-card-interactive text-text',
+        variant === 'dark' &&
+          'glass-panel-deep glass-card-interactive text-text',
+        variant === 'cream' &&
+          'bg-cream/90 backdrop-blur-md text-charcoal border border-charcoal/15 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md',
         variant === 'signboard' &&
-          'bg-surface/50 text-text border-y border-gold/35',
+          'glass-card glass-card-interactive text-text border-y border-gold/40',
         padded && 'p-5 md:p-7',
         className
       )}

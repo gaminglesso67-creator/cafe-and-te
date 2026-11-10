@@ -42,8 +42,8 @@ export function ImageWithOverlay({
     <div
       data-image-slot={slot}
       className={clsx(
-        'relative w-full overflow-hidden rounded-sm bg-surface',
-        isPlaceholder ? 'border border-gold/25' : 'border border-gold/10',
+        'group relative w-full overflow-hidden rounded-md bg-surface ring-1 ring-inset ring-white/12 transition-all duration-500 hover:ring-gold/45 hover:shadow-gold-glow',
+        isPlaceholder ? 'border border-gold/25' : 'border border-white/10',
         aspectClasses[aspect],
         className
       )}
@@ -55,7 +55,7 @@ export function ImageWithOverlay({
         priority={priority}
         loading={priority ? undefined : 'lazy'}
         sizes={sizes}
-        className="object-cover transition-transform duration-700 hover:scale-[1.02]"
+        className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
       />
       {overlay && (
         <div

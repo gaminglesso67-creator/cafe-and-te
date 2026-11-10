@@ -234,27 +234,27 @@ export function MenuCatalog({
         />
       ) : null}
 
-      {/* Editorial Printed-Menu Rows with smooth category switch transition & hover micro-interactions */}
+      {/* Glassmorphic Menu Cards with smooth category switch transition & hover micro-interactions */}
       {state === 'ready' && filteredItems.length > 0 && (
         <div
           key={`${activeCategory}-${dietFilter}`}
-          className="animate-menu-switch grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-2"
+          className="animate-menu-switch grid grid-cols-1 lg:grid-cols-2 gap-6"
         >
           {filteredItems.map((item) => (
             <article
               key={item.id}
               className={clsx(
-                'group py-6 border-b flex flex-col sm:flex-row gap-5 justify-between items-start transition-colors duration-300',
+                'group rounded-md p-5 flex flex-col sm:flex-row gap-5 justify-between items-start',
                 useCreamVariant
-                  ? 'border-charcoal/15 hover:border-charcoal/40'
-                  : 'border-gold/15 hover:border-gold/40'
+                  ? 'bg-cream/90 backdrop-blur-md border border-charcoal/15 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-charcoal/40 hover:shadow-md'
+                  : 'glass-card glass-card-interactive'
               )}
             >
               {/* Dish Thumbnail */}
               <button
                 type="button"
                 onClick={() => openItemModal(item)}
-                className="w-full sm:w-32 shrink-0 text-left overflow-hidden rounded-sm"
+                className="relative z-10 w-full sm:w-32 shrink-0 text-left overflow-hidden rounded-md"
               >
                 <ImageWithOverlay
                   slot={item.imageSlot}
@@ -264,8 +264,8 @@ export function MenuCatalog({
               </button>
 
               {/* Dish Details & Thumb-Zone Action */}
-              <div className="flex-1 flex flex-col justify-between gap-2.5 min-w-0 w-full">
-                <div className="space-y-1">
+              <div className="relative z-10 flex-1 flex flex-col justify-between gap-2.5 min-w-0 w-full">
+                <div className="space-y-1.5">
                   <div className="flex items-baseline justify-between gap-3">
                     <div className="flex items-center gap-2 min-w-0">
                       <Badge kind={item.isVeg ? 'veg' : 'non_veg'} onCream={useCreamVariant} />
@@ -280,7 +280,9 @@ export function MenuCatalog({
                     <span
                       className={clsx(
                         'font-serif text-lg font-semibold shrink-0',
-                        useCreamVariant ? 'text-charcoal' : 'text-gold'
+                        useCreamVariant
+                          ? 'text-charcoal'
+                          : 'glass-pill px-2.5 py-0.5 rounded-full text-sm text-gold'
                       )}
                     >
                       {formatPriceToken(item.price)}
@@ -298,7 +300,7 @@ export function MenuCatalog({
                 </div>
 
                 {/* Subtle Action Row */}
-                <div className="pt-1 flex items-center justify-between gap-3">
+                <div className="pt-2 flex items-center justify-between gap-3">
                   <div className="flex items-center gap-2">
                     {item.isSignature && <Badge kind="chefs_special" />}
                     {item.allergens.length > 0 && (
@@ -318,10 +320,10 @@ export function MenuCatalog({
                       disabled={!item.isAvailable}
                       onClick={() => openItemModal(item)}
                       className={clsx(
-                        'min-h-9 px-3.5 py-1 text-xs uppercase tracking-wider rounded-xs border transition-all duration-200 active:scale-95',
+                        'min-h-9 px-4 py-1 text-xs uppercase tracking-wider rounded-full transition-all duration-200 active:scale-95',
                         useCreamVariant
-                          ? 'border-charcoal text-charcoal hover:bg-charcoal hover:text-cream'
-                          : 'border-gold/40 text-gold hover:border-gold hover:bg-gold/10'
+                          ? 'border border-charcoal text-charcoal hover:bg-charcoal hover:text-cream'
+                          : 'glass-pill text-gold hover:border-gold hover:bg-gold hover:text-bg'
                       )}
                     >
                       {item.isAvailable ? `+ ${t('menu.item.add_cta')}` : t('ui.badge.out_of_stock')}
