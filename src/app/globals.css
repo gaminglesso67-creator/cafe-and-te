@@ -3,19 +3,20 @@
 @tailwind utilities;
 
 :root {
-  --bg: #0F0F10;
-  --surface: #1A1815;
+  --bg: #070708;
+  --surface: #12100E;
   --text: #FFF4E0;
-  --muted: #D9C7A8;
+  --muted: #B8A992;
   --gold: #E8B547;
   --gold-deep: #C98A2B;
   --accent-red: #B3202A;
 
-  /* additions for the skeleton */
+  /* Nocturne & Ember palette additions */
   --gold-gradient: linear-gradient(135deg, #E8B547, #C98A2B);
-  --glow-text: 0 0 24px rgba(232, 181, 71, 0.45);
-  --glow-hero: radial-gradient(circle at 50% 0%, rgba(232, 181, 71, 0.18), transparent 60%);
-  --photo-overlay: rgba(15, 15, 16, 0.6);
+  --ember-text-gradient: linear-gradient(95deg, #F6D899 0%, #DF8D44 52%, #7D3E1F 100%);
+  --glow-text: 0 0 28px rgba(223, 141, 68, 0.35);
+  --glow-hero: radial-gradient(circle at 55% 25%, rgba(223, 141, 68, 0.22), transparent 65%);
+  --photo-overlay: rgba(7, 7, 8, 0.65);
 }
 
 @layer base {
@@ -96,6 +97,27 @@
     background-clip: text;
     color: transparent;
     text-shadow: 0 0 24px rgba(232, 181, 71, 0.32);
+  }
+
+  /* Ember copper-gold display heading gradient ("Tonight's Special" style) */
+  .text-ember-gradient {
+    background: var(--ember-text-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Fluted amber glass rib texture for the "Unlocked after" Secret Plate card */
+  .bg-ember-fluted {
+    background-image:
+      radial-gradient(ellipse at 50% 60%, rgba(223, 141, 68, 0.55) 0%, rgba(125, 62, 31, 0.25) 45%, rgba(7, 7, 8, 0.96) 80%),
+      repeating-linear-gradient(
+        90deg,
+        rgba(7, 7, 8, 0.85) 0px,
+        rgba(7, 7, 8, 0.85) 6px,
+        rgba(232, 165, 85, 0.28) 12px,
+        rgba(7, 7, 8, 0.92) 18px
+      );
   }
 
   /* CTA button glow that brightens on hover/active without changing colour (PRD 5.3) */

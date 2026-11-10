@@ -10,7 +10,6 @@ import {
   SectionDataState,
   SignatureHighlightsSection,
 } from '@/components/sections/HomeSections';
-import { GoldDivider } from '@/components/ui';
 import {
   SEED_GALLERY,
   SEED_MENU_ITEMS,
@@ -35,12 +34,11 @@ export default function HomePage({
   return (
     <>
       <HeroSignboardSection hours={SEED_OPENING_HOURS} />
-      <GoldDivider />
-      <HoursAndLocationSection hours={SEED_OPENING_HOURS} state={sectionState} />
       <SignatureHighlightsSection items={signatureDishes} state={sectionState} />
-      <AboutTeaserSection />
-      <OffersTeaserSection offers={SEED_OFFERS} state={sectionState} />
+      <HoursAndLocationSection hours={SEED_OPENING_HOURS} state={sectionState} />
       <ReviewsTeaserSection reviews={SEED_REVIEWS} state={sectionState} />
+      <OffersTeaserSection offers={SEED_OFFERS} state={sectionState} />
+      <AboutTeaserSection />
       <GalleryTeaserSection items={SEED_GALLERY} state={sectionState} />
       <DualCtaBandSection />
     </>
