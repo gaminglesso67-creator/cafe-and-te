@@ -38,15 +38,18 @@ export function Header() {
     <>
       <header className="sticky top-0 z-30 w-full bg-bg/80 backdrop-blur-xl border-b border-white/[0.08]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-6">
-          {/* Left: Minimalist "MENU" & Editorial Links */}
+          {/* Left: Mobile Drawer Trigger (< md) & Desktop Editorial Links (md+) */}
           <div className="flex items-center gap-6 lg:gap-8">
             <button
               type="button"
               onClick={() => setMobileMenuOpen(true)}
               aria-label="Open navigation menu"
               aria-expanded={mobileMenuOpen}
-              className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.22em] text-text/90 hover:text-gold transition-colors"
+              className="md:hidden inline-flex items-center gap-2 text-xs uppercase tracking-[0.22em] text-text/90 hover:text-gold transition-colors"
             >
+              <span aria-hidden="true" className="text-gold">
+                ☰
+              </span>
               <span>MENU</span>
             </button>
 
