@@ -1,196 +1,115 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { t } from '@/lib/content';
-import { SEED_OPENING_HOURS } from '@/lib/seed-data';
-import { Button, EmailInput, GoldDivider, useToast } from '@/components/ui';
 
 export function Footer() {
-  const { notify } = useToast();
-  const [newsletterEmail, setNewsletterEmail] = useState('');
   const whatsappUrl = `https://wa.me/${t('brand.whatsapp_number')}?text=${encodeURIComponent(
     t('brand.whatsapp_prefill')
   )}`;
 
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newsletterEmail.trim()) return;
-    notify('You have been added to the Saanjh Viman Nagar guest list.', 'success');
-    setNewsletterEmail('');
-  };
-
   return (
-    <footer className="w-full max-w-full overflow-x-clip bg-bg text-text border-t border-gold/30 pb-24 md:pb-12">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-12 md:pt-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10 pb-12">
-          {/* Brand Column (4 cols) */}
-          <div className="lg:col-span-4 min-w-0 space-y-4">
-            <div>
-              <Link
-                href="/"
-                className="font-serif text-3xl font-semibold text-gold text-glow-gold tracking-wider block"
-              >
-                {t('brand.wordmark')}
-              </Link>
-              <p className="text-xs uppercase tracking-[0.18em] text-muted mt-1">
-                {t('brand.tagline')}
-              </p>
-            </div>
-            <p className="text-sm text-muted leading-relaxed max-w-sm">
-              {t('global.footer.about_blurb')}
-            </p>
-            <div className="pt-2 flex flex-wrap items-center gap-2.5 text-xs uppercase tracking-wider">
-              <a
-                href="https://www.instagram.com/saanjhpune/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="min-h-11 px-3 inline-flex items-center border border-gold/30 rounded-xs text-muted hover:text-gold hover:border-gold"
-              >
-                Instagram @saanjhpune
-              </a>
-              <a
-                href="https://www.zomato.com/pune/saanjh-an-evening-full-of-flavours-viman-nagar"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="min-h-11 px-3 inline-flex items-center border border-gold/30 rounded-xs text-muted hover:text-gold hover:border-gold"
-              >
-                Zomato
-              </a>
-              <a
-                href="https://www.eazydiner.com/pune/saanjh-an-evening-full-of-flavours-viman-nagar-pune-704890"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="min-h-11 px-3 inline-flex items-center border border-gold/30 rounded-xs text-muted hover:text-gold hover:border-gold"
-              >
-                EazyDiner
-              </a>
-              <a
-                href={t('brand.google_review_url')}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="min-h-11 px-3 inline-flex items-center border border-gold/30 rounded-xs text-muted hover:text-gold hover:border-gold"
-              >
-                Google (4.5★)
-              </a>
-            </div>
-          </div>
+    <footer className="w-full max-w-full overflow-x-clip bg-bg text-text border-t border-white/10 pb-24 md:pb-12 pt-14 sm:pt-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col justify-between min-h-[380px] sm:min-h-[460px] gap-14">
+        {/* Top Metadata & Social Row (Matches Video 00:16) */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 text-[10px] sm:text-[11px] uppercase tracking-[0.24em] text-text/80">
+          <div>12 PM – MIDNIGHT RESTAURANT</div>
 
-          {/* Navigation Links (2 cols) */}
-          <div className="lg:col-span-2 min-w-0 space-y-3">
-            <h2 className="font-serif text-lg text-gold tracking-wide">
-              {t('global.footer.links_heading')}
-            </h2>
-            <ul className="space-y-1 text-sm">
-              {[
-                { href: '/menu', label: t('global.nav.menu') },
-                { href: '/order', label: t('global.nav.order') },
-                { href: '/reserve', label: t('global.nav.reserve') },
-                { href: '/about', label: t('global.nav.about') },
-                { href: '/gallery', label: t('global.nav.gallery') },
-                { href: '/reviews', label: t('global.nav.reviews') },
-                { href: '/offers', label: t('global.nav.offers') },
-                { href: '/contact', label: t('global.nav.contact') },
-                { href: '/account', label: t('global.nav.account') },
-              ].map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="inline-flex items-center min-h-9 text-muted hover:text-gold transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <Link href="/contact" className="hover:text-gold transition-colors text-center">
+            CLOVER PARK, VIMAN NAGAR, PUNE
+          </Link>
 
-          {/* Opening Hours Summary (3 cols) */}
-          <div className="lg:col-span-3 min-w-0 space-y-3">
-            <h2 className="font-serif text-lg text-gold tracking-wide">
-              {t('global.footer.hours_heading')}
-            </h2>
-            <dl className="space-y-1.5 text-xs sm:text-sm">
-              {SEED_OPENING_HOURS.slice(0, 3).map((slot) => (
-                <div key={slot.id} className="flex justify-between gap-2 text-muted">
-                  <dt>{slot.dayLabel}</dt>
-                  <dd className="text-text font-mono">12:00 PM – 12:00 AM</dd>
-                </div>
-              ))}
-              <div className="flex justify-between gap-2 text-gold text-xs pt-1">
-                <dt>Amenities</dt>
-                <dd>Valet · Wheelchair Access · New Bar</dd>
-              </div>
-            </dl>
-            <div className="pt-2 space-y-1 text-sm">
-              <p className="text-text">{t('brand.address_line1')}</p>
-              <p className="text-xs text-muted">{t('brand.address_line2')}</p>
-              <div className="flex flex-wrap gap-3 pt-2">
-                <a
-                  href={t('brand.phone_href')}
-                  className="min-h-11 inline-flex items-center text-gold underline underline-offset-4 text-sm"
-                >
-                  {t('brand.phone_display')}
-                </a>
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="min-h-11 inline-flex items-center text-gold underline underline-offset-4 text-sm"
-                >
-                  {t('global.whatsapp.label')}
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {/* Newsletter & Legal (3 cols) */}
-          <div className="lg:col-span-3 min-w-0 space-y-3">
-            <h2 className="font-serif text-lg text-gold tracking-wide">
-              {t('global.footer.newsletter_heading')}
-            </h2>
-            <form onSubmit={handleNewsletterSubmit} className="space-y-2.5">
-              {/* Honeypot field for spam protection */}
-              <input
-                type="text"
-                name="company_website_hp"
-                tabIndex={-1}
-                autoComplete="off"
-                className="sr-only"
-                aria-hidden="true"
-              />
-              <EmailInput
-                id="footer-newsletter-email"
-                label={t('global.footer.newsletter_placeholder')}
-                placeholder={t('global.footer.newsletter_placeholder')}
-                value={newsletterEmail}
-                onChange={(e) => setNewsletterEmail(e.target.value)}
-              />
-              <Button type="submit" variant="secondary" size="sm" fullWidth>
-                {t('global.footer.newsletter_cta')}
-              </Button>
-            </form>
-            <p className="text-xs text-muted pt-1">
-              {'GSTIN: '}
-              {t('brand.gstin')}
-            </p>
+          <div className="flex items-center gap-2">
+            <a
+              href="https://www.instagram.com/saanjhpune/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="w-8 h-8 border border-white/15 hover:border-gold text-text/80 hover:text-gold inline-flex items-center justify-center transition-colors"
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+                <rect x="2" y="2" width="20" height="20" rx="5" />
+                <circle cx="12" cy="12" r="4" />
+                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
+              </svg>
+            </a>
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="WhatsApp"
+              className="w-8 h-8 border border-white/15 hover:border-gold text-text/80 hover:text-gold inline-flex items-center justify-center transition-colors"
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+                <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+              </svg>
+            </a>
+            <a
+              href={t('brand.phone_tel')}
+              aria-label="Call Saanjh"
+              className="w-8 h-8 border border-white/15 hover:border-gold text-text/80 hover:text-gold inline-flex items-center justify-center transition-colors"
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+              </svg>
+            </a>
+            <a
+              href={t('brand.google_maps_directions_url')}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Directions"
+              className="w-8 h-8 border border-white/15 hover:border-gold text-text/80 hover:text-gold inline-flex items-center justify-center transition-colors"
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+                <circle cx="12" cy="10" r="3" />
+                <path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 7 8 11.7z" />
+              </svg>
+            </a>
           </div>
         </div>
 
-        <GoldDivider ornament={false} />
+        {/* Centerpiece Colossal Ember-Copper-Gold Gradient Wordmark (Video 00:16) */}
+        <div className="my-auto py-4 text-center">
+          <Link
+            href="/"
+            aria-label="Saanjh Home"
+            className="block font-serif font-normal text-6xl sm:text-8xl md:text-9xl lg:text-[148px] leading-[0.92] tracking-[-0.03em] text-ember-gradient select-none"
+          >
+            The S<span className="tracking-[-0.06em]">aa</span>njh
+          </Link>
+        </div>
 
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted">
-          <p>{t('global.footer.copyright')}</p>
-          <div className="flex items-center gap-4">
-            <Link href="/privacy" className="min-h-11 inline-flex items-center hover:text-gold">
-              Privacy Policy
-            </Link>
-            <Link href="/terms" className="min-h-11 inline-flex items-center hover:text-gold">
-              Terms & Conditions
-            </Link>
-            <Link href="/admin" className="min-h-11 inline-flex items-center hover:text-gold">
-              Staff Console
-            </Link>
+        {/* Subtle Quick Navigation & Legal Bottom Row */}
+        <div className="space-y-6">
+          <nav
+            aria-label="Footer navigation"
+            className="flex flex-wrap items-center justify-center gap-x-7 gap-y-2 text-[11px] uppercase tracking-[0.2em] text-muted"
+          >
+            <Link href="/menu" className="hover:text-gold transition-colors">Menu</Link>
+            <Link href="/order" className="hover:text-gold transition-colors">Order Online</Link>
+            <Link href="/reserve" className="hover:text-gold transition-colors">Reserve</Link>
+            <Link href="/about" className="hover:text-gold transition-colors">Story</Link>
+            <Link href="/gallery" className="hover:text-gold transition-colors">Ambience</Link>
+            <Link href="/offers" className="hover:text-gold transition-colors">Offers</Link>
+            <Link href="/reviews" className="hover:text-gold transition-colors">Reviews (4.5★)</Link>
+            <Link href="/account" className="hover:text-gold transition-colors">My Bookings</Link>
+          </nav>
+
+          <div className="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-muted/65">
+            <span>© {new Date().getFullYear()} SAANJH VIMAN NAGAR™</span>
+            <div className="flex flex-wrap items-center gap-6">
+              <Link href="/legal/privacy" className="hover:text-text transition-colors">
+                Privacy Policy
+              </Link>
+              <Link href="/legal/terms" className="hover:text-text transition-colors">
+                Terms &amp; Conditions
+              </Link>
+              <Link href="/legal/refund" className="hover:text-text transition-colors">
+                Refund Policy
+              </Link>
+            </div>
+            <span>{t('brand.phone_display')} · Viman Nagar, Pune</span>
           </div>
         </div>
       </div>
