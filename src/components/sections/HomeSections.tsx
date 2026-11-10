@@ -142,7 +142,7 @@ export function HeroSignboardSection({ hours: _hours }: { hours: OpeningHourSlot
       onMouseLeave={() => setPaused(false)}
       className="relative w-full min-h-[calc(100dvh-4rem)] bg-bg overflow-hidden flex items-center py-12 sm:py-16 lg:py-20"
     >
-      {/* Full-Bleed Atmospheric Bokeh Background Image with Deep Black Vignette Fades */}
+      {/* Full-Bleed Atmospheric Bokeh Background Image with Warm Amber Glow Fades */}
       <div className="pointer-events-none absolute inset-0 z-0">
         <Image
           key={heroVisual.src}
@@ -151,24 +151,24 @@ export function HeroSignboardSection({ hours: _hours }: { hours: OpeningHourSlot
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center opacity-55 scale-105 animate-signboard-breathe transition-opacity duration-700"
+          className="object-cover object-center opacity-75 scale-105 animate-signboard-breathe transition-opacity duration-700"
         />
-        {/* Radial & Linear Vignettes so edges dissolve seamlessly into #070708 black */}
+        {/* Warm Amber Radial Lantern Glow & Soft Espresso Edge Vignettes */}
         <div
           aria-hidden="true"
           className="absolute inset-0"
           style={{
             background:
-              'radial-gradient(ellipse at 52% 42%, rgba(223, 141, 68, 0.14) 0%, rgba(7, 7, 8, 0.58) 52%, #070708 92%)',
+              'radial-gradient(ellipse 80% 70% at 55% 42%, rgba(232, 165, 75, 0.32) 0%, rgba(196, 110, 42, 0.18) 42%, rgba(18, 13, 9, 0.72) 78%, #0E0B09 98%)',
           }}
         />
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-b from-bg/70 via-transparent to-bg"
-        />
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-r from-bg via-transparent to-bg/85"
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(to bottom, rgba(14, 11, 9, 0.45) 0%, transparent 45%, rgba(14, 11, 9, 0.88) 100%)',
+          }}
         />
       </div>
 

@@ -13,9 +13,9 @@ export interface SectionProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 const variantStyles: Record<SectionVariant, string> = {
-  // 60% Charcoal Black (#0F0F10)
-  dark: 'bg-bg text-text',
-  // 60% Lighter Charcoal (#1A1815)
+  // Warm Nocturne Espresso with translucent ambient amber glow
+  dark: 'bg-transparent text-text',
+  // Warm Lighter Espresso Surface with ambient amber glow
   surface: 'bg-surface text-text',
   // 30% Warm White / Cream (#FFF4E0) with strictly charcoal text (#0F0F10) — NEVER gold text (PRD 5.7)
   cream: 'section-cream bg-cream text-charcoal',
@@ -42,10 +42,22 @@ export function Section({
       )}
       {...props}
     >
+      {variant !== 'cream' && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 overflow-hidden"
+          style={{
+            background:
+              variant === 'dark'
+                ? 'radial-gradient(ellipse 75% 60% at 50% 30%, rgba(223, 141, 68, 0.16) 0%, rgba(201, 138, 43, 0.06) 45%, transparent 78%)'
+                : 'radial-gradient(ellipse 80% 65% at 50% 35%, rgba(232, 181, 71, 0.18) 0%, rgba(223, 141, 68, 0.07) 48%, transparent 80%)',
+          }}
+        />
+      )}
       {container ? (
         <div
           className={clsx(
-            'mx-auto w-full px-4 sm:px-6 lg:px-8',
+            'relative z-10 mx-auto w-full px-4 sm:px-6 lg:px-8',
             narrow ? 'max-w-4xl' : 'max-w-7xl'
           )}
         >
