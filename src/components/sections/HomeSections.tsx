@@ -385,33 +385,40 @@ export function HoursAndLocationSection({
   hours: OpeningHourSlot[];
   state?: SectionDataState;
 }) {
-  const [countdown, setCountdown] = React.useState('05:59:59');
-  const [angles, setAngles] = React.useState({ hour: 65, minute: 15, second: 210 });
+  const [realTimeText, setRealTimeText] = React.useState('--:--:--');
+  const [periodText, setPeriodText] = React.useState('');
+  const [angles, setAngles] = React.useState({ hour: 0, minute: 0, second: 0 });
+  const [activeHourIndex, setActiveHourIndex] = React.useState(0);
 
   React.useEffect(() => {
     const updateClock = () => {
       const now = new Date();
-      // Countdown until 12:00 Midnight closing
-      const midnight = new Date(now);
-      midnight.setHours(23, 59, 59, 999);
-      const diffSec = Math.max(0, Math.floor((midnight.getTime() - now.getTime()) / 1000));
-      const hrs = String(Math.floor(diffSec / 3600)).padStart(2, '0');
-      const mins = String(Math.floor((diffSec % 3600) / 60)).padStart(2, '0');
-      const secs = String(diffSec % 60).padStart(2, '0');
-      setCountdown(`${hrs}:${mins}:${secs}`);
+      const rawHours = now.getHours();
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
+      const milliseconds = now.getMilliseconds();
 
-      const h = now.getHours() % 12;
-      const m = now.getMinutes();
-      const s = now.getSeconds();
+      const displayHour12 = rawHours % 12 || 12;
+      const period = rawHours >= 12 ? 'PM' : 'AM';
+
+      const hrs = String(displayHour12).padStart(2, '0');
+      const mins = String(minutes).padStart(2, '0');
+      const secs = String(seconds).padStart(2, '0');
+
+      setRealTimeText(`${hrs}:${mins}:${secs}`);
+      setPeriodText(period);
+
+      const h12 = rawHours % 12;
+      setActiveHourIndex(h12);
       setAngles({
-        hour: h * 30 + m * 0.5,
-        minute: m * 6,
-        second: s * 6,
+        hour: h12 * 30 + minutes * 0.5 + seconds * (0.5 / 60),
+        minute: minutes * 6 + seconds * 0.1,
+        second: seconds * 6 + milliseconds * 0.006,
       });
     };
 
     updateClock();
-    const timer = window.setInterval(updateClock, 1000);
+    const timer = window.setInterval(updateClock, 200);
     return () => window.clearInterval(timer);
   }, []);
 
@@ -457,12 +464,17 @@ export function HoursAndLocationSection({
                   </Link>
                 </div>
 
-                {/* Live Evening Privilege Countdown & Analog Clock Glass Card */}
+                {/* Live Real-Time Digital & Analog Clock Glass Card */}
                 <div className="glass-card glass-card-interactive rounded-md p-5 flex items-center justify-between gap-4">
                   <div className="space-y-1.5 relative z-10">
-                    <p className="text-xs text-muted/90">Enjoy evening &amp; bar menu</p>
-                    <p className="font-sans font-light text-2xl sm:text-3xl tracking-wider text-text tabular-nums drop-shadow-[0_2px_10px_rgba(223,141,68,0.25)]">
-                      {countdown}
+                    <p className="text-xs text-muted/90">Live Pune Time · Open 12 PM – 12 AM</p>
+                    <p className="font-sans font-light text-2xl sm:text-3xl tracking-wider text-text tabular-nums drop-shadow-[0_2px_10px_rgba(223,141,68,0.25)] flex items-baseline gap-1.5">
+                      <span>{realTimeText}</span>
+                      {periodText && (
+                        <span className="text-xs font-mono tracking-widest text-gold">
+                          {periodText}
+                        </span>
+                      )}
                     </p>
                     <p className="text-xs text-gold/90 pt-1">Evening is ours!</p>
                   </div>
@@ -476,14 +488,15 @@ export function HoursAndLocationSection({
                         const rad = ((idx * 30 - 90) * Math.PI) / 180;
                         const cx = 50 + 40 * Math.cos(rad);
                         const cy = 50 + 40 * Math.sin(rad);
-                        const isEveningArc = idx >= 0 && idx <= 5;
+                        const isPassedOrCurrent = idx <= activeHourIndex;
+                        const isCurrentHourDot = idx === activeHourIndex;
                         return (
                           <circle
                             key={idx}
                             cx={cx}
                             cy={cy}
-                            r={isEveningArc ? 2.2 : 1.5}
-                            fill={isEveningArc ? '#DF8D44' : 'rgba(255,244,224,0.22)'}
+                            r={isCurrentHourDot ? 2.8 : isPassedOrCurrent ? 2.1 : 1.5}
+                            fill={isPassedOrCurrent ? '#DF8D44' : 'rgba(255,244,224,0.22)'}
                           />
                         );
                       })}
