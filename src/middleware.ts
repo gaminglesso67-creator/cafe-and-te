@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const ADMIN_COOKIE_NAME = 'saanjh_sanity_session';
+const ADMIN_COOKIE_NAME = 'caffe_te_sanity_session';
 
 /**
  * Server-Side Edge Middleware protecting all `/admin/*` routes.
  * Blocks unauthenticated visitors from accessing `/admin` directly; redirects them
  * to `/admin/login` (the Sanity Studio Cloud CMS Gateway) unless a valid server-issued
- * `saanjh_sanity_session` HttpOnly cookie matching `SANITY_API_WRITE_TOKEN` is present.
+ * `caffe_te_sanity_session` HttpOnly cookie matching `SANITY_API_WRITE_TOKEN` is present.
  */
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;

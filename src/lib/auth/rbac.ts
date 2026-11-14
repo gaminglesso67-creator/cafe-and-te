@@ -85,7 +85,7 @@ export interface AdminUserAccount {
 export const SEED_ADMIN_USERS: AdminUserAccount[] = [
   {
     id: 'usr-owner',
-    email: 'owner@saanjh.local',
+    email: 'owner@caffete.local',
     name: '{{USER_OWNER_NAME}}',
     role: 'OWNER',
     isActive: true,
@@ -93,7 +93,7 @@ export const SEED_ADMIN_USERS: AdminUserAccount[] = [
   },
   {
     id: 'usr-manager',
-    email: 'manager@saanjh.local',
+    email: 'manager@caffete.local',
     name: '{{USER_MANAGER_NAME}}',
     role: 'MANAGER',
     isActive: true,
@@ -101,7 +101,7 @@ export const SEED_ADMIN_USERS: AdminUserAccount[] = [
   },
   {
     id: 'usr-staff',
-    email: 'staff@saanjh.local',
+    email: 'staff@caffete.local',
     name: '{{USER_STAFF_NAME}}',
     role: 'STAFF',
     isActive: true,

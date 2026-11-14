@@ -232,7 +232,7 @@ export default function CheckoutPage() {
               ) : (
                 <SelectInput
                   id="checkout-pickup-slot"
-                  label="Pickup Time Slot (Plot 4, Clover Park, Viman Nagar)"
+                  label="Pickup Time Slot (Udchalo House, Plot No. 10, Clover Park)"
                   value={fields.pickupSlot}
                   onChange={(e) => setFields({ ...fields, pickupSlot: e.target.value })}
                   options={[

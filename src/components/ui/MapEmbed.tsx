@@ -10,7 +10,7 @@ export interface MapEmbedProps {
 }
 
 /**
- * Framed Map Embed with Saanjh Viman Nagar address & Google Maps directions CTA (PRD 5.9, 7.1, 7.6).
+ * Framed Map Embed with Caffè & Tè Viman Nagar address & Google Maps directions CTA (PRD 5.9, 7.1, 7.6).
  */
 export function MapEmbed({
   slotName = 'Udchalo House, Clover Park, Viman Nagar',

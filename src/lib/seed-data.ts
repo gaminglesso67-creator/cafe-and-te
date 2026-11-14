@@ -146,7 +146,7 @@ export const SEED_MENU_ITEMS: MenuItemSlot[] = [
     description:
       'Caffè & Tè signature slow-dripped dark roast espresso swirled over velvety sweetened condensed milk and crystal-clear ice.',
     price: 220,
-    imageSlot: 'mushroom_crostini_signature',
+    imageSlot: 'vietnamese_iced_coffee_signature',
     imageAspect: '4x3',
     isVeg: true,
     isSignature: true,
@@ -173,7 +173,7 @@ export const SEED_MENU_ITEMS: MenuItemSlot[] = [
     description:
       'Silky micro-foam cappuccino infused with house-roasted brown-butter hazelnut reduction and dusted with praline.',
     price: 210,
-    imageSlot: 'maharashtrian_kala_masala_handi',
+    imageSlot: 'hazelnut_butter_cappuccino',
     imageAspect: '4x3',
     isVeg: true,
     isSignature: true,
@@ -197,7 +197,7 @@ export const SEED_MENU_ITEMS: MenuItemSlot[] = [
     description:
       'Freshly rolled ribbon pasta simmered in a velvety San Marzano tomato & mascarpone blush sauce with sun-dried tomatoes, sweet basil, and aged parmigiano.',
     price: 340,
-    imageSlot: 'saanjh_royal_dum_biryani',
+    imageSlot: 'pasta_social_tagliatelle',
     imageAspect: '4x3',
     isVeg: true,
     isSignature: true,
@@ -272,7 +272,7 @@ export const SEED_MENU_ITEMS: MenuItemSlot[] = [
     description:
       'Caramelized crust with a cloud-like creamy mascarpone & cream cheese centre, served with house wild-berry compote or warm Belgian chocolate pour.',
     price: 260,
-    imageSlot: 'thecha_paneer_fusion',
+    imageSlot: 'burnt_basque_cheesecake',
     imageAspect: '4x3',
     isVeg: true,
     isSignature: true,
@@ -296,7 +296,7 @@ export const SEED_MENU_ITEMS: MenuItemSlot[] = [
     description:
       'Viman Nagar crowd-favourite — double-cooked golden skin-on fries tossed in zesty African bird’s-eye peri-peri spice and served with smoky chipotle garlic aioli.',
     price: 190,
-    imageSlot: 'crispy_lotus_stem_wok',
+    imageSlot: 'peri_peri_cafe_fries',
     imageAspect: '1x1',
     isVeg: true,
     isSignature: false,
@@ -320,7 +320,7 @@ export const SEED_MENU_ITEMS: MenuItemSlot[] = [
     description:
       'Double shot of medium-dark Arabica espresso balanced with velvety steamed milk and pure Madagascar vanilla bean.',
     price: 195,
-    imageSlot: 'maharashtrian_kala_masala_handi',
+    imageSlot: 'hazelnut_butter_cappuccino',
     imageAspect: '4x3',
     isVeg: true,
     isSignature: false,
@@ -344,7 +344,7 @@ export const SEED_MENU_ITEMS: MenuItemSlot[] = [
     description:
       'Pasta Social signature — al dente penne folded into roasted button & shiitake mushrooms, garlic cream, fresh thyme, and white truffle drizzle.',
     price: 360,
-    imageSlot: 'saanjh_royal_dum_biryani',
+    imageSlot: 'pasta_social_tagliatelle',
     imageAspect: '4x3',
     isVeg: true,
     isSignature: false,
@@ -483,7 +483,7 @@ export const SEED_GALLERY: GalleryItemSlot[] = [
     id: 'gal-1',
     title: 'Signature Vietnamese Iced Coffee & Cold Brews',
     category: 'FOOD',
-    imageSlot: 'gallery_mushroom_crostini',
+    imageSlot: 'gallery_vietnamese_iced_coffee',
     aspect: '4x3',
   },
   {
@@ -518,7 +518,7 @@ export const SEED_GALLERY: GalleryItemSlot[] = [
     id: 'gal-6',
     title: 'Pasta Social Handmade Tagliatelle & Hazelnut Cappuccino',
     category: 'FOOD',
-    imageSlot: 'gallery_dum_biryani',
+    imageSlot: 'gallery_pasta_social',
     aspect: '1x1',
   },
 ];

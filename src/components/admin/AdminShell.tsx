@@ -23,7 +23,7 @@ interface AdminSessionContextValue {
 
 const AdminSessionContext = createContext<AdminSessionContextValue>({
   role: 'OWNER',
-  email: 'owner@saanjh.local',
+  email: 'owner@caffete.local',
   soundAlertsEnabled: true,
   setRole: () => {},
   toggleSoundAlerts: () => {},
@@ -198,7 +198,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
               href="/admin"
               className="font-serif text-base sm:text-xl text-gold text-glow-gold truncate max-w-[150px] sm:max-w-none"
             >
-              {'{{SAANJH_OPS_CONSOLE}}'}
+              Caffè &amp; Tè Ops Console
             </Link>
             <Badge kind="neutral" label={`{{ROLE:${role}}}`} className="hidden md:inline-flex" />
           </div>

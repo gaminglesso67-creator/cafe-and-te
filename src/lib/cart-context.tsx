@@ -35,7 +35,7 @@ interface CartContextValue {
   clearCart: () => void;
 }
 
-const STORAGE_KEY = 'saanjh_cart_v1';
+const STORAGE_KEY = 'caffe_te_cart_v1';
 
 const CartContext = createContext<CartContextValue | null>(null);
 
@@ -114,17 +114,17 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       setDiscountPercent(10);
       return true;
     }
-    if (normalized === 'SAANJH15') {
+    if (normalized === 'PASTASOCIAL' || normalized === 'CAFFETE15') {
       setCouponCode(normalized);
       setDiscountPercent(15);
       return true;
     }
-    if (normalized === 'HAPPYHOUR') {
+    if (normalized === 'SIPANDPAINT' || normalized === 'HAPPYHOUR') {
       setCouponCode(normalized);
       setDiscountPercent(20);
       return true;
     }
-    if (normalized === 'SAANJH25') {
+    if (normalized === 'CAFFETE25') {
       setCouponCode(normalized);
       setDiscountPercent(25);
       return true;

@@ -1,4 +1,4 @@
-name: Saanjh CI Pipeline
+name: Caffe & Te CI Pipeline
 
 on:
   push:

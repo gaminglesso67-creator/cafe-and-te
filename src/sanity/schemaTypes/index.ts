@@ -1,5 +1,5 @@
 /**
- * Complete Sanity Studio v3 Schema Definitions for Saanjh — Family Resto Bar (Viman Nagar, Pune).
+ * Complete Sanity Studio v3 Schema Definitions for Caffè & Tè — All Day Cafe (Viman Nagar, Pune).
  * Replaces the legacy insecure client-side admin CRUD with Sanity's cloud-authenticated CMS.
  */
 

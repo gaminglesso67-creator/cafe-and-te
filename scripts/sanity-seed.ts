@@ -1,6 +1,6 @@
 /**
  * Sanity Dataset Seed Script (`npm run sanity:seed`)
- * Uploads Saanjh Viman Nagar's categories, 12 menu dishes, offers, events,
+ * Uploads Caffè & Tè Viman Nagar's categories, 12 menu dishes, offers, events,
  * verified Google reviews, gallery slots, opening hours, and site settings to Sanity.
  */
 import { createClient } from '@sanity/client';
@@ -171,7 +171,7 @@ async function seedSanity() {
   });
 
   await tx.commit();
-  console.log('Successfully seeded all Saanjh Viman Nagar documents into Sanity!');
+  console.log('Successfully seeded all Caffè & Tè Viman Nagar documents into Sanity!');
 }
 
 seedSanity().catch((err) => {

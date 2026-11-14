@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
   await dispatchNotification({
     eventKey: 'ADMIN_NEW_ENQUIRY_ALERT',
     channel: 'EMAIL',
-    recipient: 'admin@saanjh.local',
+    recipient: 'admin@caffete.local',
     variables: { type: 'CONTACT', from: parsed.data.phone },
   });
 

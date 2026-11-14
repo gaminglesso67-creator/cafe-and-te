@@ -21,7 +21,7 @@ export function trackAnalyticsEvent(
 ) {
   if (typeof window === 'undefined') return;
   try {
-    const consent = window.localStorage.getItem('saanjh_cookie_consent_v1');
+    const consent = window.localStorage.getItem('caffe_te_cookie_consent_v1');
     if (consent !== 'accepted') return;
 
     const win = window as unknown as {

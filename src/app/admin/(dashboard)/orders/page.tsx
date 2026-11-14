@@ -309,7 +309,7 @@ export default function AdminOrdersPage() {
           {printingTicket && (
             <div className="font-mono text-xs space-y-3 p-4 bg-bg border border-gold/40 rounded-xs">
               <div className="text-center border-b border-dashed border-gold/40 pb-2">
-                <p className="text-sm font-bold text-gold">{'{{SAANJH_KITCHEN_TICKET}}'}</p>
+                <p className="text-sm font-bold text-gold">{'CAFFÈ & TÈ KITCHEN TICKET'}</p>
                 <p>
                   {printingTicket.orderNumber} · {printingTicket.orderType}
                 </p>

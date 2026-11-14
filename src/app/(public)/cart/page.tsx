@@ -41,9 +41,9 @@ export default function CartPage() {
     e.preventDefault();
     const ok = applyCoupon(couponInput);
     if (ok) {
-      notify('{{COUPON_APPLIED_SUCCESS}}', 'success');
+      notify('Promo code applied to your Caffè & Tè order', 'success');
     } else {
-      notify('{{COUPON_INVALID_TRY_SAANJH15}}', 'error');
+      notify('Invalid promo code — try PASTASOCIAL or SIPANDPAINT', 'error');
     }
   };
 
@@ -53,8 +53,8 @@ export default function CartPage() {
 
       {items.length === 0 ? (
         <EmptyState
-          title="Your Dining Bag is Empty"
-          description="Explore our signature Mushroom Crostinis, Maharashtrian handis, Royal Dum Biryanis, and wood-fired pizzas."
+          title="Your Cafe Bag is Empty"
+          description="Explore our Vietnamese Iced Coffee, Hazelnut Butter Cappuccinos, handmade Pasta Social bowls, and flaky croissants."
           actionLabel={t('global.nav.order')}
           actionHref="/order"
         />
@@ -123,7 +123,7 @@ export default function CartPage() {
                 <div className="flex-1">
                   <TextInput
                     id="cart-coupon"
-                    label="Promo Code (LUNCH10 / SAANJH15 / SAANJH25)"
+                    label="Promo Code (PASTASOCIAL / SIPANDPAINT / CAFFETE15)"
                     value={couponInput}
                     onChange={(e) => setCouponInput(e.target.value)}
                   />

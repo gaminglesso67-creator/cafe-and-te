@@ -71,7 +71,7 @@ export default function AdminMenuPage() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'saanjh-menu-skeleton.csv';
+    a.download = 'caffe-te-menu.csv';
     a.click();
     URL.revokeObjectURL(url);
     notify('{{MENU_CSV_EXPORTED}}', 'success');

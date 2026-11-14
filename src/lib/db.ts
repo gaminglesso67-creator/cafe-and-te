@@ -148,11 +148,11 @@ interface RuntimeStore {
   processedWebhookKeys: Set<string>;
 }
 
-const globalStore = globalThis as unknown as { __caffeTeStoreV2?: RuntimeStore };
+const globalStore = globalThis as unknown as { __caffeTeStoreV3?: RuntimeStore };
 
 export function getStore(): RuntimeStore {
-  if (!globalStore.__caffeTeStoreV2) {
-    globalStore.__caffeTeStoreV2 = {
+  if (!globalStore.__caffeTeStoreV3) {
+    globalStore.__caffeTeStoreV3 = {
       orderingEnabled: true,
       autoConfirmReservations: true,
       activePosAdapter: 'manual',
@@ -171,7 +171,7 @@ export function getStore(): RuntimeStore {
           idempotencyKey: 'idem-ord-1001',
           customerName: '{{SAMPLE_CUSTOMER_1_NAME}}',
           customerPhone: '+919000000001',
-          customerEmail: 'guest1@saanjh.local',
+          customerEmail: 'guest1@caffete.local',
           addressLine: '{{SAMPLE_DELIVERY_ADDRESS_1}}',
           pincode: '400001',
           orderType: 'DELIVERY',
@@ -241,7 +241,7 @@ export function getStore(): RuntimeStore {
           reservationCode: 'BK-2001',
           guestName: '{{RESERVATION_GUEST_1}}',
           guestPhone: '+919000000011',
-          guestEmail: 'booking1@saanjh.local',
+          guestEmail: 'booking1@caffete.local',
           date: '2026-11-15',
           timeSlot: '20:00',
           partySize: 4,
@@ -266,7 +266,7 @@ export function getStore(): RuntimeStore {
       auditLogs: [
         {
           id: 'aud-1',
-          actorEmail: 'owner@saanjh.local',
+          actorEmail: 'owner@caffete.local',
           actorRole: 'OWNER',
           action: 'POS_ADAPTER_CONFIGURED',
           entityType: 'Setting',
@@ -276,7 +276,7 @@ export function getStore(): RuntimeStore {
         },
         {
           id: 'aud-2',
-          actorEmail: 'manager@saanjh.local',
+          actorEmail: 'manager@caffete.local',
           actorRole: 'MANAGER',
           action: 'MENU_PRICE_UPDATED',
           entityType: 'MenuItem',
@@ -331,7 +331,7 @@ export function getStore(): RuntimeStore {
       processedWebhookKeys: new Set<string>(),
     };
   }
-  return globalStore.__caffeTeStoreV2;
+  return globalStore.__caffeTeStoreV3;
 }
 
 export function appendAuditLog(entry: Omit<AuditLogRecord, 'id' | 'createdAt'>) {

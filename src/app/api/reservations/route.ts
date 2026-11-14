@@ -91,7 +91,7 @@ export async function POST(req: NextRequest) {
   await dispatchNotification({
     eventKey: 'ADMIN_NEW_RESERVATION_ALERT',
     channel: 'ADMIN_ALERT',
-    recipient: 'admin@saanjh.local',
+    recipient: 'admin@caffete.local',
     variables: { id: record.id, partySize: record.partySize },
   });
 

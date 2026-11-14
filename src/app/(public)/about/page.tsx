@@ -4,10 +4,10 @@ import { DualCtaBandSection } from '@/components/sections/HomeSections';
 import { Card, GoldDivider, ImageWithOverlay, Section } from '@/components/ui';
 
 /**
- * About / Story Page (PRD 7.3) populated with Saanjh Viman Nagar details:
- * - Restaurant background section
- * - Culinary philosophy & newly opened bar section
- * - Values section (Multi-generational warmth, Eclectic cuisine, Inclusive accessibility)
+ * About / Story Page (PRD 7.3) populated with Caffè & Tè Viman Nagar details:
+ * - Cafe background section
+ * - Culinary philosophy & Pasta Social section
+ * - Values section (Open-air patio, Specialty coffee & pasta, Newly air-conditioned lounge)
  * - Amenities & highlights block
  */
 export default function AboutPage() {
@@ -73,7 +73,7 @@ export default function AboutPage() {
             <p className="text-base text-muted leading-relaxed">{t('about.story.body_2')}</p>
           </div>
           <div className="lg:col-span-6">
-            <ImageWithOverlay slot="saanjh_wooden_interiors" aspect="4x3" />
+            <ImageWithOverlay slot="caffe_te_patio_interiors" aspect="4x3" />
           </div>
         </div>
       </Section>
@@ -83,7 +83,7 @@ export default function AboutPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           <div className="lg:col-span-5">
             <div className="p-2 border border-charcoal/30 bg-charcoal">
-              <ImageWithOverlay slot="signature_mushroom_crostini_bar" aspect="3x4" />
+              <ImageWithOverlay slot="specialty_espresso_bar" aspect="3x4" />
             </div>
           </div>
           <div className="lg:col-span-7 space-y-4">

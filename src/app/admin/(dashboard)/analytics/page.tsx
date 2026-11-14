@@ -68,7 +68,7 @@ export default function AdminAnalyticsPage() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'saanjh-analytics.csv';
+    a.download = 'caffe-te-analytics.csv';
     a.click();
     URL.revokeObjectURL(url);
     notify('{{ANALYTICS_CSV_EXPORTED}}', 'success');

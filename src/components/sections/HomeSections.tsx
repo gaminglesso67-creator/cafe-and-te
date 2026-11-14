@@ -74,8 +74,8 @@ function NocturneArrowCta({
 }
 
 /**
- * 1. HERO SECTION ("The Saanjh Room" Nocturne Layout with Self-Rotating Display Heading):
- * Full-bleed atmospheric dusk photography fading into pitch-black,
+ * 1. HERO SECTION ("Caffè & Tè — All Day Cafe" Layout with Self-Rotating Display Heading):
+ * Full-bleed atmospheric dusk photography fading into warm espresso,
  * vertical ritual/experience list with hollow circles on the left,
  * giant offset self-rotating serif display title on the right,
  * poetic paragraph, and "BOOK A TABLE (→)" circular CTA.
@@ -94,7 +94,7 @@ export function HeroSignboardSection({ hours: _hours }: { hours: OpeningHourSlot
       line2: 'By Caffè & Tè',
       tag: 'Newly Air-Conditioned Indoor Pasta Room',
       copy: 'A little more progress, a little more comfort! Step into our warm, air-conditioned Pasta Social lounge for fresh tagliatelle, penne, and cold brews.',
-      slot: 'saanjh_royal_dum_biryani',
+      slot: 'pasta_social_tagliatelle',
     },
     {
       line1: 'Sip & Paint',
@@ -108,7 +108,7 @@ export function HeroSignboardSection({ hours: _hours }: { hours: OpeningHourSlot
       line2: '& Cheesecake',
       tag: '₹200–400 Per Person · Closes 11:30 PM',
       copy: 'From Madagascar vanilla cappuccinos and buttery croissants to crispy peri-peri fries and creamy Basque cheesecake.',
-      slot: 'maharashtrian_kala_masala_handi',
+      slot: 'hazelnut_butter_cappuccino',
     },
   ];
 
@@ -513,7 +513,7 @@ export function HoursAndLocationSection({
               {/* Warm Bokeh Lounge / Patio Background */}
               <Image
                 src={patioVisual.src}
-                alt="Saanjh Evening Ambience"
+                alt="Caffè & Tè Garden Patio Ambience"
                 fill
                 sizes="(max-width: 1024px) 100vw, 42vw"
                 className="object-cover object-center opacity-50 transition-transform duration-1000 hover:scale-105"

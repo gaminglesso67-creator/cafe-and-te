@@ -47,22 +47,22 @@ export function getAllContentEntries(): Record<string, string> {
   return merged;
 }
 
-const SAANJH_IMAGE_SLOT_MAP: Record<string, string> = {
+const CAFE_IMAGE_SLOT_MAP: Record<string, string> = {
   // Hero & About slots
   hero_signboard_visual: '/images/caffe-te/garden-patio-hero.jpg',
   home_about_story: '/images/caffe-te/pasta-social-ac-lounge.jpg',
-  saanjh_wooden_interiors: '/images/caffe-te/garden-patio-hero.jpg',
-  signature_mushroom_crostini_bar: '/images/caffe-te/espresso-and-bakery-bar.jpg',
+  caffe_te_patio_interiors: '/images/caffe-te/garden-patio-hero.jpg',
+  specialty_espresso_bar: '/images/caffe-te/espresso-and-bakery-bar.jpg',
   lush_green_outdoor_patio: '/images/caffe-te/sip-and-paint-patio.jpg',
 
   // Signature Menu Dishes (Caffè & Tè + Pasta Social)
-  mushroom_crostini_signature: '/images/caffe-te/vietnamese-iced-coffee.jpg',
-  maharashtrian_kala_masala_handi: '/images/caffe-te/hazelnut-butter-cappuccino.jpg',
-  saanjh_royal_dum_biryani: '/images/caffe-te/pasta-social-tagliatelle.jpg',
+  vietnamese_iced_coffee_signature: '/images/caffe-te/vietnamese-iced-coffee.jpg',
+  hazelnut_butter_cappuccino: '/images/caffe-te/hazelnut-butter-cappuccino.jpg',
+  pasta_social_tagliatelle: '/images/caffe-te/pasta-social-tagliatelle.jpg',
   artisanal_dusk_mocktail: '/images/caffe-te/caramel-cold-brew-matcha.jpg',
   italian_pesto_pizza: '/images/caffe-te/butter-croissant-pesto.jpg',
-  thecha_paneer_fusion: '/images/caffe-te/burnt-basque-cheesecake.jpg',
-  crispy_lotus_stem_wok: '/images/caffe-te/peri-peri-cafe-fries.jpg',
+  burnt_basque_cheesecake: '/images/caffe-te/burnt-basque-cheesecake.jpg',
+  peri_peri_cafe_fries: '/images/caffe-te/peri-peri-cafe-fries.jpg',
 
   // Offers & Events
   lunch_walkin_offer: '/images/caffe-te/sip-and-paint-patio.jpg',
@@ -71,12 +71,12 @@ const SAANJH_IMAGE_SLOT_MAP: Record<string, string> = {
   sunday_family_patio_lunch: '/images/caffe-te/pasta-social-ac-lounge.jpg',
 
   // Gallery Mosaic Slots
-  gallery_mushroom_crostini: '/images/caffe-te/vietnamese-iced-coffee.jpg',
+  gallery_vietnamese_iced_coffee: '/images/caffe-te/vietnamese-iced-coffee.jpg',
   gallery_wooden_amber_interiors: '/images/caffe-te/garden-patio-hero.jpg',
   gallery_bar_cocktails: '/images/caffe-te/caramel-cold-brew-matcha.jpg',
   gallery_family_dining: '/images/caffe-te/pasta-social-ac-lounge.jpg',
   gallery_lush_green_patio: '/images/caffe-te/sip-and-paint-patio.jpg',
-  gallery_dum_biryani: '/images/caffe-te/pasta-social-tagliatelle.jpg',
+  gallery_pasta_social: '/images/caffe-te/pasta-social-tagliatelle.jpg',
   gallery_1: '/images/caffe-te/garden-patio-hero.jpg',
   gallery_2: '/images/caffe-te/vietnamese-iced-coffee.jpg',
   gallery_3: '/images/caffe-te/caramel-cold-brew-matcha.jpg',
@@ -84,7 +84,7 @@ const SAANJH_IMAGE_SLOT_MAP: Record<string, string> = {
 };
 
 /**
- * Resolves a named image slot to its curated Saanjh Viman Nagar photograph
+ * Resolves a named image slot to its curated Caffè & Tè Viman Nagar photograph
  * or a placeholder SVG matching the required aspect ratio and alt text.
  */
 export function getImageSlot(slotName: string, aspect: ImageAspect = '4x3'): ImageSlot {
@@ -97,7 +97,7 @@ export function getImageSlot(slotName: string, aspect: ImageAspect = '4x3'): Ima
     };
   }
   const normalized = slotName.replace(/[._-]/g, ' ');
-  const mappedSrc = SAANJH_IMAGE_SLOT_MAP[slotName];
+  const mappedSrc = CAFE_IMAGE_SLOT_MAP[slotName];
   return {
     slot: slotName,
     aspect,

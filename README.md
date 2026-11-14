@@ -1,6 +1,6 @@
-# Saanjh — Family Resto Bar (Website, Ordering & Admin Skeleton)
+# Caffè & Tè — All Day Cafe (Website, Ordering, Reservation & Sanity CMS)
 
-Full-stack, mobile-first (`360px+`), content-free skeleton built strictly from [`saanjh-prd.md`](./saanjh-prd.md).
+Full-stack, mobile-first (`360px+`) website, online ordering, table reservation, and Sanity Studio CMS platform for **Caffè & Tè — All Day Cafe** (`कैफे & ते - ऑल डे कैफे`) & **Pasta Social by Caffè & Tè** in Viman Nagar, Pune.
 
 ---
 
@@ -65,7 +65,7 @@ flowchart TD
 ## 3. Folder Structure
 
 ```text
-saanjh/
+caffe-te/
 ├── .github/workflows/ci.yml          # GitHub Actions CI pipeline
 ├── prisma/
 │   ├── schema.prisma                 # 36 models/enums (PRD §11.3)

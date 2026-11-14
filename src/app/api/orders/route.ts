@@ -107,7 +107,7 @@ export async function POST(req: NextRequest) {
     await dispatchNotification({
       eventKey: 'ADMIN_NEW_ORDER_ALERT',
       channel: 'ADMIN_ALERT',
-      recipient: 'admin@saanjh.local',
+      recipient: 'admin@caffete.local',
       variables: { orderId: record.id },
     });
   }

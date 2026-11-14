@@ -76,7 +76,7 @@ export function Header() {
             </nav>
           </div>
 
-          {/* Center: Clean Tracked Uppercase Serif Wordmark ("THE NOCTURNE" / "THE SAANJH" style) */}
+          {/* Center: Clean Tracked Uppercase Serif Wordmark ("CAFFÈ & TÈ" style) */}
           <Link
             href="/"
             className="inline-flex items-center justify-center py-1 shrink-0 group"

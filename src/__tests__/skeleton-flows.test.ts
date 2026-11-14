@@ -14,7 +14,7 @@ import { getStore } from '@/lib/db';
 import { schemaTypes } from '@/sanity/schemaTypes';
 import { fetchSanityHomePageData, fetchSanityMenuCatalog } from '@/sanity/lib/fetchers';
 
-describe('Saanjh Skeleton Core Flows (PRD Section 13)', () => {
+describe('Caffè & Tè Core Flows (PRD Section 13)', () => {
   it('resolves content keys to Caffè & Tè Viman Nagar copy and falls back safely for unmapped keys', () => {
     expect(t('home.hero.title')).toBe('Caffè & Tè — All Day Cafe');
     expect(t('unmapped.custom.field')).toBe('{{UNMAPPED_CUSTOM_FIELD}}');

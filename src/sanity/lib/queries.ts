@@ -1,5 +1,5 @@
 /**
- * GROQ Queries for Saanjh — Family Resto Bar (Viman Nagar, Pune)
+ * GROQ Queries for Caffè & Tè — All Day Cafe (Viman Nagar, Pune)
  */
 
 export const GROQ_CATEGORIES = `*[_type == "menuCategory" && isActive != false] | order(sortOrder asc) {

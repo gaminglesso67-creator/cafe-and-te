@@ -18,7 +18,7 @@ async function main() {
     throw new Error('Refusing to run dummy seed data in production (PRD 4.2).');
   }
 
-  console.log('Seeding Saanjh skeleton database...');
+  console.log('Seeding Caffè & Tè database...');
 
   // 1. Seed Roles (PRD 9.9)
   const roles = [
@@ -66,9 +66,9 @@ async function main() {
 
   // 2. Seed Dev Staff Accounts
   const users = [
-    { email: 'owner@saanjh.local', name: '{{USER_OWNER_NAME}}', roleId: ownerRole.id },
-    { email: 'manager@saanjh.local', name: '{{USER_MANAGER_NAME}}', roleId: managerRole.id },
-    { email: 'staff@saanjh.local', name: '{{USER_STAFF_NAME}}', roleId: staffRole.id },
+    { email: 'owner@caffete.local', name: '{{USER_OWNER_NAME}}', roleId: ownerRole.id },
+    { email: 'manager@caffete.local', name: '{{USER_MANAGER_NAME}}', roleId: managerRole.id },
+    { email: 'staff@caffete.local', name: '{{USER_STAFF_NAME}}', roleId: staffRole.id },
   ];
 
   for (const u of users) {

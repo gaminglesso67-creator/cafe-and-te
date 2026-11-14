@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { t } from '@/lib/content';
 import { Button } from '@/components/ui';
 
-const CONSENT_STORAGE_KEY = 'saanjh_cookie_consent_v1';
+const CONSENT_STORAGE_KEY = 'caffe_te_cookie_consent_v1';
 
 /**
  * Compact Consent-Aware Cookie & Analytics Banner (PRD 7.8, 12.5, 12.6).

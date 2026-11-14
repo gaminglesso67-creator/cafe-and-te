@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
   await dispatchNotification({
     eventKey: 'ADMIN_NEW_ENQUIRY_ALERT',
     channel: 'WHATSAPP',
-    recipient: 'admin@saanjh.local',
+    recipient: 'admin@caffete.local',
     variables: {
       enquiryId,
       eventType: parsed.data.eventType,

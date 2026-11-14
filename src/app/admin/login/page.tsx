@@ -87,7 +87,7 @@ export default function AdminSanityGatewayPage() {
             <span>Protected by Sanity Cloud Identity &amp; Server Middleware</span>
           </div>
           <h1 className="font-serif text-4xl sm:text-5xl text-ember-gradient">
-            Saanjh × Sanity Studio CMS
+            Caffè &amp; Tè × Sanity Studio CMS
           </h1>
           <p className="text-sm text-muted max-w-xl mx-auto">
             All hardcoded client credentials have been removed. Menu CRUD, Pricing, Stock Toggles, Offers, Reviews, Gallery, and Live Orders are managed through Sanity Studio with SSO &amp; 2FA.
@@ -153,7 +153,7 @@ export default function AdminSanityGatewayPage() {
                 href="/"
                 className="text-xs uppercase tracking-[0.2em] text-muted hover:text-gold transition-colors"
               >
-                ← Back to Saanjh Website
+                ← Back to Caffè &amp; Tè Website
               </Link>
             </div>
           </Card>

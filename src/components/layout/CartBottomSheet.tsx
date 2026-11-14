@@ -96,8 +96,8 @@ export function CartBottomSheet() {
 
       {items.length === 0 ? (
         <EmptyState
-          title="Your Dining Bag is Empty"
-          description="Add signature Crostinis, Maharashtrian handis, Royal Dum Biryanis, or artisanal mocktails to begin."
+          title="Your Cafe Bag is Empty"
+          description="Add Vietnamese Iced Coffee, Hazelnut Butter Cappuccinos, Pasta Social bowls, or flaky croissants to begin."
           actionLabel={t('global.nav.menu')}
           actionHref="/order"
           onAction={closeSheet}
