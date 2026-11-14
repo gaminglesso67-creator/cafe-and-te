@@ -42,7 +42,7 @@ async function seedSanity() {
     _id: 'siteSettings',
     _type: 'siteSettings',
     restaurantName: 'Caffè & Tè — All Day Cafe',
-    tagline: 'कैफे & ते - ऑल डे कैफे · Pasta Social · Viman Nagar, Pune',
+    tagline: 'All Day Cafe · Pasta Social · Viman Nagar, Pune',
     phoneDisplay: '097004 02040',
     whatsappNumber: '919700402040',
     address:

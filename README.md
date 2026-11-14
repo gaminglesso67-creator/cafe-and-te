@@ -1,6 +1,6 @@
 # Caffè & Tè — All Day Cafe (Website, Ordering, Reservation & Sanity CMS)
 
-Full-stack, mobile-first (`360px+`) website, online ordering, table reservation, and Sanity Studio CMS platform for **Caffè & Tè — All Day Cafe** (`कैफे & ते - ऑल डे कैफे`) & **Pasta Social by Caffè & Tè** in Viman Nagar, Pune.
+Full-stack, mobile-first (`360px+`) website, online ordering, table reservation, and Sanity Studio CMS platform for **Caffè & Tè — All Day Cafe** & **Pasta Social by Caffè & Tè** in Viman Nagar, Pune.
 
 ---
 

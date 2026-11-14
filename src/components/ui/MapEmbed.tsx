@@ -24,7 +24,7 @@ export function MapEmbed({
       <div className="relative h-64 sm:h-72 w-full rounded-sm overflow-hidden border border-gold/15 bg-surface">
         <iframe
           title={`Map of Caffè & Tè — ${slotName}`}
-          src="https://maps.google.com/maps?q=18.563944164929048,73.91426682472229&t=&z=17&ie=UTF8&iwloc=&output=embed"
+          src="https://maps.google.com/maps?q=18.563944164929048,73.91426682472229&hl=en&t=&z=17&ie=UTF8&iwloc=&output=embed"
           className="w-full h-full border-0 grayscale contrast-125 opacity-80 hover:opacity-100 hover:grayscale-0 transition-all duration-500"
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"

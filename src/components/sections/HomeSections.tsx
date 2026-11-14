@@ -85,7 +85,7 @@ export function HeroSignboardSection({ hours: _hours }: { hours: OpeningHourSlot
     {
       line1: 'Caffè & Tè',
       line2: 'All Day Cafe',
-      tag: 'कैफे & ते · Udchalo House, Viman Nagar',
+      tag: 'Udchalo House · Clover Park, Viman Nagar',
       copy: 'Specialty Vietnamese iced coffee, hazelnut butter cappuccinos, flaky French croissants, and handcrafted pastas in an open-air garden setting.',
       slot: 'hero_signboard_visual',
     },
