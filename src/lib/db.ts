@@ -148,11 +148,11 @@ interface RuntimeStore {
   processedWebhookKeys: Set<string>;
 }
 
-const globalStore = globalThis as unknown as { __saanjhStore?: RuntimeStore };
+const globalStore = globalThis as unknown as { __caffeTeStoreV2?: RuntimeStore };
 
 export function getStore(): RuntimeStore {
-  if (!globalStore.__saanjhStore) {
-    globalStore.__saanjhStore = {
+  if (!globalStore.__caffeTeStoreV2) {
+    globalStore.__caffeTeStoreV2 = {
       orderingEnabled: true,
       autoConfirmReservations: true,
       activePosAdapter: 'manual',
@@ -331,7 +331,7 @@ export function getStore(): RuntimeStore {
       processedWebhookKeys: new Set<string>(),
     };
   }
-  return globalStore.__saanjhStore;
+  return globalStore.__caffeTeStoreV2;
 }
 
 export function appendAuditLog(entry: Omit<AuditLogRecord, 'id' | 'createdAt'>) {

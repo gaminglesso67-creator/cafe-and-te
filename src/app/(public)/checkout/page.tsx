@@ -276,7 +276,7 @@ export default function CheckoutPage() {
           <Card variant="signboard" className="space-y-4">
             <div className="flex items-center justify-between">
               <h2 className="font-serif text-2xl text-gold">Order Summary</h2>
-              <Badge kind="neutral" label="Saanjh Viman Nagar" />
+              <Badge kind="neutral" label="Caffè & Tè Viman Nagar" />
             </div>
             <dl className="space-y-2 text-sm">
               <div className="flex justify-between text-muted">
@@ -305,7 +305,7 @@ export default function CheckoutPage() {
               </div>
             </dl>
             <p className="text-xs text-muted border-t border-gold/15 pt-3">
-              Prepared fresh at Saanjh, Plot 4, Survey No. 206, Lane 2, Clover Park, Viman Nagar, Pune 411014.
+              Prepared fresh at Caffè & Tè, Ground Floor, Udchalo House, Plot No. 10, Clover Park, Viman Nagar, Pune 411014.
             </p>
           </Card>
         </div>

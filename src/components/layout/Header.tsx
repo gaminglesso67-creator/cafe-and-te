@@ -24,7 +24,7 @@ const MOBILE_DRAWER_LINKS = [
   { href: '/about', label: 'Our Story' },
   { href: '/gallery', label: 'Ambience & Gallery' },
   { href: '/offers', label: 'Offers & Private Events' },
-  { href: '/reviews', label: 'Guest Reviews (4.5★)' },
+  { href: '/reviews', label: 'Guest Reviews (4.4★)' },
   { href: '/contact', label: 'Location & Hours' },
   { href: '/account', label: 'My Bookings' },
 ];
@@ -143,7 +143,7 @@ export function Header() {
       <DrawerModal
         open={mobileMenuOpen}
         onClose={() => setMobileMenuOpen(false)}
-        title="Saanjh · Viman Nagar"
+        title="Caffè & Tè · Viman Nagar"
         mode="bottom-sheet"
       >
         <nav aria-label="Mobile navigation" className="divide-y divide-white/[0.07]">

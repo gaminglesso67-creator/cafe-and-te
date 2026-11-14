@@ -151,7 +151,7 @@ export default function OffersAndEventsPage() {
             </Card>
 
             <div className="space-y-4">
-              <h2 className="font-serif text-2xl text-text">Evenings & Experiences at Saanjh</h2>
+              <h2 className="font-serif text-2xl text-text">All-Day Experiences at Caffè & Tè</h2>
               {SEED_EVENTS.map((evt) => (
                 <Card key={evt.id} variant="surface" className="space-y-2.5">
                   <div className="flex items-center justify-between gap-2">

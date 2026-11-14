@@ -47,7 +47,7 @@ export default function ReservationDetailPage({
               {`Booking Reference: ${params.id}`}
             </p>
             <h1 className="font-serif text-3xl sm:text-4xl text-text mt-1">
-              Your Table at Saanjh Viman Nagar
+              Your Table at Caffè & Tè Viman Nagar
             </h1>
           </div>
           <Badge
@@ -59,7 +59,7 @@ export default function ReservationDetailPage({
         <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm border border-gold/20 bg-surface p-4 rounded-xs">
           <div>
             <dt className="text-xs text-muted uppercase">Location</dt>
-            <dd className="font-mono text-text mt-0.5">Clover Park, Viman Nagar (Opp. Phoenix Marketcity)</dd>
+            <dd className="font-mono text-text mt-0.5">Ground Floor, Udchalo House, Plot No. 10, Clover Park, Viman Nagar</dd>
           </div>
           <div>
             <dt className="text-xs text-muted uppercase">Party Size & Seating</dt>
@@ -71,7 +71,7 @@ export default function ReservationDetailPage({
           </div>
           <div>
             <dt className="text-xs text-muted uppercase">Direct Desk</dt>
-            <dd className="text-text mt-0.5">+91 84858 00863 (WhatsApp & SMS Active)</dd>
+            <dd className="text-text mt-0.5">097004 02040 (WhatsApp & SMS Active)</dd>
           </div>
         </dl>
 

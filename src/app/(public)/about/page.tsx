@@ -15,38 +15,38 @@ export default function AboutPage() {
     {
       id: 'val-1',
       number: '01',
-      title: 'Warm Earthy Wood & Soft Amber Glow',
-      body: 'True to the word Saanjh (dusk), our space blends rustic natural wooden textures with soft amber lantern light—offering both air-conditioned indoor dining and a lush green outdoor patio.',
+      title: 'Open-Air Garden Patio & Sip & Paint',
+      body: 'Unwind under the Clover Park canopy with sunlit garden tables, fairy lights at dusk, and tabletop canvas painting kits paired with specialty iced brews.',
     },
     {
       id: 'val-2',
       number: '02',
-      title: 'An Eclectic Multi-Cuisine Table',
-      body: 'From regional Maharashtrian specialties and Royal Dum Biryanis to signature Wild Mushroom Crostinis, Italian thin-crust pizzas, Oriental wok favourites, and our newly opened bar.',
+      title: 'Specialty Coffee, Croissants & Pasta Social',
+      body: 'From Vietnamese Iced Coffee, Hazelnut Butter Cappuccinos, and Madagascar Vanilla Cappuccinos to flaky French butter croissants, Burnt Basque Cheesecake, and handmade Pasta Social bowls.',
     },
     {
       id: 'val-3',
       number: '03',
-      title: 'Effortless Family & Group Hospitality',
-      body: 'Designed for multi-generational families and large group celebrations opposite Phoenix Marketcity, complete with complimentary valet parking and full wheelchair accessibility.',
+      title: 'Newly Air-Conditioned Pasta Social Lounge',
+      body: 'A little more progress, a little more comfort! From warm lighting to full air-conditioning, Pasta Social by Caffè & Tè at Udchalo House is crafted for cosy all-day dining.',
     },
   ];
 
   const milestones = [
     {
-      year: 'Ambience',
-      title: 'Indoor AC Dining & Lush Outdoor Patio',
-      detail: 'Choose between our cosy wooden indoor dining room or our breezy green outdoor setup in Clover Park.',
+      year: 'Patio',
+      title: 'Open-Air Garden Seating & Canvas Painting',
+      detail: 'Enjoy a natural outdoor setting at Ground Floor, Udchalo House, Plot No. 10, Clover Park, Viman Nagar.',
     },
     {
-      year: 'New Bar',
-      title: 'Newly Opened Craft Bar & Botanical Mocktails',
-      detail: 'Pouring signature cocktails, zero-proof botanical elixirs, and curated small plates till 12:00 Midnight.',
+      year: 'Pasta Social',
+      title: 'Newly Air-Conditioned Indoor Pasta Lounge',
+      detail: 'Serving handmade Rosé Tagliatelle, Truffle Mushroom Alfredo, and Pesto Fusilli until 11:30 PM daily.',
     },
     {
-      year: 'Access',
-      title: 'Valet Parking & Full Wheelchair Accessibility',
-      detail: 'Step-free entrance, accessible seating, and dedicated valet service at Plot 4, Survey No. 206, Lane 2, Viman Nagar.',
+      year: 'Service',
+      title: 'Dine-In · Kerbside Pickup · No-Contact Delivery',
+      detail: 'Rated 4.4★ across 85 Google reviews with ₹200–400 per person pricing and friendly hospitality.',
     },
   ];
 
@@ -96,7 +96,7 @@ export default function AboutPage() {
             <GoldDivider onCream ornament={false} />
             <p className="text-base text-charcoal/85 leading-relaxed">{t('about.chef.bio')}</p>
             <p className="text-sm font-mono uppercase tracking-wider text-charcoal/70">
-              Average Cost: ₹1,000 – ₹1,100 for two · Open Daily 12 Noon – 12 Midnight
+              ₹200–400 per person (Reported by 26 people) · Open Daily till 11:30 PM
             </p>
           </div>
         </div>

@@ -16,7 +16,7 @@ export function Footer() {
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newsletterEmail.trim()) return;
-    notify('You have been added to the Saanjh Viman Nagar guest list.', 'success');
+    notify('You have been added to the Caffè & Tè Viman Nagar guest list.', 'success');
     setNewsletterEmail('');
   };
 
@@ -42,28 +42,20 @@ export function Footer() {
             </p>
             <div className="pt-2 flex flex-wrap items-center gap-2.5 text-xs uppercase tracking-wider">
               <a
-                href="https://www.instagram.com/saanjhpune/"
+                href="https://www.instagram.com/caffe.te.vn?igsh=MXJpOXZ4b2oyejJzZw=="
                 target="_blank"
                 rel="noopener noreferrer"
                 className="min-h-11 px-3 inline-flex items-center border border-gold/30 rounded-xs text-muted hover:text-gold hover:border-gold"
               >
-                Instagram @saanjhpune
+                Instagram @caffe.te.vn
               </a>
               <a
-                href="https://www.zomato.com/pune/saanjh-an-evening-full-of-flavours-viman-nagar"
+                href="https://www.google.com/maps/reserve/v/dine/c/uoLDuRMfTmc?hl=en-IN"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="min-h-11 px-3 inline-flex items-center border border-gold/30 rounded-xs text-muted hover:text-gold hover:border-gold"
               >
-                Zomato
-              </a>
-              <a
-                href="https://www.eazydiner.com/pune/saanjh-an-evening-full-of-flavours-viman-nagar-pune-704890"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="min-h-11 px-3 inline-flex items-center border border-gold/30 rounded-xs text-muted hover:text-gold hover:border-gold"
-              >
-                EazyDiner
+                Reserve on Google
               </a>
               <a
                 href={t('brand.google_review_url')}
@@ -71,7 +63,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="min-h-11 px-3 inline-flex items-center border border-gold/30 rounded-xs text-muted hover:text-gold hover:border-gold"
               >
-                Google (4.5★)
+                Google (4.4★ · 85)
               </a>
             </div>
           </div>
@@ -114,12 +106,12 @@ export function Footer() {
               {SEED_OPENING_HOURS.slice(0, 3).map((slot) => (
                 <div key={slot.id} className="flex justify-between gap-2 text-muted">
                   <dt>{slot.dayLabel}</dt>
-                  <dd className="text-text font-mono">12:00 PM – 12:00 AM</dd>
+                  <dd className="text-text font-mono">09:00 AM – 11:30 PM</dd>
                 </div>
               ))}
               <div className="flex justify-between gap-2 text-gold text-xs pt-1">
-                <dt>Amenities</dt>
-                <dd>Valet · Wheelchair Access · New Bar</dd>
+                <dt>Experiences</dt>
+                <dd>Open-Air Patio · Sip & Paint · Pasta Social AC</dd>
               </div>
             </dl>
             <div className="pt-2 space-y-1 text-sm">

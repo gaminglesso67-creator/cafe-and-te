@@ -178,7 +178,7 @@ export default function GalleryPage() {
               overlay={false}
             />
             <p className="text-xs font-mono text-muted">
-              {currentItem.title} · Saanjh Viman Nagar, Pune
+              {currentItem.title} · Caffè & Tè — All Day Cafe, Viman Nagar, Pune
             </p>
           </div>
         )}

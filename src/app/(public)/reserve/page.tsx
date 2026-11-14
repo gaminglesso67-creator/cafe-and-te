@@ -199,7 +199,7 @@ export default function ReservePage() {
                 <li>• Open Daily: 12:00 PM Noon to 12:00 Midnight</li>
                 <li>• Complimentary Valet Parking & Step-Free Wheelchair Access</li>
                 <li>• Walk-in Lunch Privilege: Flat 10% OFF (12 PM – 4 PM)</li>
-                <li>• For groups of 13+ guests, call +91 84858 00863 directly</li>
+                <li>• For groups of 13+ guests, call 097004 02040 directly</li>
               </ul>
             </Card>
           </div>

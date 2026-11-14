@@ -9,7 +9,7 @@ export default function TermsPage() {
   return (
     <Section variant="dark" narrow>
       <div className="space-y-6">
-        <p className="text-xs uppercase tracking-[0.22em] text-gold">Saanjh Viman Nagar · Legal</p>
+        <p className="text-xs uppercase tracking-[0.22em] text-gold">Caffè & Tè Viman Nagar · Legal</p>
         <h1 className="font-serif text-4xl sm:text-5xl text-gold text-glow-gold">
           {t('legal.terms.heading')}
         </h1>

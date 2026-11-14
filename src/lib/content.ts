@@ -49,38 +49,38 @@ export function getAllContentEntries(): Record<string, string> {
 
 const SAANJH_IMAGE_SLOT_MAP: Record<string, string> = {
   // Hero & About slots
-  hero_signboard_visual: '/images/saanjh/hero-signboard.jpg',
-  home_about_story: '/images/saanjh/family-dining-room.jpg',
-  saanjh_wooden_interiors: '/images/saanjh/hero-signboard.jpg',
-  signature_mushroom_crostini_bar: '/images/saanjh/newly-opened-bar.jpg',
-  lush_green_outdoor_patio: '/images/saanjh/lush-outdoor-patio.jpg',
+  hero_signboard_visual: '/images/caffe-te/garden-patio-hero.jpg',
+  home_about_story: '/images/caffe-te/pasta-social-ac-lounge.jpg',
+  saanjh_wooden_interiors: '/images/caffe-te/garden-patio-hero.jpg',
+  signature_mushroom_crostini_bar: '/images/caffe-te/espresso-and-bakery-bar.jpg',
+  lush_green_outdoor_patio: '/images/caffe-te/sip-and-paint-patio.jpg',
 
-  // Signature Menu Dishes
-  mushroom_crostini_signature: '/images/saanjh/mushroom-crostini.jpg',
-  maharashtrian_kala_masala_handi: '/images/saanjh/khandeshi-mutton-handi.jpg',
-  saanjh_royal_dum_biryani: '/images/saanjh/royal-dum-biryani.jpg',
-  artisanal_dusk_mocktail: '/images/saanjh/dusk-botanical-mocktail.jpg',
-  italian_pesto_pizza: '/images/saanjh/wood-fired-pesto-pizza.jpg',
-  thecha_paneer_fusion: '/images/saanjh/thecha-paneer-tikka.jpg',
-  crispy_lotus_stem_wok: '/images/saanjh/crispy-lotus-stem.jpg',
+  // Signature Menu Dishes (Caffè & Tè + Pasta Social)
+  mushroom_crostini_signature: '/images/caffe-te/vietnamese-iced-coffee.jpg',
+  maharashtrian_kala_masala_handi: '/images/caffe-te/hazelnut-butter-cappuccino.jpg',
+  saanjh_royal_dum_biryani: '/images/caffe-te/pasta-social-tagliatelle.jpg',
+  artisanal_dusk_mocktail: '/images/caffe-te/caramel-cold-brew-matcha.jpg',
+  italian_pesto_pizza: '/images/caffe-te/butter-croissant-pesto.jpg',
+  thecha_paneer_fusion: '/images/caffe-te/burnt-basque-cheesecake.jpg',
+  crispy_lotus_stem_wok: '/images/caffe-te/peri-peri-cafe-fries.jpg',
 
   // Offers & Events
-  lunch_walkin_offer: '/images/saanjh/lush-outdoor-patio.jpg',
-  partner_bank_dining_deal: '/images/saanjh/newly-opened-bar.jpg',
-  newly_opened_bar_evenings: '/images/saanjh/newly-opened-bar.jpg',
-  sunday_family_patio_lunch: '/images/saanjh/family-dining-room.jpg',
+  lunch_walkin_offer: '/images/caffe-te/sip-and-paint-patio.jpg',
+  partner_bank_dining_deal: '/images/caffe-te/espresso-and-bakery-bar.jpg',
+  newly_opened_bar_evenings: '/images/caffe-te/espresso-and-bakery-bar.jpg',
+  sunday_family_patio_lunch: '/images/caffe-te/pasta-social-ac-lounge.jpg',
 
   // Gallery Mosaic Slots
-  gallery_mushroom_crostini: '/images/saanjh/mushroom-crostini.jpg',
-  gallery_wooden_amber_interiors: '/images/saanjh/hero-signboard.jpg',
-  gallery_bar_cocktails: '/images/saanjh/dusk-botanical-mocktail.jpg',
-  gallery_family_dining: '/images/saanjh/family-dining-room.jpg',
-  gallery_lush_green_patio: '/images/saanjh/lush-outdoor-patio.jpg',
-  gallery_dum_biryani: '/images/saanjh/royal-dum-biryani.jpg',
-  gallery_1: '/images/saanjh/hero-signboard.jpg',
-  gallery_2: '/images/saanjh/mushroom-crostini.jpg',
-  gallery_3: '/images/saanjh/dusk-botanical-mocktail.jpg',
-  gallery_4: '/images/saanjh/lush-outdoor-patio.jpg',
+  gallery_mushroom_crostini: '/images/caffe-te/vietnamese-iced-coffee.jpg',
+  gallery_wooden_amber_interiors: '/images/caffe-te/garden-patio-hero.jpg',
+  gallery_bar_cocktails: '/images/caffe-te/caramel-cold-brew-matcha.jpg',
+  gallery_family_dining: '/images/caffe-te/pasta-social-ac-lounge.jpg',
+  gallery_lush_green_patio: '/images/caffe-te/sip-and-paint-patio.jpg',
+  gallery_dum_biryani: '/images/caffe-te/pasta-social-tagliatelle.jpg',
+  gallery_1: '/images/caffe-te/garden-patio-hero.jpg',
+  gallery_2: '/images/caffe-te/vietnamese-iced-coffee.jpg',
+  gallery_3: '/images/caffe-te/caramel-cold-brew-matcha.jpg',
+  gallery_4: '/images/caffe-te/sip-and-paint-patio.jpg',
 };
 
 /**

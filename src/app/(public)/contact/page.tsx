@@ -160,7 +160,7 @@ export default function ContactPage() {
                 <div className="p-6 text-center space-y-3 border border-gold/30 bg-bg rounded-xs">
                   <Badge kind="veg" label="Message Received" />
                   <h3 className="font-serif text-2xl text-gold">
-                    Thank You for Reaching Out to Saanjh
+                    Thank You for Reaching Out to Caffè & Tè
                   </h3>
                   <p className="text-sm text-muted">
                     Our Viman Nagar hospitality desk has received your message and will respond shortly.

@@ -56,7 +56,7 @@ export default function CustomerAccountPage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <p className="text-xs uppercase tracking-[0.22em] text-gold">
-              Saanjh Viman Nagar Guest Portal
+              Caffè & Tè Viman Nagar Guest Portal
             </p>
             <h1 className="font-serif text-4xl text-gold text-glow-gold">
               My Bookings & Orders
@@ -96,7 +96,7 @@ export default function CustomerAccountPage() {
                 fullWidth
                 onClick={() => {
                   setSignedIn(true);
-                  notify('Signed in to Saanjh Guest Portal', 'success');
+                  notify('Signed in to Caffè & Tè Guest Portal', 'success');
                 }}
               >
                 Verify & Sign In
