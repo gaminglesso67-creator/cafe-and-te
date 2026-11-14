@@ -93,7 +93,7 @@ export function getImageSlot(slotName: string, aspect: ImageAspect = '4x3'): Ima
       slot: slotName,
       aspect,
       src: slotName,
-      alt: 'Saanjh Viman Nagar — Sanity CMS photograph',
+      alt: 'Caffè & Tè Viman Nagar — Sanity CMS photograph',
     };
   }
   const normalized = slotName.replace(/[._-]/g, ' ');
@@ -102,7 +102,7 @@ export function getImageSlot(slotName: string, aspect: ImageAspect = '4x3'): Ima
     slot: slotName,
     aspect,
     src: mappedSrc ?? `/placeholders/${aspect}.svg`,
-    alt: `Saanjh Viman Nagar — ${normalized}`,
+    alt: `Caffè & Tè Viman Nagar — ${normalized}`,
   };
 }
 

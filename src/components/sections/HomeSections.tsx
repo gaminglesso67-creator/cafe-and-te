@@ -83,32 +83,32 @@ function NocturneArrowCta({
 export function HeroSignboardSection({ hours: _hours }: { hours: OpeningHourSlot[] }) {
   const heroSlides = [
     {
-      line1: 'The Saanjh',
-      line2: 'Room',
-      tag: 'Warm Teakwood Interiors · Viman Nagar',
-      copy: 'Here, guests gather for unhurried evenings — warm teakwood interiors, lush patio air, artisanal cocktails, and flavours crafted for the whole family.',
+      line1: 'Caffè & Tè',
+      line2: 'All Day Cafe',
+      tag: 'कैफे & ते · Udchalo House, Viman Nagar',
+      copy: 'Specialty Vietnamese iced coffee, hazelnut butter cappuccinos, flaky French croissants, and handcrafted pastas in an open-air garden setting.',
       slot: 'hero_signboard_visual',
     },
     {
-      line1: 'An Evening',
-      line2: 'Of Flavours',
-      tag: 'Multi-Cuisine Heritage & Modern Fusion',
-      copy: 'From wild mushroom crostinis and wood-fired pesto pizzas to slow-simmered Khandeshi handis and royal dum biryanis.',
-      slot: 'mushroom_crostini_signature',
+      line1: 'Pasta Social',
+      line2: 'By Caffè & Tè',
+      tag: 'Newly Air-Conditioned Indoor Pasta Room',
+      copy: 'A little more progress, a little more comfort! Step into our warm, air-conditioned Pasta Social lounge for fresh tagliatelle, penne, and cold brews.',
+      slot: 'saanjh_royal_dum_biryani',
     },
     {
-      line1: 'Lush Garden',
-      line2: 'Patio & Bar',
-      tag: 'Open-Air Sanctuary & Newly Opened Bar',
-      copy: "Step into Viman Nagar's botanical outdoor courtyard — glowing amber lanterns, botanical mocktails, and curated evening pours.",
+      line1: 'Sip & Paint',
+      line2: 'Garden Patio',
+      tag: 'Open-Air Vibe & Tabletop Canvas Painting',
+      copy: 'Unwind under the Clover Park foliage with a canvas, brushes, and a tall glass of Vietnamese Iced Coffee or Caramel Cold Brew.',
       slot: 'lush_green_outdoor_patio',
     },
     {
-      line1: 'Crafted For',
-      line2: 'Every Table',
-      tag: 'Family Resto Bar · Valet & Wheelchair Friendly',
-      copy: 'Multi-generational family dinners, celebratory toasts, and unhurried conversations in Clover Park opposite Phoenix Marketcity.',
-      slot: 'home_about_story',
+      line1: 'Brews, Bakes',
+      line2: '& Cheesecake',
+      tag: '₹200–400 Per Person · Closes 11:30 PM',
+      copy: 'From Madagascar vanilla cappuccinos and buttery croissants to crispy peri-peri fries and creamy Basque cheesecake.',
+      slot: 'maharashtrian_kala_masala_handi',
     },
   ];
 
@@ -127,13 +127,13 @@ export function HeroSignboardSection({ hours: _hours }: { hours: OpeningHourSlot
   const heroVisual = getImageSlot(currentSlide.slot, '16x9');
 
   const rituals = [
-    { label: 'Lush Garden Patio', href: '/gallery', slideIdx: 2 },
-    { label: 'Artisanal Bar & Cocktails', href: '/menu', slideIdx: 2 },
-    { label: 'Wild Mushroom Crostinis', href: '/order', slideIdx: 1 },
-    { label: 'Khandeshi Heritage Handis', href: '/order', slideIdx: 1 },
-    { label: 'Wood-Fired Pizzas & Wok', href: '/menu', slideIdx: 1 },
-    { label: 'Private Family Dinners', href: '/offers', slideIdx: 3 },
-    { label: "The Chef's Tasting Course", href: '/menu', slideIdx: 0 },
+    { label: 'Vietnamese Iced Coffee', href: '/order', slideIdx: 0 },
+    { label: 'Hazelnut Butter Cappuccino', href: '/order', slideIdx: 3 },
+    { label: 'Pasta Social (AC Lounge)', href: '/menu', slideIdx: 1 },
+    { label: 'Sip & Paint Garden Patio', href: '/gallery', slideIdx: 2 },
+    { label: 'Buttery Croissants & Bakes', href: '/menu', slideIdx: 3 },
+    { label: 'Crispy Peri-Peri Fries', href: '/order', slideIdx: 0 },
+    { label: 'Burnt Basque Cheesecake', href: '/menu', slideIdx: 3 },
   ];
 
   return (
@@ -178,7 +178,7 @@ export function HeroSignboardSection({ hours: _hours }: { hours: OpeningHourSlot
           <div className="lg:col-span-4 order-2 lg:order-1 animate-reveal-2">
             <div className="glass-card glass-card-interactive rounded-md p-6 sm:p-7 max-w-sm">
               <p className="text-[10px] uppercase tracking-[0.26em] text-gold/80 mb-5">
-                Evening Rituals
+                All-Day Cafe Highlights
               </p>
               <ul className="relative space-y-4 pl-1">
                 {/* Faint vertical connecting hairline */}
@@ -222,7 +222,7 @@ export function HeroSignboardSection({ hours: _hours }: { hours: OpeningHourSlot
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-pill animate-float-slow">
                 <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
                 <span className="text-[11px] uppercase tracking-[0.24em] text-gold/95">
-                  {currentSlide.tag} · 4.5 ★
+                  {currentSlide.tag} · 4.4 ★ (85)
                 </span>
               </div>
 
@@ -316,15 +316,15 @@ export function SignatureHighlightsSection({
 
   return (
     <Section variant="dark" className="py-16 sm:py-24">
-      {/* Header Row: Offset Ember-Gradient "Tonight's / Special" + Side Description */}
+      {/* Header Row: Offset Caramel-Sage "Caffè & Tè / Specials" + Side Description */}
       <div className="flex flex-col md:flex-row md:items-end gap-8 md:gap-14 mb-14">
         <h2 className="font-serif font-normal text-5xl sm:text-6xl lg:text-[74px] leading-[0.95] tracking-[-0.02em] text-ember-gradient shrink-0">
-          <span className="block">Tonight&apos;s</span>
-          <span className="block pl-12 sm:pl-20">Special</span>
+          <span className="block">Barista&apos;s</span>
+          <span className="block pl-12 sm:pl-20">Specials</span>
         </h2>
 
-        <p className="text-xs sm:text-[13px] text-muted/85 max-w-[260px] leading-relaxed pb-1">
-          Small plates and heritage mains designed to awaken the senses. Each dish combines warmth, contrast, and texture, setting the tone for the evening ahead.
+        <p className="text-xs sm:text-[13px] text-muted/85 max-w-[280px] leading-relaxed pb-1">
+          Vietnamese iced coffee, hazelnut butter cappuccinos, flaky croissants, and handmade Pasta Social bowls — crafted fresh all day for ₹200–400 per person.
         </p>
       </div>
 
@@ -407,12 +407,12 @@ export function SignatureHighlightsSection({
                 }}
                 className="animate-stagger-4 glass-card-interactive group relative aspect-[3/4] rounded-md border border-gold/35 hover:border-gold/70 bg-ember-fluted overflow-hidden flex flex-col justify-between p-4 cursor-pointer"
               >
-                {/* Top-Left Frosted Glass Lock Indicator ("✦ Unlocked after 6:00pm") */}
+                {/* Top-Left Frosted Glass Lock Indicator ("✦ Pasta Social & Cold Brew") */}
                 <div className="relative z-10 inline-flex items-center gap-2 self-start glass-pill px-3 py-1 rounded-full text-[11px] text-text/95">
                   <span aria-hidden="true" className="text-gold text-xs animate-pulse">
                     ✦
                   </span>
-                  <span>Unlocked after 6:00pm</span>
+                  <span>Pasta Social · All Day</span>
                 </div>
 
                 {/* Living Vertical Amber Light Core */}
@@ -424,10 +424,10 @@ export function SignatureHighlightsSection({
                 {/* Bottom Frosted Glass Dock */}
                 <div className="relative z-10 rounded-sm bg-black/60 backdrop-blur-md border border-gold/25 p-4 text-center space-y-1 transition-all duration-500 group-hover:border-gold/60 group-hover:-translate-y-1">
                   <p className="text-[10px] uppercase tracking-[0.2em] text-gold/90">
-                    {formatPriceToken(secretPlate.price)} · Dusk Bar
+                    {formatPriceToken(secretPlate.price)} · Roastery Pick
                   </p>
                   <h3 className="font-serif text-base sm:text-lg text-text group-hover:text-gold transition-colors">
-                    Chef&apos;s Secret Plate
+                    Barista&apos;s Secret Pour
                   </h3>
                   <p className="text-[11px] text-muted/90 line-clamp-2 pt-1 max-h-0 opacity-0 group-hover:max-h-14 group-hover:opacity-100 transition-all duration-500 overflow-hidden">
                     {secretPlate.name} — {secretPlate.description}
@@ -543,7 +543,7 @@ export function HoursAndLocationSection({
                 {/* Live Real-Time Digital & Analog Clock Glass Card */}
                 <div className="glass-card glass-card-interactive rounded-md p-5 flex items-center justify-between gap-4">
                   <div className="space-y-1.5 relative z-10">
-                    <p className="text-xs text-muted/90">Live Pune Time · Open 12 PM – 12 AM</p>
+                    <p className="text-xs text-muted/90">Live Pune Time · Closes 11:30 PM</p>
                     <p className="font-sans font-light text-2xl sm:text-3xl tracking-wider text-text tabular-nums drop-shadow-[0_2px_10px_rgba(223,141,68,0.25)] flex items-baseline gap-1.5">
                       <span>{realTimeText}</span>
                       {periodText && (
@@ -552,7 +552,7 @@ export function HoursAndLocationSection({
                         </span>
                       )}
                     </p>
-                    <p className="text-xs text-gold/90 pt-1">Evening is ours!</p>
+                    <p className="text-xs text-gold/90 pt-1">Brewing fresh all day!</p>
                   </div>
 
                   {/* Minimalist 12-Dot Analog Clock SVG with Ambient Copper Halo */}
@@ -615,11 +615,11 @@ export function HoursAndLocationSection({
                 </div>
               </div>
 
-              {/* Bottom Centered "No Rush. Evening Is Ours." & Circular Arrow CTA */}
+              {/* Bottom Centered "No Rush. All Day Is Ours." & Circular Arrow CTA */}
               <div className="relative z-10 text-center space-y-6 pt-16 pb-2">
                 <h2 className="font-serif font-normal text-4xl sm:text-5xl text-text leading-[1.05] drop-shadow-[0_6px_24px_rgba(0,0,0,0.85)]">
                   <span className="block">No Rush.</span>
-                  <span className="block text-ember-gradient">Evening Is Ours.</span>
+                  <span className="block text-ember-gradient">All Day Is Ours.</span>
                 </h2>
                 <div className="flex justify-center">
                   <NocturneArrowCta href="/reserve" label="BOOK A TABLE" size="lg" />
@@ -632,37 +632,37 @@ export function HoursAndLocationSection({
           <div className="lg:col-span-7 min-w-0 space-y-7">
             <div className="space-y-3">
               <p className="text-[11px] uppercase tracking-[0.26em] text-gold">
-                THE SAANJH SANCTUARY · VIMAN NAGAR
+                CAFFÈ &amp; TÈ · UDCHALO HOUSE, VIMAN NAGAR
               </p>
               <h2 className="font-serif text-3xl sm:text-5xl text-text leading-tight">
                 {t('home.location.heading')}
               </h2>
               <p className="text-sm text-muted max-w-xl leading-relaxed">
-                Located in Clover Park opposite Phoenix Marketcity, featuring air-conditioned wooden interiors, a lush green outdoor patio, our newly opened bar section, complimentary valet parking, and full wheelchair accessibility.
+                Located at Ground Floor, Udchalo House, Plot No. 10, Clover Park, Viman Nagar, Pune 411014. Enjoy our open-air garden seating, tabletop canvas painting, and our newly air-conditioned Pasta Social indoor lounge.
               </p>
             </div>
 
             <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
               <div className="glass-card glass-card-interactive rounded-md p-4">
                 <dt className="text-[11px] uppercase tracking-widest text-muted">Hours (All Days)</dt>
-                <dd className="font-serif text-lg text-gold mt-1">12:00 PM – 12:00 Midnight</dd>
+                <dd className="font-serif text-lg text-gold mt-1">Open · Closes 11:30 PM</dd>
               </div>
               <div className="glass-card glass-card-interactive rounded-md p-4">
-                <dt className="text-[11px] uppercase tracking-widest text-muted">Walk-In Lunch Deal</dt>
-                <dd className="font-serif text-lg text-text mt-1">Flat 10% OFF (12 PM – 4 PM)</dd>
+                <dt className="text-[11px] uppercase tracking-widest text-muted">Service Options</dt>
+                <dd className="font-serif text-lg text-text mt-1">Dine-in · Kerbside · Delivery</dd>
               </div>
               <div className="glass-card glass-card-interactive rounded-md p-4">
-                <dt className="text-[11px] uppercase tracking-widest text-muted">Direct Desk</dt>
+                <dt className="text-[11px] uppercase tracking-widest text-muted">Direct Cafe Desk</dt>
                 <dd className="font-mono text-sm text-text mt-1">{t('brand.phone_display')}</dd>
               </div>
               <div className="glass-card glass-card-interactive rounded-md p-4">
-                <dt className="text-[11px] uppercase tracking-widest text-muted">Average Cost</dt>
-                <dd className="text-sm text-text mt-1">₹1,000 – ₹1,100 for two</dd>
+                <dt className="text-[11px] uppercase tracking-widest text-muted">Price Per Person</dt>
+                <dd className="text-sm text-text mt-1">₹200 – ₹400 (Reported by 26+)</dd>
               </div>
             </dl>
 
             <div className="glass-card rounded-md p-2">
-              <MapEmbed slotName="Clover Park, Viman Nagar" />
+              <MapEmbed slotName="Udchalo House, Clover Park, Viman Nagar" />
             </div>
           </div>
         </div>
@@ -843,7 +843,7 @@ export function ReviewsTeaserSection({
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <RatingStars rating={activeReview.rating} />
                   <span className="glass-pill px-3 py-1 text-[11px] uppercase tracking-widest rounded-full text-gold">
-                    {activeReview.source === 'GOOGLE' ? 'Google Verified · 4.5★' : 'Verified Diner'}
+                    {activeReview.source === 'GOOGLE' ? 'Google Verified · 4.4★ (85)' : 'Verified Regular'}
                   </span>
                 </div>
 

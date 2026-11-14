@@ -41,14 +41,14 @@ async function seedSanity() {
   tx.createOrReplace({
     _id: 'siteSettings',
     _type: 'siteSettings',
-    restaurantName: 'Saanjh — An Evening Full Of Flavours',
-    tagline: 'Family Resto Bar · Multi-Cuisine · Viman Nagar, Pune',
-    phoneDisplay: '+91 84858 00863',
-    whatsappNumber: '918485800863',
+    restaurantName: 'Caffè & Tè — All Day Cafe',
+    tagline: 'कैफे & ते - ऑल डे कैफे · Pasta Social · Viman Nagar, Pune',
+    phoneDisplay: '097004 02040',
+    whatsappNumber: '919700402040',
     address:
-      'Plot 4, Survey No. 206, Lane 2, near Paper Craft, Clover Park, Viman Nagar, Pune, Maharashtra 411014 (Opposite Phoenix Marketcity)',
+      'Ground Floor, Udchalo House, Plot No. 10, Clover Park, Viman Nagar, Pune, Maharashtra 411014 (HW77+HP Pune)',
     announcementBarText:
-      'Flat 10% OFF Walk-In Lunch (12 PM – 4 PM) · Up to 30% OFF Partner Bank Deals · Open 12 Noon – Midnight',
+      'Pasta Social Now Air-Conditioned ✨ · ₹200–400 Per Person · Sip & Paint Open-Air Cafe · Closes 11:30 PM',
     orderingEnabled: true,
     autoConfirmReservations: true,
   });

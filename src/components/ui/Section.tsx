@@ -49,8 +49,8 @@ export function Section({
           style={{
             background:
               variant === 'dark'
-                ? 'radial-gradient(ellipse 75% 60% at 50% 30%, rgba(223, 141, 68, 0.16) 0%, rgba(201, 138, 43, 0.06) 45%, transparent 78%)'
-                : 'radial-gradient(ellipse 80% 65% at 50% 35%, rgba(232, 181, 71, 0.18) 0%, rgba(223, 141, 68, 0.07) 48%, transparent 80%)',
+                ? 'radial-gradient(ellipse 75% 60% at 50% 30%, rgba(217, 155, 82, 0.16) 0%, rgba(92, 133, 103, 0.08) 45%, transparent 78%)'
+                : 'radial-gradient(ellipse 80% 65% at 50% 35%, rgba(217, 155, 82, 0.18) 0%, rgba(92, 133, 103, 0.09) 48%, transparent 80%)',
           }}
         />
       )}

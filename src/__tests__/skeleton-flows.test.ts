@@ -15,14 +15,14 @@ import { schemaTypes } from '@/sanity/schemaTypes';
 import { fetchSanityHomePageData, fetchSanityMenuCatalog } from '@/sanity/lib/fetchers';
 
 describe('Saanjh Skeleton Core Flows (PRD Section 13)', () => {
-  it('resolves content keys to Saanjh Viman Nagar copy and falls back safely for unmapped keys', () => {
-    expect(t('home.hero.title')).toBe('Saanjh — An Evening Full Of Flavours');
+  it('resolves content keys to Caffè & Tè Viman Nagar copy and falls back safely for unmapped keys', () => {
+    expect(t('home.hero.title')).toBe('Caffè & Tè — All Day Cafe');
     expect(t('unmapped.custom.field')).toBe('{{UNMAPPED_CUSTOM_FIELD}}');
     expect(formatPriceToken()).toBe('₹{{PRICE}}');
     expect(formatPriceToken(385)).toBe('₹385');
     const slot = getImageSlot('hero_banner', '16x9');
     expect(slot.src).toBe('/placeholders/16x9.svg');
-    expect(slot.alt).toBe('Saanjh Viman Nagar — hero banner');
+    expect(slot.alt).toBe('Caffè & Tè Viman Nagar — hero banner');
   });
 
   it('enforces the PRD 9.9 Role Permission Matrix across STAFF, MANAGER, and OWNER', () => {

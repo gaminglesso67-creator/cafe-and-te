@@ -3,20 +3,20 @@
 @tailwind utilities;
 
 :root {
-  --bg: #0E0B09;
-  --surface: #18130F;
-  --text: #FFF4E0;
-  --muted: #C4B49C;
-  --gold: #E8B547;
-  --gold-deep: #C98A2B;
-  --accent-red: #B3202A;
+  --bg: #130F0C;
+  --surface: #1E1813;
+  --text: #FAF3E8;
+  --muted: #CBB89D;
+  --gold: #D99B52;
+  --gold-deep: #B5722E;
+  --accent-red: #4A6B53;
 
-  /* Nocturne & Ember palette additions */
-  --gold-gradient: linear-gradient(135deg, #E8B547, #C98A2B);
-  --ember-text-gradient: linear-gradient(95deg, #F6D899 0%, #DF8D44 52%, #7D3E1F 100%);
-  --glow-text: 0 0 28px rgba(223, 141, 68, 0.38);
-  --glow-hero: radial-gradient(circle at 55% 25%, rgba(232, 165, 75, 0.28), transparent 68%);
-  --photo-overlay: rgba(14, 11, 9, 0.58);
+  /* Caffè & Tè — Roasted Espresso, Caramel Crema & Garden Sage palette */
+  --gold-gradient: linear-gradient(135deg, #E5AE6B, #B5722E);
+  --ember-text-gradient: linear-gradient(95deg, #FAE5C3 0%, #D99B52 42%, #8FB397 82%, #FAE5C3 100%);
+  --glow-text: 0 0 28px rgba(217, 155, 82, 0.38);
+  --glow-hero: radial-gradient(circle at 55% 25%, rgba(217, 155, 82, 0.28), transparent 68%);
+  --photo-overlay: rgba(19, 15, 12, 0.56);
 }
 
 @layer base {
@@ -42,9 +42,9 @@
   body {
     background-color: var(--bg);
     background-image:
-      radial-gradient(ellipse 75% 55% at 78% 14%, rgba(223, 141, 68, 0.16) 0%, transparent 65%),
-      radial-gradient(ellipse 65% 50% at 16% 46%, rgba(232, 181, 71, 0.12) 0%, transparent 68%),
-      radial-gradient(ellipse 80% 55% at 62% 84%, rgba(201, 138, 43, 0.14) 0%, transparent 70%);
+      radial-gradient(ellipse 75% 55% at 78% 14%, rgba(217, 155, 82, 0.19) 0%, transparent 65%),
+      radial-gradient(ellipse 65% 50% at 16% 46%, rgba(92, 133, 103, 0.15) 0%, transparent 68%),
+      radial-gradient(ellipse 80% 55% at 62% 84%, rgba(181, 114, 46, 0.16) 0%, transparent 70%);
     background-attachment: fixed;
     color: var(--text);
     font-family: var(--font-body), system-ui, sans-serif;
@@ -104,14 +104,14 @@
     text-shadow: 0 0 24px rgba(232, 181, 71, 0.32);
   }
 
-  /* Ember copper-gold display heading gradient ("Tonight's Special" style) */
+  /* Caramel Crema & Botanical Sage display heading gradient */
   .text-ember-gradient {
     background: linear-gradient(
       95deg,
-      #F6D899 0%,
-      #DF8D44 38%,
-      #B8612A 68%,
-      #F6D899 100%
+      #FAE5C3 0%,
+      #D99B52 36%,
+      #8FB397 68%,
+      #FAE5C3 100%
     );
     background-size: 200% auto;
     -webkit-background-clip: text;
