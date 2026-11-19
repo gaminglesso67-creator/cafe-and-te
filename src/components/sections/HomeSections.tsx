@@ -15,6 +15,7 @@ import { useCart } from '@/lib/cart-context';
 import {
   Badge,
   Button,
+  CAFE_BLUR_DATA_URL,
   EmptyState,
   ErrorState,
   GoldDivider,
@@ -174,6 +175,8 @@ export function HeroSignboardSection({ hours: _hours }: { hours: OpeningHourSlot
           alt={heroVisual.alt}
           fill
           priority
+          placeholder="blur"
+          blurDataURL={CAFE_BLUR_DATA_URL}
           sizes="100vw"
           className="object-cover object-center opacity-75 scale-105 animate-signboard-breathe transition-opacity duration-700"
         />
@@ -388,11 +391,15 @@ export function SignatureHighlightsSection({
                   }}
                   className={`${staggerClass} glass-card glass-card-interactive group relative aspect-[3/4] rounded-md overflow-hidden flex flex-col justify-between p-2.5 sm:p-4 cursor-pointer`}
                 >
-                  {/* Dish Image Emerging from Deep Nocturnal Vignette */}
+                  {/* Dish Image Emerging from Deep Nocturnal Vignette (Lazy-Loaded with Blur-Up) */}
                   <Image
                     src={img.src}
                     alt={dish.name}
                     fill
+                    loading="lazy"
+                    decoding="async"
+                    placeholder="blur"
+                    blurDataURL={CAFE_BLUR_DATA_URL}
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
                     className="object-cover object-center opacity-80 group-hover:opacity-95 group-hover:scale-110 transition-all duration-700 ease-out"
                   />
@@ -542,11 +549,15 @@ export function HoursAndLocationSection({
           {/* Left 5 Cols: "THE NOCTURNE — No Rush. All Day Is Ours." Glassmorphic Showcase Card */}
           <div className="lg:col-span-5 min-w-0">
             <div className="glass-panel-deep glass-card-interactive relative rounded-[24px] sm:rounded-[28px] overflow-hidden p-5 sm:p-8 min-h-[430px] sm:min-h-[550px] flex flex-col justify-between">
-              {/* Warm Bokeh Lounge / Patio Background */}
+              {/* Warm Bokeh Lounge / Patio Background (Lazy-Loaded with Blur-Up) */}
               <Image
                 src={patioVisual.src}
                 alt="Caffè & Tè Garden Patio Ambience"
                 fill
+                loading="lazy"
+                decoding="async"
+                placeholder="blur"
+                blurDataURL={CAFE_BLUR_DATA_URL}
                 sizes="(max-width: 1024px) 100vw, 42vw"
                 className="object-cover object-center opacity-50 transition-transform duration-1000 hover:scale-105"
               />

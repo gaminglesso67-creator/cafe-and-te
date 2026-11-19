@@ -1,7 +1,16 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import Image from 'next/image';
 import clsx from 'clsx';
 import { getImageSlot, ImageAspect } from '@/lib/content';
+
+/**
+ * Lightweight inline SVG blurDataURL (Roasted Espresso + Warm Caramel Crema glow)
+ * for instant zero-CLS blur-up placeholders while images lazy-load.
+ */
+export const CAFE_BLUR_DATA_URL =
+  'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxMiI+PGRlZnM+PHJhZGlhbEdyYWRpZW50IGlkPSJnIiBjeD0iNTAlIiBjeT0iNDAlIiByPSI3MCUiPjxzdG9w offsetPSIwJSIgc3RvcC1jb2xvcj0iIzNBMjcxOCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzEzMEYwQyIvPjwvcmFkaWFsR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSIxNiIgaGVpZ2h0PSIxMiIgZmlsbD0idXJsKCNnKSIvPjwvc3ZnPg==';
 
 export interface ImageWithOverlayProps {
   slot: string;
@@ -22,8 +31,8 @@ const aspectClasses: Record<ImageAspect, string> = {
 };
 
 /**
- * Placeholder-aware image box with exact aspect ratio, faint gold outline,
- * and `rgba(15,15,16,0.6)` dark overlay so text stays readable (PRD 4.1, 4.2, 5.6, 5.9).
+ * Lazy-loaded, blur-up placeholder-aware image box with exact aspect ratio,
+ * faint gold outline, and dark overlay so text stays readable (PRD 4.1, 4.2, 5.6, 5.9).
  */
 export function ImageWithOverlay({
   slot,
@@ -37,6 +46,7 @@ export function ImageWithOverlay({
 }: ImageWithOverlayProps) {
   const resolved = getImageSlot(slot, aspect);
   const isPlaceholder = resolved.src.startsWith('/placeholders/');
+  const [loaded, setLoaded] = useState(priority);
 
   return (
     <div
@@ -54,8 +64,15 @@ export function ImageWithOverlay({
         fill
         priority={priority}
         loading={priority ? undefined : 'lazy'}
+        decoding="async"
+        placeholder={isPlaceholder ? 'empty' : 'blur'}
+        blurDataURL={isPlaceholder ? undefined : CAFE_BLUR_DATA_URL}
+        onLoad={() => setLoaded(true)}
         sizes={sizes}
-        className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+        className={clsx(
+          'object-cover transition-all duration-700 ease-out group-hover:scale-105',
+          loaded ? 'opacity-100 scale-100' : 'opacity-0 scale-[1.02]'
+        )}
       />
       {overlay && (
         <div

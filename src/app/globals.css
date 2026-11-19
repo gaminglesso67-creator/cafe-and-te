@@ -412,6 +412,12 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  /* Browser-native offscreen rendering deferral for below-the-fold sections */
+  .lazy-section {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 540px;
+  }
 }
 
 @keyframes signboard-breathe {

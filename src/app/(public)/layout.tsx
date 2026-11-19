@@ -1,8 +1,7 @@
 import React from 'react';
+import dynamic from 'next/dynamic';
 import {
   AnnouncementBar,
-  CartBottomSheet,
-  ConsentBanner,
   Footer,
   Header,
   MobileBottomBar,
@@ -10,6 +9,17 @@ import {
 } from '@/components/layout';
 import { RestaurantSchemaMarkup } from '@/components/seo/SchemaMarkup';
 import { AnalyticsTracker } from '@/components/seo/AnalyticsTracker';
+
+// Lazy-load off-screen interactive overlays so they don't block initial hydration
+const CartBottomSheet = dynamic(
+  () => import('@/components/layout/CartBottomSheet').then((mod) => mod.CartBottomSheet),
+  { ssr: false }
+);
+
+const ConsentBanner = dynamic(
+  () => import('@/components/layout/ConsentBanner').then((mod) => mod.ConsentBanner),
+  { ssr: false }
+);
 
 export default function PublicSiteLayout({
   children,
