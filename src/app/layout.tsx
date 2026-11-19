@@ -43,13 +43,13 @@ export const metadata: Metadata = {
     description: t('home.hero.tagline'),
     type: 'website',
     locale: 'en_IN',
-    images: ['/placeholders/16x9.svg'],
+    images: ['/images/caffe-te/garden-patio-hero.jpg'],
   },
   twitter: {
     card: 'summary_large_image',
     title: `${t('brand.wordmark')} — ${t('brand.tagline')}`,
     description: t('home.hero.tagline'),
-    images: ['/placeholders/16x9.svg'],
+    images: ['/images/caffe-te/garden-patio-hero.jpg'],
   },
 };
 
