@@ -12,4 +12,5 @@ export * from './Tabs';
 export * from './ImageWithOverlay';
 export * from './RatingStars';
 export * from './MapEmbed';
+export * from './TactileSoundProvider';
 

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Cormorant_Garamond, DM_Sans } from 'next/font/google';
 import './globals.css';
+import { TactileSoundProvider } from '@/components/ui/TactileSoundProvider';
 import { ToastProvider } from '@/components/ui/Toast';
 import { CartProvider } from '@/lib/cart-context';
 import { t } from '@/lib/content';
@@ -60,9 +61,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${headingFont.variable} ${bodyFont.variable}`}>
       <body className="min-h-dvh bg-bg text-text antialiased flex flex-col">
-        <ToastProvider>
-          <CartProvider>{children}</CartProvider>
-        </ToastProvider>
+        <TactileSoundProvider>
+          <ToastProvider>
+            <CartProvider>{children}</CartProvider>
+          </ToastProvider>
+        </TactileSoundProvider>
       </body>
     </html>
   );

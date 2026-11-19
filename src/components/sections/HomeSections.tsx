@@ -23,6 +23,7 @@ import {
   RatingStars,
   Section,
   SkeletonLoader,
+  useTactileSound,
   useToast,
 } from '@/components/ui';
 
@@ -114,6 +115,8 @@ export function HeroSignboardSection({ hours: _hours }: { hours: OpeningHourSlot
 
   const [activeSlide, setActiveSlide] = React.useState(0);
   const [paused, setPaused] = React.useState(false);
+  const touchStartXRef = React.useRef<number | null>(null);
+  const { playTactile } = useTactileSound();
 
   React.useEffect(() => {
     if (paused) return;
@@ -122,6 +125,25 @@ export function HeroSignboardSection({ hours: _hours }: { hours: OpeningHourSlot
     }, 4000);
     return () => window.clearInterval(timer);
   }, [paused, heroSlides.length]);
+
+  const handleHeroTouchStart = (e: React.TouchEvent) => {
+    touchStartXRef.current = e.touches[0]?.clientX ?? null;
+  };
+
+  const handleHeroTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartXRef.current === null) return;
+    const endX = e.changedTouches[0]?.clientX ?? touchStartXRef.current;
+    const deltaX = endX - touchStartXRef.current;
+    touchStartXRef.current = null;
+    if (Math.abs(deltaX) > 42) {
+      playTactile('tick');
+      if (deltaX < 0) {
+        setActiveSlide((prev) => (prev + 1) % heroSlides.length);
+      } else {
+        setActiveSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
+      }
+    }
+  };
 
   const currentSlide = heroSlides[activeSlide] ?? heroSlides[0]!;
   const heroVisual = getImageSlot(currentSlide.slot, '16x9');
@@ -140,7 +162,9 @@ export function HeroSignboardSection({ hours: _hours }: { hours: OpeningHourSlot
     <section
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
-      className="relative w-full min-h-[calc(100dvh-4rem)] bg-bg overflow-hidden flex items-center py-12 sm:py-16 lg:py-20"
+      onTouchStart={handleHeroTouchStart}
+      onTouchEnd={handleHeroTouchEnd}
+      className="relative w-full min-h-[calc(100dvh-4rem)] bg-bg overflow-hidden flex items-center py-8 sm:py-14 lg:py-20"
     >
       {/* Full-Bleed Atmospheric Bokeh Background Image with Warm Amber Glow Fades */}
       <div className="pointer-events-none absolute inset-0 z-0">
@@ -173,27 +197,28 @@ export function HeroSignboardSection({ hours: _hours }: { hours: OpeningHourSlot
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl w-full px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center min-h-[68dvh]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-10 lg:gap-8 items-center lg:min-h-[68dvh]">
           {/* Left 4 Cols: Floating Smoked-Glass Rituals Dock ("○ Intimate Tastings" style) */}
           <div className="lg:col-span-4 order-2 lg:order-1 animate-reveal-2">
-            <div className="glass-card glass-card-interactive rounded-md p-6 sm:p-7 max-w-sm">
-              <p className="text-[10px] uppercase tracking-[0.26em] text-gold/80 mb-5">
+            <div className="glass-card glass-card-interactive rounded-md p-5 sm:p-7 w-full lg:max-w-sm">
+              <p className="text-[10px] uppercase tracking-[0.26em] text-gold/80 mb-3.5 sm:mb-5">
                 All-Day Cafe Highlights
               </p>
-              <ul className="relative space-y-4 pl-1">
-                {/* Faint vertical connecting hairline */}
+              <ul className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-2.5 lg:gap-3.5 pl-1">
+                {/* Faint vertical connecting hairline (desktop) */}
                 <span
                   aria-hidden="true"
-                  className="pointer-events-none absolute left-[7px] top-2 bottom-2 w-px bg-gradient-to-b from-gold/45 via-white/15 to-transparent"
+                  className="hidden lg:block pointer-events-none absolute left-[7px] top-2 bottom-2 w-px bg-gradient-to-b from-gold/45 via-white/15 to-transparent"
                 />
                 {rituals.map((item) => (
                   <li key={item.label} className="relative">
                     <Link
                       href={item.href}
+                      data-tactile="tick"
                       onMouseEnter={() => setActiveSlide(item.slideIdx)}
-                      className="group flex items-center justify-between gap-3 text-xs sm:text-[13px] tracking-wide text-text/80 hover:text-text transition-colors py-0.5"
+                      className="group min-h-10 lg:min-h-0 flex items-center justify-between gap-3 text-xs sm:text-[13px] tracking-wide text-text/85 hover:text-text transition-colors py-1"
                     >
-                      <span className="inline-flex items-center gap-4">
+                      <span className="inline-flex items-center gap-3.5">
                         <span
                           aria-hidden="true"
                           className="w-2 h-2 rounded-full border border-white/60 bg-bg group-hover:border-gold group-hover:bg-gold group-hover:scale-125 group-hover:shadow-gold-glow transition-all duration-300 shrink-0"
@@ -204,7 +229,7 @@ export function HeroSignboardSection({ hours: _hours }: { hours: OpeningHourSlot
                       </span>
                       <span
                         aria-hidden="true"
-                        className="text-gold/0 group-hover:text-gold -translate-x-2 group-hover:translate-x-0 transition-all duration-300 text-xs"
+                        className="text-gold/60 lg:text-gold/0 group-hover:text-gold lg:-translate-x-2 group-hover:translate-x-0 transition-all duration-300 text-xs"
                       >
                         →
                       </span>
@@ -216,49 +241,54 @@ export function HeroSignboardSection({ hours: _hours }: { hours: OpeningHourSlot
           </div>
 
           {/* Right 8 Cols: Giant Offset Rotating Serif Title + Floating Glass Summary Card */}
-          <div className="lg:col-span-8 order-1 lg:order-2 flex flex-col items-start lg:items-end justify-between min-h-[54dvh] gap-12">
+          <div className="lg:col-span-8 order-1 lg:order-2 flex flex-col items-start lg:items-end justify-between lg:min-h-[54dvh] gap-6 sm:gap-10">
             {/* Giant Stacked Offset Rotating Display Heading */}
-            <div className="lg:text-right w-full space-y-4">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-pill animate-float-slow">
-                <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
-                <span className="text-[11px] uppercase tracking-[0.24em] text-gold/95">
+            <div className="lg:text-right w-full space-y-3.5 sm:space-y-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass-pill animate-float-slow max-w-full">
+                <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse shrink-0" />
+                <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.18em] sm:tracking-[0.24em] text-gold/95 truncate">
                   {currentSlide.tag} · 4.4 ★ (85)
                 </span>
               </div>
 
               <div key={activeSlide} aria-live="polite" className="animate-hero-rotate">
-                <h1 className="font-serif font-normal text-5xl sm:text-7xl lg:text-[86px] text-text leading-[0.96] tracking-[-0.02em] drop-shadow-[0_12px_32px_rgba(0,0,0,0.85)]">
+                <h1 className="font-serif font-normal text-[2.6rem] sm:text-7xl lg:text-[86px] text-text leading-[0.98] tracking-[-0.02em] drop-shadow-[0_12px_32px_rgba(0,0,0,0.85)]">
                   <span className="block">{currentSlide.line1}</span>
-                  <span className="block pl-12 sm:pl-24 lg:pl-0 text-ember-gradient">
+                  <span className="block pl-6 sm:pl-20 lg:pl-0 text-ember-gradient">
                     {currentSlide.line2}
                   </span>
                 </h1>
               </div>
 
-              {/* Interactive Rotation Pills */}
-              <div className="flex items-center lg:justify-end gap-2 pt-2">
+              {/* Interactive Rotation Pills (Thumb-friendly hit area) */}
+              <div className="flex items-center lg:justify-end gap-1.5 pt-1">
                 {heroSlides.map((slide, idx) => {
                   const isCurrent = idx === activeSlide;
                   return (
                     <button
                       key={slide.line1}
                       type="button"
+                      data-tactile="tick"
                       aria-label={`Show hero slide: ${slide.line1} ${slide.line2}`}
                       aria-current={isCurrent}
                       onClick={() => setActiveSlide(idx)}
-                      className={`h-1.5 rounded-full transition-all duration-500 ${
-                        isCurrent
-                          ? 'w-9 bg-gold shadow-gold-glow'
-                          : 'w-2.5 bg-white/20 hover:bg-gold/50'
-                      }`}
-                    />
+                      className="min-h-8 px-1 inline-flex items-center justify-center"
+                    >
+                      <span
+                        className={`block h-1.5 rounded-full transition-all duration-500 ${
+                          isCurrent
+                            ? 'w-9 bg-gold shadow-gold-glow'
+                            : 'w-2.5 bg-white/25 hover:bg-gold/50'
+                        }`}
+                      />
+                    </button>
                   );
                 })}
               </div>
             </div>
 
             {/* Bottom-Right Floating Glass Card with Rotating Poetic Copy & Circular Arrow CTA */}
-            <div className="animate-reveal-3 lg:max-w-sm glass-card glass-card-interactive rounded-md p-6 space-y-5 lg:mr-2">
+            <div className="animate-reveal-3 w-full lg:max-w-sm glass-card glass-card-interactive rounded-md p-5 sm:p-6 space-y-4 sm:space-y-5 lg:mr-2">
               <p
                 key={`copy-${activeSlide}`}
                 className="animate-menu-switch text-xs sm:text-[13px] text-text/85 leading-relaxed relative z-10 min-h-[3.75rem]"
@@ -333,8 +363,8 @@ export function SignatureHighlightsSection({
       {state === 'empty' && <EmptyState actionLabel={t('global.nav.menu')} actionHref="/menu" />}
       {state === 'ready' && (
         <>
-          {/* 4-Column Glassmorphic Portrait Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* 4-Column Glassmorphic Portrait Cards Grid (2x2 on mobile, 4-col on desktop) */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-6">
             {portraitDishes.map((dish, idx) => {
               const img = getImageSlot(dish.imageSlot, '3x4');
               const staggerClass =
@@ -346,6 +376,7 @@ export function SignatureHighlightsSection({
               return (
                 <div
                   key={dish.id}
+                  data-tactile="confirm"
                   onClick={() => handleQuickAdd(dish)}
                   role="button"
                   tabIndex={0}
@@ -355,37 +386,37 @@ export function SignatureHighlightsSection({
                       handleQuickAdd(dish);
                     }
                   }}
-                  className={`${staggerClass} glass-card glass-card-interactive group relative aspect-[3/4] rounded-md overflow-hidden flex flex-col justify-between p-4 cursor-pointer`}
+                  className={`${staggerClass} glass-card glass-card-interactive group relative aspect-[3/4] rounded-md overflow-hidden flex flex-col justify-between p-2.5 sm:p-4 cursor-pointer`}
                 >
                   {/* Dish Image Emerging from Deep Nocturnal Vignette */}
                   <Image
                     src={img.src}
                     alt={dish.name}
                     fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                    className="object-cover object-center opacity-75 group-hover:opacity-95 group-hover:scale-110 transition-all duration-700 ease-out"
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
+                    className="object-cover object-center opacity-80 group-hover:opacity-95 group-hover:scale-110 transition-all duration-700 ease-out"
                   />
                   <div
                     aria-hidden="true"
-                    className="absolute inset-0 bg-gradient-to-b from-bg/85 via-bg/35 to-bg/95 transition-opacity duration-500 group-hover:opacity-80"
+                    className="absolute inset-0 bg-gradient-to-b from-bg/85 via-bg/30 to-bg/95 transition-opacity duration-500 group-hover:opacity-80"
                   />
 
                   {/* Top Frosted Glass Price & Quick-Add Pill */}
-                  <div className="relative z-10 flex items-center justify-between gap-2">
-                    <span className="glass-pill px-3 py-1 rounded-full font-mono text-xs text-gold">
+                  <div className="relative z-10 flex items-center justify-between gap-1.5">
+                    <span className="glass-pill px-2.5 sm:px-3 py-1 rounded-full font-mono text-[11px] sm:text-xs text-gold">
                       {formatPriceToken(dish.price)}
                     </span>
-                    <span className="glass-pill px-3 py-1 rounded-full uppercase tracking-widest text-[10px] text-text/90 group-hover:bg-gold group-hover:text-bg group-hover:border-gold transition-all duration-300">
+                    <span className="glass-pill px-2.5 sm:px-3 py-1 rounded-full uppercase tracking-wider sm:tracking-widest text-[9px] sm:text-[10px] text-text/95 group-hover:bg-gold group-hover:text-bg group-hover:border-gold transition-all duration-300">
                       + Add
                     </span>
                   </div>
 
-                  {/* Bottom Frosted Glass Dock with Reveal-on-Hover Description */}
-                  <div className="relative z-10 rounded-sm bg-black/55 backdrop-blur-md border border-white/12 p-4 text-center transition-all duration-500 group-hover:border-gold/40 group-hover:-translate-y-1">
-                    <h3 className="font-serif text-base sm:text-lg text-text group-hover:text-gold transition-colors">
+                  {/* Bottom Frosted Glass Dock (Visible on mobile, hover-expanded on desktop) */}
+                  <div className="relative z-10 rounded-sm bg-black/60 backdrop-blur-md border border-white/12 p-2.5 sm:p-4 text-center transition-all duration-500 group-hover:border-gold/40 group-hover:-translate-y-1">
+                    <h3 className="font-serif text-sm sm:text-lg text-text leading-snug group-hover:text-gold transition-colors line-clamp-2">
                       {dish.name}
                     </h3>
-                    <p className="text-[11px] text-muted/90 line-clamp-2 mt-1.5 max-h-0 opacity-0 group-hover:max-h-14 group-hover:opacity-100 transition-all duration-500 overflow-hidden">
+                    <p className="text-[10px] sm:text-[11px] text-muted/90 line-clamp-2 mt-1 max-h-10 opacity-90 sm:max-h-0 sm:opacity-0 sm:group-hover:max-h-14 sm:group-hover:opacity-100 transition-all duration-500 overflow-hidden">
                       {dish.description}
                     </p>
                   </div>
@@ -393,9 +424,10 @@ export function SignatureHighlightsSection({
               );
             })}
 
-            {/* 4th Card: "Unlocked after 6:00pm — Chef's Secret Plate" with Fluted Amber Glass */}
+            {/* 4th Card: "Pasta Social & Cold Brew — Barista's Secret Pour" with Fluted Amber Glass */}
             {secretPlate && (
               <div
+                data-tactile="confirm"
                 onClick={() => handleQuickAdd(secretPlate)}
                 role="button"
                 tabIndex={0}
@@ -405,14 +437,14 @@ export function SignatureHighlightsSection({
                     handleQuickAdd(secretPlate);
                   }
                 }}
-                className="animate-stagger-4 glass-card-interactive group relative aspect-[3/4] rounded-md border border-gold/35 hover:border-gold/70 bg-ember-fluted overflow-hidden flex flex-col justify-between p-4 cursor-pointer"
+                className="animate-stagger-4 glass-card-interactive group relative aspect-[3/4] rounded-md border border-gold/35 hover:border-gold/70 bg-ember-fluted overflow-hidden flex flex-col justify-between p-2.5 sm:p-4 cursor-pointer"
               >
-                {/* Top-Left Frosted Glass Lock Indicator ("✦ Pasta Social & Cold Brew") */}
-                <div className="relative z-10 inline-flex items-center gap-2 self-start glass-pill px-3 py-1 rounded-full text-[11px] text-text/95">
+                {/* Top-Left Frosted Glass Lock Indicator ("✦ Pasta Social · All Day") */}
+                <div className="relative z-10 inline-flex items-center gap-1.5 self-start glass-pill px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-[11px] text-text/95">
                   <span aria-hidden="true" className="text-gold text-xs animate-pulse">
                     ✦
                   </span>
-                  <span>Pasta Social · All Day</span>
+                  <span className="truncate">Pasta Social · All Day</span>
                 </div>
 
                 {/* Living Vertical Amber Light Core */}
@@ -422,14 +454,14 @@ export function SignatureHighlightsSection({
                 />
 
                 {/* Bottom Frosted Glass Dock */}
-                <div className="relative z-10 rounded-sm bg-black/60 backdrop-blur-md border border-gold/25 p-4 text-center space-y-1 transition-all duration-500 group-hover:border-gold/60 group-hover:-translate-y-1">
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-gold/90">
+                <div className="relative z-10 rounded-sm bg-black/65 backdrop-blur-md border border-gold/25 p-2.5 sm:p-4 text-center space-y-1 transition-all duration-500 group-hover:border-gold/60 group-hover:-translate-y-1">
+                  <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.16em] sm:tracking-[0.2em] text-gold/90">
                     {formatPriceToken(secretPlate.price)} · Roastery Pick
                   </p>
-                  <h3 className="font-serif text-base sm:text-lg text-text group-hover:text-gold transition-colors">
+                  <h3 className="font-serif text-sm sm:text-lg text-text leading-snug group-hover:text-gold transition-colors">
                     Barista&apos;s Secret Pour
                   </h3>
-                  <p className="text-[11px] text-muted/90 line-clamp-2 pt-1 max-h-0 opacity-0 group-hover:max-h-14 group-hover:opacity-100 transition-all duration-500 overflow-hidden">
+                  <p className="text-[10px] sm:text-[11px] text-muted/90 line-clamp-2 pt-0.5 max-h-10 opacity-90 sm:max-h-0 sm:opacity-0 sm:group-hover:max-h-14 sm:group-hover:opacity-100 transition-all duration-500 overflow-hidden">
                     {secretPlate.name} — {secretPlate.description}
                   </p>
                 </div>
@@ -506,10 +538,10 @@ export function HoursAndLocationSection({
       {state === 'error' && <ErrorState />}
       {state === 'empty' && <EmptyState />}
       {state === 'ready' && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
-          {/* Left 5 Cols: "THE NOCTURNE — No Rush. Evening Is Ours." Glassmorphic Showcase Card */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          {/* Left 5 Cols: "THE NOCTURNE — No Rush. All Day Is Ours." Glassmorphic Showcase Card */}
           <div className="lg:col-span-5 min-w-0">
-            <div className="glass-panel-deep glass-card-interactive relative rounded-[28px] overflow-hidden p-6 sm:p-8 min-h-[550px] flex flex-col justify-between">
+            <div className="glass-panel-deep glass-card-interactive relative rounded-[24px] sm:rounded-[28px] overflow-hidden p-5 sm:p-8 min-h-[430px] sm:min-h-[550px] flex flex-col justify-between">
               {/* Warm Bokeh Lounge / Patio Background */}
               <Image
                 src={patioVisual.src}
@@ -616,8 +648,8 @@ export function HoursAndLocationSection({
               </div>
 
               {/* Bottom Centered "No Rush. All Day Is Ours." & Circular Arrow CTA */}
-              <div className="relative z-10 text-center space-y-6 pt-16 pb-2">
-                <h2 className="font-serif font-normal text-4xl sm:text-5xl text-text leading-[1.05] drop-shadow-[0_6px_24px_rgba(0,0,0,0.85)]">
+              <div className="relative z-10 text-center space-y-5 sm:space-y-6 pt-10 sm:pt-16 pb-2">
+                <h2 className="font-serif font-normal text-3xl sm:text-5xl text-text leading-[1.05] drop-shadow-[0_6px_24px_rgba(0,0,0,0.85)]">
                   <span className="block">No Rush.</span>
                   <span className="block text-ember-gradient">All Day Is Ours.</span>
                 </h2>
@@ -629,7 +661,7 @@ export function HoursAndLocationSection({
           </div>
 
           {/* Right 7 Cols: Viman Nagar Location, 4 Glass Bento Info Cards & Interactive Google Map */}
-          <div className="lg:col-span-7 min-w-0 space-y-7">
+          <div className="lg:col-span-7 min-w-0 space-y-6 sm:space-y-7">
             <div className="space-y-3">
               <p className="text-[11px] uppercase tracking-[0.26em] text-gold">
                 CAFFÈ &amp; TÈ · UDCHALO HOUSE, VIMAN NAGAR
@@ -642,22 +674,22 @@ export function HoursAndLocationSection({
               </p>
             </div>
 
-            <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-              <div className="glass-card glass-card-interactive rounded-md p-4">
-                <dt className="text-[11px] uppercase tracking-widest text-muted">Hours (All Days)</dt>
-                <dd className="font-serif text-lg text-gold mt-1">Open · Closes 11:30 PM</dd>
+            <dl className="grid grid-cols-2 gap-3 sm:gap-4 text-sm">
+              <div className="glass-card glass-card-interactive rounded-md p-3.5 sm:p-4">
+                <dt className="text-[10px] sm:text-[11px] uppercase tracking-widest text-muted">Hours (All Days)</dt>
+                <dd className="font-serif text-base sm:text-lg text-gold mt-1">Open · Closes 11:30 PM</dd>
               </div>
-              <div className="glass-card glass-card-interactive rounded-md p-4">
-                <dt className="text-[11px] uppercase tracking-widest text-muted">Service Options</dt>
-                <dd className="font-serif text-lg text-text mt-1">Dine-in · Kerbside · Delivery</dd>
+              <div className="glass-card glass-card-interactive rounded-md p-3.5 sm:p-4">
+                <dt className="text-[10px] sm:text-[11px] uppercase tracking-widest text-muted">Service Options</dt>
+                <dd className="font-serif text-base sm:text-lg text-text mt-1">Dine-in · Kerbside · Delivery</dd>
               </div>
-              <div className="glass-card glass-card-interactive rounded-md p-4">
-                <dt className="text-[11px] uppercase tracking-widest text-muted">Direct Cafe Desk</dt>
-                <dd className="font-mono text-sm text-text mt-1">{t('brand.phone_display')}</dd>
+              <div className="glass-card glass-card-interactive rounded-md p-3.5 sm:p-4">
+                <dt className="text-[10px] sm:text-[11px] uppercase tracking-widest text-muted">Direct Cafe Desk</dt>
+                <dd className="font-mono text-xs sm:text-sm text-text mt-1">{t('brand.phone_display')}</dd>
               </div>
-              <div className="glass-card glass-card-interactive rounded-md p-4">
-                <dt className="text-[11px] uppercase tracking-widest text-muted">Price Per Person</dt>
-                <dd className="text-sm text-text mt-1">₹200 – ₹400 (Reported by 26+)</dd>
+              <div className="glass-card glass-card-interactive rounded-md p-3.5 sm:p-4">
+                <dt className="text-[10px] sm:text-[11px] uppercase tracking-widest text-muted">Price Per Person</dt>
+                <dd className="text-xs sm:text-sm text-text mt-1">₹200 – ₹400 (26+ reports)</dd>
               </div>
             </dl>
 
@@ -779,6 +811,8 @@ export function ReviewsTeaserSection({
 }) {
   const [activeIndex, setActiveIndex] = React.useState(0);
   const [paused, setPaused] = React.useState(false);
+  const reviewTouchStartXRef = React.useRef<number | null>(null);
+  const { playTactile } = useTactileSound();
 
   const total = reviews.length;
 
@@ -789,6 +823,25 @@ export function ReviewsTeaserSection({
     }, 4500);
     return () => window.clearInterval(timer);
   }, [paused, total]);
+
+  const handleReviewTouchStart = (e: React.TouchEvent) => {
+    reviewTouchStartXRef.current = e.touches[0]?.clientX ?? null;
+  };
+
+  const handleReviewTouchEnd = (e: React.TouchEvent) => {
+    if (reviewTouchStartXRef.current === null || total <= 1) return;
+    const endX = e.changedTouches[0]?.clientX ?? reviewTouchStartXRef.current;
+    const deltaX = endX - reviewTouchStartXRef.current;
+    reviewTouchStartXRef.current = null;
+    if (Math.abs(deltaX) > 42) {
+      playTactile('tick');
+      if (deltaX < 0) {
+        setActiveIndex((prev) => (prev + 1) % total);
+      } else {
+        setActiveIndex((prev) => (prev - 1 + total) % total);
+      }
+    }
+  };
 
   const activeReview = reviews[activeIndex] ?? reviews[0];
   const nextReview = reviews[(activeIndex + 1) % total];
@@ -820,6 +873,8 @@ export function ReviewsTeaserSection({
           onMouseLeave={() => setPaused(false)}
           onFocus={() => setPaused(true)}
           onBlur={() => setPaused(false)}
+          onTouchStart={handleReviewTouchStart}
+          onTouchEnd={handleReviewTouchEnd}
           aria-roledescription="carousel"
           aria-label="Guest testimonials"
           className="space-y-6"
@@ -863,21 +918,23 @@ export function ReviewsTeaserSection({
                   </div>
                 </div>
 
-                {/* Prev / Next Controls */}
+                {/* Prev / Next Controls (>=44x44px touch targets) */}
                 <div className="flex items-center gap-2">
                   <button
                     type="button"
+                    data-tactile="tick"
                     aria-label="Previous testimonial"
                     onClick={() => setActiveIndex((prev) => (prev - 1 + total) % total)}
-                    className="w-9 h-9 rounded-full glass-pill text-gold hover:border-gold hover:bg-gold/15 active:scale-95 inline-flex items-center justify-center transition-all"
+                    className="w-11 h-11 rounded-full glass-pill text-gold hover:border-gold hover:bg-gold/15 inline-flex items-center justify-center transition-all"
                   >
                     ←
                   </button>
                   <button
                     type="button"
+                    data-tactile="tick"
                     aria-label="Next testimonial"
                     onClick={() => setActiveIndex((prev) => (prev + 1) % total)}
-                    className="w-9 h-9 rounded-full glass-pill text-gold hover:border-gold hover:bg-gold/15 active:scale-95 inline-flex items-center justify-center transition-all"
+                    className="w-11 h-11 rounded-full glass-pill text-gold hover:border-gold hover:bg-gold/15 inline-flex items-center justify-center transition-all"
                   >
                     →
                   </button>
@@ -974,17 +1031,17 @@ export function GalleryTeaserSection({
       {state === 'error' && <ErrorState />}
       {state === 'empty' && <EmptyState />}
       {state === 'ready' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-5">
-          <div className="lg:col-span-7 min-w-0">
+        <div className="grid grid-cols-2 lg:grid-cols-12 gap-3.5 sm:gap-5">
+          <div className="col-span-2 lg:col-span-7 min-w-0">
             <ImageWithOverlay slot={items[1]?.imageSlot ?? 'gallery_1'} aspect="16x9" overlay={false} />
           </div>
-          <div className="lg:col-span-5 min-w-0">
+          <div className="col-span-1 lg:col-span-5 min-w-0">
             <ImageWithOverlay slot={items[0]?.imageSlot ?? 'gallery_2'} aspect="4x3" overlay={false} />
           </div>
-          <div className="lg:col-span-4 min-w-0">
+          <div className="col-span-1 lg:col-span-4 min-w-0">
             <ImageWithOverlay slot={items[2]?.imageSlot ?? 'gallery_3'} aspect="4x3" overlay={false} />
           </div>
-          <div className="lg:col-span-8 min-w-0">
+          <div className="col-span-2 lg:col-span-8 min-w-0">
             <ImageWithOverlay slot={items[4]?.imageSlot ?? 'gallery_4'} aspect="16x9" overlay={false} />
           </div>
         </div>

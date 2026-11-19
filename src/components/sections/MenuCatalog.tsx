@@ -119,7 +119,7 @@ export function MenuCatalog({
       specialInstructions: specialNotes.trim() || undefined,
       isVeg: selectedItem.isVeg,
     });
-    notify(`${selectedItem.name} — {{ADDED_TO_CART}}`, 'success');
+    notify(`${selectedItem.name} added to bag`, 'success');
     setSelectedItem(null);
     openSheet();
   };
@@ -244,17 +244,18 @@ export function MenuCatalog({
             <article
               key={item.id}
               className={clsx(
-                'group rounded-md p-5 flex flex-col sm:flex-row gap-5 justify-between items-start',
+                'group rounded-md p-4 sm:p-5 flex flex-row gap-3.5 sm:gap-5 justify-between items-start',
                 useCreamVariant
                   ? 'bg-cream/90 backdrop-blur-md border border-charcoal/15 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-charcoal/40 hover:shadow-md'
                   : 'glass-card glass-card-interactive'
               )}
             >
-              {/* Dish Thumbnail */}
+              {/* Dish Thumbnail (Compact 104px on mobile, 128px on desktop) */}
               <button
                 type="button"
+                data-tactile="tap"
                 onClick={() => openItemModal(item)}
-                className="relative z-10 w-full sm:w-32 shrink-0 text-left overflow-hidden rounded-md"
+                className="relative z-10 w-24 sm:w-32 shrink-0 text-left overflow-hidden rounded-md"
               >
                 <ImageWithOverlay
                   slot={item.imageSlot}
@@ -264,25 +265,28 @@ export function MenuCatalog({
               </button>
 
               {/* Dish Details & Thumb-Zone Action */}
-              <div className="relative z-10 flex-1 flex flex-col justify-between gap-2.5 min-w-0 w-full">
-                <div className="space-y-1.5">
-                  <div className="flex items-baseline justify-between gap-3">
-                    <div className="flex items-center gap-2 min-w-0">
-                      <Badge kind={item.isVeg ? 'veg' : 'non_veg'} onCream={useCreamVariant} />
+              <div className="relative z-10 flex-1 flex flex-col justify-between gap-2 min-w-0 w-full">
+                <div className="space-y-1">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex items-start gap-1.5 min-w-0">
+                      <span className="mt-1 shrink-0">
+                        <Badge kind={item.isVeg ? 'veg' : 'non_veg'} onCream={useCreamVariant} />
+                      </span>
                       <button
                         type="button"
+                        data-tactile="tap"
                         onClick={() => openItemModal(item)}
-                        className="text-left font-serif text-xl sm:text-2xl font-semibold transition-all duration-300 group-hover:text-gold group-hover:translate-x-1"
+                        className="text-left font-serif text-lg sm:text-2xl font-semibold leading-snug transition-all duration-300 group-hover:text-gold group-hover:translate-x-0.5"
                       >
                         {item.name}
                       </button>
                     </div>
                     <span
                       className={clsx(
-                        'font-serif text-lg font-semibold shrink-0',
+                        'font-serif text-base sm:text-lg font-semibold shrink-0',
                         useCreamVariant
                           ? 'text-charcoal'
-                          : 'glass-pill px-2.5 py-0.5 rounded-full text-sm text-gold'
+                          : 'glass-pill px-2.5 py-0.5 rounded-full text-xs sm:text-sm text-gold'
                       )}
                     >
                       {formatPriceToken(item.price)}
@@ -291,7 +295,7 @@ export function MenuCatalog({
 
                   <p
                     className={clsx(
-                      'text-sm leading-relaxed',
+                      'text-xs sm:text-sm leading-relaxed line-clamp-2 sm:line-clamp-3',
                       useCreamVariant ? 'text-charcoal/80' : 'text-muted'
                     )}
                   >
@@ -300,13 +304,13 @@ export function MenuCatalog({
                 </div>
 
                 {/* Subtle Action Row */}
-                <div className="pt-2 flex items-center justify-between gap-3">
-                  <div className="flex items-center gap-2">
+                <div className="pt-1.5 flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center gap-1.5">
                     {item.isSignature && <Badge kind="chefs_special" />}
                     {item.allergens.length > 0 && (
                       <span
                         className={clsx(
-                          'text-[11px]',
+                          'text-[10px] sm:text-[11px] truncate max-w-[110px] sm:max-w-none',
                           useCreamVariant ? 'text-charcoal/60' : 'text-muted/70'
                         )}
                       >
@@ -317,10 +321,11 @@ export function MenuCatalog({
                   {orderingEnabled && (
                     <button
                       type="button"
+                      data-tactile="confirm"
                       disabled={!item.isAvailable}
                       onClick={() => openItemModal(item)}
                       className={clsx(
-                        'min-h-9 px-4 py-1 text-xs uppercase tracking-wider rounded-full transition-all duration-200 active:scale-95',
+                        'min-h-10 px-3.5 py-1.5 text-[11px] sm:text-xs uppercase tracking-wider rounded-full transition-all duration-200',
                         useCreamVariant
                           ? 'border border-charcoal text-charcoal hover:bg-charcoal hover:text-cream'
                           : 'glass-pill text-gold hover:border-gold hover:bg-gold hover:text-bg'
